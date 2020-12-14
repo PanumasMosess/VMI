@@ -51,36 +51,6 @@ $str_terminal = array('TSESA');
 		?>
                 <i class="fa fa-bar-chart"> <b>WMS Monitoring Summary</b></i>
                 <div class="row">
-                    <!-- <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-aqua">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total (Tags)/Today (Tags)</font>
-                                <h4><span id="spn_db_print_tags_total"></span> / <span id="spn_db_print_tags_today"></span></h4>
-
-                                <p>Print Master Tags</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-print"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/print_tags" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-green">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total (Tags)/Today (Tags)</font>
-                                <h4><span id="spn_db_total_putaway"></span> / <span id="spn_db_total_putaway_today"></span></h4>
-
-                                <p>Put-away Order</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-map-marker"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/put_away" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div> -->
-
                     <div class="col-lg-3 col-xs-6">
                         <div class="small-box bg-yellow">
                             <div class="inner">
@@ -186,62 +156,8 @@ $str_terminal = array('TSESA');
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-lg-3 col-xs-6">
-                                <div class="small-box bg-lime">
-                                    <div class="inner">
-                                        <font style="font-size:10px; color: #000;">Total (Pcs./Tags)</font>
-                                        <h4 style="color: #000;"><span id="spn_db_wms_stock_pcs_price"></span> / <span id="spn_db_wms_stock_pack_price"></span></h4>
+                            <span id="spn_wms_price_rang"></span>
 
-                                        <p style="color: #000;"><b>WMS</b></p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-bar-chart"></i>
-                                    </div>
-                                    <a href="<?= $CFG->wwwroot; ?>/wms_stock" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                            <!--for loop get all project-->
-                            <?
-					$str_implode_all_PJ = _get_all_project_name($db_con);
-					//explode
-					$separated_all_PJ = explode(",", $str_implode_all_PJ);
-					$num_all_PJ_separated = count($separated_all_PJ);
-					
-					foreach ($separated_all_PJ as $value_all_PJ) 
-					{
-						//check word
-						$str_chk_pj = $value_all_PJ;
-						
-						//project list allow
-						$array  = $str_terminal;
-						$str_chk = strpos_var($str_chk_pj, $array); // will return true
-						
-						if($str_chk == false)
-						{
-							$str_word_pre_fix = "Project";
-						}
-						else
-						{
-							$str_word_pre_fix = "Terminal";
-						}
-					?>
-                            <div class="col-lg-3 col-xs-6">
-                                <div class="small-box bg-lime">
-                                    <div class="inner">
-                                        <font style="font-size:10px; color: #000;">Total (Pcs./Tags)</font>
-                                        <h4 style="color: #000;"><?= number_format(get_vmi_stock($db_con, $value_all_PJ, 'pcs')); ?> / <?= number_format(get_vmi_stock($db_con, $value_all_PJ, 'pack')); ?></h4>
-
-                                        <p style="color: #000;"><?= $str_word_pre_fix; ?> <b><?= $value_all_PJ; ?></b></p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-bar-chart"></i>
-                                    </div>
-                                    <a href="<?= $CFG->wwwroot; ?>/xxxxxx" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                            <?			
-					}
-                    ?>
                         </div>
                     </div>
                 </div>
@@ -254,7 +170,7 @@ $str_terminal = array('TSESA');
                             <div class="box-header with-border">
                                 <i class="fa fa-bar-chart-o"></i>
 
-                                <h3 class="box-title">Bar Chart</h3>
+                                <h3 class="box-title">Price / Project</h3>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -276,7 +192,7 @@ $str_terminal = array('TSESA');
                             <div class="box-header with-border">
                                 <i class="fa fa-bar-chart-o"></i>
 
-                                <h3 class="box-title">Donut Chart</h3>
+                                <h3 class="box-title">Ratio Bill Stock</h3>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -293,29 +209,178 @@ $str_terminal = array('TSESA');
                     </div>
                 </div>
                 <!-- /.col -->
-
                 <!-- /.row -->
 
-                <!-- area -->
                 <div class="row">
-                    <div class="col-xs-12">
-                        <!-- interactive chart -->
-                        <div class="box box-primary">
+                    <div class="col-md-8">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Latest Orders</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
                             </div>
-                            <div class="box-body"> 
-                                <div id="interactive" style="height: 300px;"></div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Item</th>
+                                                <th>Status</th>
+                                                <th>Popularity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                                <td>Call of Duty IV</td>
+                                                <td><span class="label label-success">Shipped</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                                <td>Samsung Smart TV</td>
+                                                <td><span class="label label-warning">Pending</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                                <td>iPhone 6 Plus</td>
+                                                <td><span class="label label-danger">Delivered</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                                <td>Samsung Smart TV</td>
+                                                <td><span class="label label-info">Processing</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                                <td>Samsung Smart TV</td>
+                                                <td><span class="label label-warning">Pending</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                                <td>iPhone 6 Plus</td>
+                                                <td><span class="label label-danger">Delivered</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                                <td>Call of Duty IV</td>
+                                                <td><span class="label label-success">Shipped</span></td>
+                                                <td>
+                                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
                             </div>
-                            <!-- /.box-body-->
+                            <!-- /.box-body -->
+                            <div class="box-footer clearfix">
+                                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                            </div>
+                            <!-- /.box-footer -->
                         </div>
                         <!-- /.box -->
-
                     </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
+                    <div class="col-md-4">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Recently Added Products</h3>
 
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <ul class="products-list product-list-in-box">
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="dist/img/default-50x50.gif" alt="Product Image">
+                                        </div>
+                                        <div class="product-info">
+                                            <a href="javascript:void(0)" class="product-title">Samsung TV
+                                                <span class="label label-warning pull-right">$1800</span></a>
+                                            <span class="product-description">
+                                                Samsung 32" 1080p 60Hz LED Smart HDTV.
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <!-- /.item -->
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="dist/img/default-50x50.gif" alt="Product Image">
+                                        </div>
+                                        <div class="product-info">
+                                            <a href="javascript:void(0)" class="product-title">Bicycle
+                                                <span class="label label-info pull-right">$700</span></a>
+                                            <span class="product-description">
+                                                26" Mongoose Dolomite Men's 7-speed, Navy Blue.
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <!-- /.item -->
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="dist/img/default-50x50.gif" alt="Product Image">
+                                        </div>
+                                        <div class="product-info">
+                                            <a href="javascript:void(0)" class="product-title">Xbox One <span class="label label-danger pull-right">$350</span></a>
+                                            <span class="product-description">
+                                                Xbox One Console Bundle with Halo Master Chief Collection.
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <!-- /.item -->
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="dist/img/default-50x50.gif" alt="Product Image">
+                                        </div>
+                                        <div class="product-info">
+                                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                                                <span class="label label-success pull-right">$399</span></a>
+                                            <span class="product-description">
+                                                PlayStation 4 500GB Console (PS4)
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <!-- /.item -->
+                                </ul>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer text-center">
+                                <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                    </div>
+               
                 <?
 		}
 		else if($objResult_authorized['user_type'] == "Customer") //Customer
@@ -389,8 +454,8 @@ $str_terminal = array('TSESA');
                             <div class="col-lg-3 col-xs-6">
                                 <div class="small-box bg-lime">
                                     <div class="inner">
-                                        <font style="font-size:10px; color: #000;">Total (Pcs./Tags)</font>
-                                        <h4 style="color: #000;"><?= number_format(get_vmi_stock($db_con, $value_all_PJ, 'pcs')); ?> / <?= number_format(get_vmi_stock($db_con, $value_all_PJ, 'pack')); ?></h4>
+                                        <font style="font-size:10px; color: #000;">Total Price</font>
+                                        <h4 style="color: #000;"><?= number_format(get_vmi_stock_price($db_con, $value_all_PJ)); ?></h4>
 
                                         <p style="color: #000;"><?= $str_word_pre_fix; ?> <b><?= $value_all_PJ; ?></b></p>
                                     </div>
@@ -457,8 +522,10 @@ require_once("js_css_footer.php");
                     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                     'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().startOf('days'), moment().subtract(1, 'month').endOf('month')],
-                    'Last 6 Month': [moment().startOf('days'), moment().subtract(5, 'month').endOf('month')]
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'Last 6 Month': [moment().subtract(5, 'month').startOf('month'), moment()],
+                    'This Year': [moment().subtract(11, 'month').startOf('month'), moment()],
+                    'Last 1 Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('month')],
                 },
                 startDate: moment().subtract(29, 'days'),
                 endDate: moment(),
@@ -467,97 +534,24 @@ require_once("js_css_footer.php");
                 $('#daterange-btn span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
                 startDate = start;
                 endDate = end;
-                console.log(startDate.format('DD-MM-YYYY') + ' - ' + endDate.format('DD-MM-YYYY'));
-
+                // console.log(startDate.format('DD-MM-YYYY') + ' - ' + endDate.format('DD-MM-YYYY'));
+                call_time(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
             }
         );
 
         $(document).ready(function() {
-            /*
-             * DONUT CHART
-             * -----------
-             */
-
-            var donutData = [{
-                    label: 'Series2',
-                    data: 30,
-                    color: '#3c8dbc'
-                },
-                {
-                    label: 'Series3',
-                    data: 20,
-                    color: '#0073b7'
-                },
-                {
-                    label: 'Series4',
-                    data: 50,
-                    color: '#00c0ef'
-                }
-            ]
-            $.plot('#donut-chart', donutData, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        innerRadius: 0.5,
-                        label: {
-                            show: true,
-                            radius: 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            /*
-             * END DONUT CHART
-             */
-
-            /*
-             * BAR CHART
-             * ---------
-             */
-
-            var bar_data = {
-                data: [
-                    ['January', 10],
-                    ['February', 8],
-                    ['March', 4],
-                    ['April', 13],
-                    ['May', 17],
-                    ['June', 9]
-                ],
-                color: '#3c8dbc'
-            }
-            $.plot('#bar-chart', [bar_data], {
-                grid: {
-                    borderWidth: 1,
-                    borderColor: '#f3f3f3',
-                    tickColor: '#f3f3f3'
-                },
-                series: {
-                    bars: {
-                        show: true,
-                        barWidth: 0.5,
-                        align: 'center'
-                    }
-                },
-                xaxis: {
-                    mode: 'categories',
-                    tickLength: 0
-                }
-            })
-            /* END BAR CHART */
-
-            /*
-             * DONUT CHART
-             * -----------
-             */
+            call_time(startDate, endDate);
         });
+
+        function call_time(startDate, endDate) {
+            setTimeout(function() {
+                $("#spn_wms_price_rang").load("<?= $CFG->src_load_alert; ?>/load_board_bill.php", {
+                    startDate_: startDate,
+                    endDate_: endDate
+                });
+
+            }, 300);
+        }
 
         /*
          * Custom Label formatter

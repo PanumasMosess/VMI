@@ -71,6 +71,7 @@ $CFG->src_terminal = "$CFG->wwwroot/src_file/terminal";
 $CFG->src_report = "$CFG->wwwroot/src_file/report";
 $CFG->src_customer = "$CFG->wwwroot/src_file/customer";
 $CFG->src_driver = "$CFG->wwwroot/src_file/driver";
+$CFG->src_load_alert = "$CFG->wwwroot/src_file/load_alert";
 /**********************************************************************************/
 /*standard libraries **************************************************************/
 require_once("$CFG->libdir/comlib.php");

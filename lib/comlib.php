@@ -854,4 +854,45 @@ function strpos_var($haystack, $needle, $offset=0) {
     }
     return false;
 }
+
+
+/**********************************************************************************/
+/*load vmi stock price******************************************************************/
+function get_vmi_stock_price($db_con,$pj_name,$date_start,$date_end)
+{
+	//get project name
+	$str_implode_all_PJ = _get_each_project_name($db_con,$pj_name);
+	//explode
+	$separated_all_PJ = explode(",", $str_implode_all_PJ);
+	$num_all_PJ_separated = count($separated_all_PJ);
+
+	if($date_start == "" && $date_end == ""){
+		$date_start = '';
+		$date_end = '';
+	}
+
+
+
+	foreach ($separated_all_PJ as $value_all_PJ) 
+	{
+		//get VMI stock
+		$objQuery_sp_vmi_stock = sqlsrv_query($db_con, " EXEC sp_db_wms_vmi_stock_price '$value_all_PJ', '$date_start', '$date_end' ");
+		$objResult_sp_vmi_stock_price = sqlsrv_fetch_array($objQuery_sp_vmi_stock, SQLSRV_FETCH_ASSOC);
+
+		//check null
+		if($objResult_sp_vmi_stock_price['total_wms_pcs_price_'] == NULL){ $str_sp_vmi_stock_sum_pcs_price = '0'; } else { $str_sp_vmi_stock_sum_pcs_price = $objResult_sp_vmi_stock_price['total_wms_pcs_price_']; }
+		$vmi_stock_price = $str_sp_vmi_stock_sum_pcs_price;
+	}
+	
+
+	return $vmi_stock_price;
+
+	
+	sqlsrv_close($db_con);
+}
+
+
+
+
+
 ?>
