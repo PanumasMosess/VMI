@@ -10,9 +10,8 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-
   <?
-	require_once("menu.php");
+	require_once("menu_blank.php");
   ?>
         <!--------------------------->
         <!-- body  ------------------>
@@ -21,7 +20,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1><i class="fa fa-caret-right"></i>&nbsp;Dashboard Billing</h1>
+                <h1><i class="fa fa-caret-right"></i>&nbsp;Dashboard Billing</h1><span id="load_client"></span>
                 <ol class="breadcrumb">
                     <li><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
                     <li class="active">Dashboard</li>
@@ -296,6 +295,7 @@ require_once("js_css_footer.php");
         );
 
         $(document).ready(function() {
+            $("#load_client").load('<?=$CFG->src_file_alert;?>/load_client.php?randval='+ Math.random());
             call_time(startDate, endDate);
             _load_usage_top();
             _load_recently();

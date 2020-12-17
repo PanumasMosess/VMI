@@ -188,7 +188,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 	  
 		<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
 		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Bill</span></a></li>
+		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
 		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "print_tags" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "tags_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "put_away" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_QC" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "print_cover_sheet" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_order" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "print_do"){ echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-folder-open-o"></i> <span>WMS</span>
@@ -293,7 +293,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 	  
 		<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
 		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-
+		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
 		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm"){ echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-folder-open-o"></i> <span>Terminal</span>

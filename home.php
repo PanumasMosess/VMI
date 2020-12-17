@@ -4,7 +4,7 @@ require_once("get_authorized.php");
 require_once("js_css_header.php");
 
 //set project is setup terminal
-$str_terminal = array('TSESA');
+$str_terminal = array('TSESA','TSPT','TSRA');
 ?>
 <!DOCTYPE html>
 <html>

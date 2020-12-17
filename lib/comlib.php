@@ -892,7 +892,4 @@ function get_vmi_stock_price($db_con,$pj_name,$date_start,$date_end)
 }
 
 
-
-
-
 ?>

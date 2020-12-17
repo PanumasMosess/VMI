@@ -9,7 +9,7 @@ $date_start = isset($_POST['startDate_']) ? $_POST['startDate_'] : '';
 $date_end = isset($_POST['endDate_']) ? $_POST['endDate_'] : '';
 
 //set project is setup terminal
-$str_terminal = array('TSESA');
+$str_terminal = array('TSESA','TSPT','TSRA');
 
 ?>
 <script>
@@ -49,7 +49,7 @@ $str_word_pre_fix = "Terminal";
     <div class="small-box bg-lime">
         <div class="inner">
             <font style="font-size:10px; color: #000;">Total Price</font>
-            <h4 style="color: #000;"><?= $pricephp . " ฿";  ?></h4>
+            <h4 style="color: #000;"><?= $pricephp . "฿";  ?></h4>
             <p style="color: #000;"><?= $str_word_pre_fix ?> <b><?= $value_all_PJ; ?></b></p>
         </div>
         <div class="icon">
@@ -76,21 +76,9 @@ $str_word_pre_fix = "Terminal";
     }
     donutData.push(object);
 
-
-    // data: [
-    //         ['January', 10],
-    //         ['February', 8],
-    //         ['March', 4],
-    //         ['April', 13],
-    //         ['May', 17],
-    //         ['June', 9]
-    //     ]
-
     data_bar.push([
         '<?= $value_all_PJ; ?>', num_
     ]);
-    
-
 </script>
 <?		                            	
 }
@@ -115,7 +103,12 @@ $str_word_pre_fix = "Terminal";
             }
         },
         legend: {
-            show: false
+            show: true,
+            labelFormatter: function(label, series) {
+                var number = series.data[0][1]; //kinda weird, but this is what it takes
+                var bath = number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                return ('&nbsp;<b>' + label + '</b>:&nbsp;<b>' + bath + ' ฿</b>');
+            }
         }
     })
     /*
@@ -129,12 +122,13 @@ $str_word_pre_fix = "Terminal";
      * ---------
      */
     var bar_data = {
-        data:  data_bar, 
+        data: data_bar,
         color: getRandomColor()
     }
     $.plot('#bar-chart', [bar_data], {
         grid: {
-            borderWidth: 1,
+            hoverable: true,
+            borderWidth: 0.2,
             borderColor: '#f3f3f3',
             tickColor: '#f3f3f3'
         },
@@ -146,8 +140,17 @@ $str_word_pre_fix = "Terminal";
             }
         },
         xaxis: {
+            axisLabel: "Project",
             mode: 'categories',
             tickLength: 0
+        },
+        tooltip: {
+            show: true,
+            cssClass: "flotTip",
+            content: function(label, xval, yval, flotItem) {
+                var bath = yval.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                return ('&nbsp;<b>' + bath + '&nbsp;฿</b>');
+            },
         }
     })
     /* END BAR CHART */

@@ -121,7 +121,7 @@ $objResult_sp_usage_conf_price = sqlsrv_fetch_array($objQuery_sp_usage_conf_pric
 
 //check null
 if($objResult_sp_usage_conf_price['sum_usage_'] == NULL){ $str_sp_c_total_usage_conf_price = '0'; } else { $str_sp_c_total_usage_conf_price = $objResult_sp_usage_conf_price['sum_usage_']; }
-$repn_price = number_format($str_sp_c_total_usage_conf_price,2);
+$use_con_price = number_format($str_sp_c_total_usage_conf_price,2);
 
 //get wms stock (Received)
 $objQuery_sp_wms_stock = sqlsrv_query($db_con, " EXEC sp_db_wms_stock 'Received' ");
@@ -141,6 +141,8 @@ if($objResult_sp_vmi_stock['sum_pcs_qty'] == NULL){ $str_sp_vmi_stock_sum_pcs_qt
 if($objResult_sp_vmi_stock['count_pack_qty'] == NULL){ $str_sp_vmi_stock_count_pack_qty = '0'; } else { $str_sp_vmi_stock_count_pack_qty = $objResult_sp_vmi_stock['count_pack_qty']; }
 */
 
+
+
 //get bom mst
 $objQuery_sp_bom_mst = sqlsrv_query($db_con, " EXEC sp_db_wms_bom_mst 'null' ");
 $objResult_sp_bom_mst = sqlsrv_fetch_array($objQuery_sp_bom_mst, SQLSRV_FETCH_ASSOC);
@@ -151,64 +153,132 @@ if($objResult_sp_bom_mst['bom_inactive'] == NULL){ $str_sp_bom_inactive = '0'; }
 ?>
 
 <script type="text/javascript">
-//set notifications
-//print tags
-$("#spn_db_print_tags_total").html('<?=number_format($str_sp_total_tags);?>');
-$("#spn_db_print_tags_today").html('<?=number_format($str_sp_total_tags_today);?>');
+    //set notifications
+    //print tags
+    $("#spn_db_print_tags_total").html('<?= number_format($str_sp_total_tags); ?>');
+    $("#spn_db_print_tags_today").html('<?= number_format($str_sp_total_tags_today); ?>');
 
-//put away
-$("#spn_db_total_putaway").html('<?=number_format($str_sp_c_total_putaway);?>');
-$("#spn_db_total_putaway_today").html('<?=number_format($str_sp_c_total_putaway_today);?>');
+    //put away
+    $("#spn_db_total_putaway").html('<?= number_format($str_sp_c_total_putaway); ?>');
+    $("#spn_db_total_putaway_today").html('<?= number_format($str_sp_c_total_putaway_today); ?>');
 
-//replenishment
-$("#spn_db_replenishment").html('<?=number_format($str_sp_replenishment);?>');
+    //replenishment
+    $("#spn_db_replenishment").html('<?= number_format($str_sp_replenishment); ?>');
 
-//replenishment price
-$("#spn_db_replenishment_price").html('<?=$replenishment_price. " ฿"; ?>');
+    //replenishment price
+    $("#spn_db_replenishment_price").html('<?= $replenishment_price . "฿"; ?>');
 
-//picking
-$("#spn_db_total_picking_qty").html('<?=number_format($str_sp_c_total_picking_qty);?>');  
+    //picking
+    $("#spn_db_total_picking_qty").html('<?= number_format($str_sp_c_total_picking_qty); ?>');
 
-//picking price sum
-$("#spn_db_total_picking_price").html('<?=$picking_price. " ฿"; ?>');  
+    //picking price sum
+    $("#spn_db_total_picking_price").html('<?= $picking_price . "฿"; ?>');
 
-//picking confirm
-$("#spn_db_total_picking_confirm_qty").html('<?=number_format($str_sp_c_total_picking_confirm_qty);?>');
+    //picking confirm
+    $("#spn_db_total_picking_confirm_qty").html('<?= number_format($str_sp_c_total_picking_confirm_qty); ?>');
 
-//picking confirm price sum
-$("#spn_db_total_picking_confirm_price").html('<?=$confirm_price." ฿";?>');
+    //picking confirm price sum
+    $("#spn_db_total_picking_confirm_price").html('<?= $confirm_price . "฿"; ?>');
 
-//print delivery order
-$("#spn_db_total_dtn_qty").html('<?=number_format($str_sp_c_total_dtn_qty);?>');  
+    //print delivery order
+    $("#spn_db_total_dtn_qty").html('<?= number_format($str_sp_c_total_dtn_qty); ?>');
 
-//print delivery order price
-$("#spn_db_total_dtn_price").html('<?=$dtn_price. " ฿";?>'); 
+    //print delivery order price
+    $("#spn_db_total_dtn_price").html('<?= $dtn_price . "฿"; ?>');
 
-//stock replenishment
-$("#spn_db_total_stock_repnish").html('<?=number_format($str_sp_c_total_stock_repn);?>');  
+    //stock replenishment
+    $("#spn_db_total_stock_repnish").html('<?= number_format($str_sp_c_total_stock_repn); ?>');
 
-//stock replenishment
-$("#spn_db_total_stock_repnish_price").html('<?=$repn_price. " ฿";?>'); 
+    //stock replenishment
+    $("#spn_db_total_stock_repnish_price").html('<?= $repn_price . "฿"; ?>');
 
-//usage confirm
-$("#spn_db_total_tags_usage_conf").html('<?=number_format($str_sp_c_total_usage_conf);?>');
+    //usage confirm
+    $("#spn_db_total_tags_usage_conf").html('<?= number_format($str_sp_c_total_usage_conf); ?>');
 
-//usage confirm price
-$("#spn_db_total_tags_usage_conf_price").html('<?=$str_sp_c_total_usage_conf. " ฿";?>');
+    //usage confirm price
+    $("#spn_db_total_tags_usage_conf_price").html('<?= $use_con_price . "฿"; ?>');
 
-//stock
-$("#spn_db_wms_stock_pcs").html('<?=number_format($str_sp_wms_stock_sum_pcs_qty);?>');
-$("#spn_db_wms_stock_pack").html('<?=number_format($str_sp_wms_stock_count_pack_qty);?>');
+    //stock
+    $("#spn_db_wms_stock_pcs").html('<?= number_format($str_sp_wms_stock_sum_pcs_qty); ?>');
+    $("#spn_db_wms_stock_pack").html('<?= number_format($str_sp_wms_stock_count_pack_qty); ?>');
 
-/*
-//terminal stock
-$("#spn_db_terminal_TSESA_stock_pcs").html('<?//= //number_format($str_sp_vmi_stock_sum_pcs_qty);?>');
-$("#spn_db_terminal_TSESA_stock_pack").html('<?//= //number_format($str_sp_vmi_stock_count_pack_qty);?>');
-*/
+    /*
+    //terminal stock
+    $("#spn_db_terminal_TSESA_stock_pcs").html('<?//= //number_format($str_sp_vmi_stock_sum_pcs_qty);?>');
+    $("#spn_db_terminal_TSESA_stock_pack").html('<?//= //number_format($str_sp_vmi_stock_count_pack_qty);?>');
+    */
 
-//bom mst
-$("#spn_db_bom_active").html('<?=number_format($str_sp_bom_active);?>');
-$("#spn_db_bom_inactive").html('<?=number_format($str_sp_bom_inactive);?>');
+    //bom mst
+    $("#spn_db_bom_active").html('<?= number_format($str_sp_bom_active); ?>');
+    $("#spn_db_bom_inactive").html('<?= number_format($str_sp_bom_inactive); ?>');
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    /*
+     * FULL WIDTH STATIC AREA CHART
+     * -----------------
+     */
+    var areaData = [
+        [1, <?= $str_sp_replenishment_price ?>],
+        [2, <?= $str_sp_c_total_picking_price ?>],
+        [3, <?= $str_sp_c_total_picking_confirm_price ?>],
+        [4, <?= $str_sp_c_total_dtn_price ?>],
+        [5, <?= $str_sp_c_total_stock_repn_price ?>],
+        [6, <?= $str_sp_c_total_usage_conf_price ?>]
+    ]
+
+
+    $.plot('#price_chart_status', [areaData], {
+        grid: {
+            borderWidth: 0,
+            hoverable: true
+        },
+        series: {
+            shadowSize: 0.2, // Drawing is faster without shadows
+            color: getRandomColor(),
+            lines: {
+                show: true
+            },
+            points: {
+                show: true,
+            }
+        },
+        yaxis: {
+            show: true,
+            tickFormatter: function(val, axis) {
+                var bath = (val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                return "<span style='font-weight: bold'>" + bath + "</span>";;
+            }
+        },
+        xaxis: {
+            show: true,
+            ticks: [
+                [1, 'Replenish Order'],
+                [2, 'Picking Order'],
+                [3, 'Confirm Order'],
+                [4, 'Print Delivery Order'],
+                [5, 'Stock Replenish'],
+                [6, 'Usage Confirm'],
+            ],
+        },
+        tooltip: {
+            show: true,
+            cssClass: "flotTip",
+            content: function(label, xval, yval, flotItem) {
+                var bath = (yval).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                return ('&nbsp;<b>' + bath + '&nbsp;฿</b>');
+            },
+        }
+    })
+
+    /* END AREA CHART */
 </script>
 <?
 sqlsrv_close($db_con);
