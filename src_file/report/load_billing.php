@@ -182,6 +182,8 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
     $pcs_num = number_format($ps_t_tags_packing_std);
     $price_num = number_format($usage_price_sale_per_pcs);
 
+    $usage_part_customer_arr = explode('-', $usage_part_customer);
+
     $price = $pcs_num * $price_num;
 ?>
             <tr style="font-size: 13px;">
@@ -190,7 +192,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
                     <button type="button" class="btn btn-primary btn-sm" id="<?= var_encode($usage_tags_code); ?>" onclick="openRePrintTag(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print Tag By Tag ID"><i class="fa fa-print fa-lg"></i></button>
                 </td>
                 <td><?= $usage_tags_code; ?></td>
-                <td><?= $usage_part_customer; ?></td>
+                <td><?= $usage_part_customer_arr[1]; ?></td>
                 <td><?= $usage_fg_code_set_abt; ?></td>
                 <td><?= $usage_terminal_name; ?></td>
                 <td><?= $bom_ctn_code_normal; ?></td>

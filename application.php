@@ -27,7 +27,6 @@ $CFG->dbhostPing = "27.254.122.55";
 $CFG->dbname = "VMI_test";
 $CFG->dbuser = "Allvmi";
 $CFG->dbpass = "brewrL5iRebi4+Ewre0r";
-
 /**********************************************************************************/
 /*config path file ****************************************************************/
 $CFG->path_host = "http://localhost/";
@@ -72,6 +71,8 @@ $CFG->src_report = "$CFG->wwwroot/src_file/report";
 $CFG->src_customer = "$CFG->wwwroot/src_file/customer";
 $CFG->src_driver = "$CFG->wwwroot/src_file/driver";
 $CFG->src_load_alert = "$CFG->wwwroot/src_file/load_alert";
+$CFG->src_wms_special = "$CFG->wwwroot/src_file/wms_special";
+
 /**********************************************************************************/
 /*standard libraries **************************************************************/
 require_once("$CFG->libdir/comlib.php");

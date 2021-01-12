@@ -70,7 +70,7 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
     </div>
     <!-- /.box-body -->
     <div class="box-footer text-center">
-        <a href="<?= $CFG->wwwroot; ?>/bom_mst" class="uppercase">View All Products</a>
+        <!-- <a href="<?= $CFG->wwwroot; ?>/bom_mst" class="uppercase">View All Products</a> -->
     </div>
     <!-- /.box-footer -->
 </div>

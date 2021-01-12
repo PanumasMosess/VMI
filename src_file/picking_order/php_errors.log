@@ -1,0 +1,192 @@
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:34:29 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:30 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Notice:  Undefined variable: str_stock_conv_pack in D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php on line 212
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP Stack trace:
+[12-Jan-2021 08:35:46 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\picking_order\load_waiting_conf_picking.php:0

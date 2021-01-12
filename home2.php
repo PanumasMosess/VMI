@@ -52,7 +52,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-print"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/print_tags" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/print_tags" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 
@@ -67,7 +67,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-map-marker"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/put_away" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/put_away" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 
@@ -82,7 +82,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-cart-plus"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 
@@ -97,7 +97,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-files-o"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/picking" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/picking" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 
@@ -112,7 +112,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-check-square-o"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 			
@@ -127,7 +127,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <img src="<?=$CFG->iconsdir;?>/truck.png" height="50px">
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 		  </div>
@@ -145,7 +145,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-cart-arrow-down"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/stock_replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/stock_replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 
@@ -160,7 +160,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 			<div class="icon">
 			  <i class="fa fa-cubes"></i>
 			</div>
-			<a href="<?=$CFG->wwwroot;?>/usage_confirm" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+			<!-- <a href="<?=$CFG->wwwroot;?>/usage_confirm" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			</div>
 			</div>
 		  </div>
@@ -183,7 +183,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 						<div class="icon">
 						  <i class="fa fa-bar-chart"></i>
 						</div>
-						<a href="<?=$CFG->wwwroot;?>/wms_stock" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+						<!-- <a href="<?=$CFG->wwwroot;?>/wms_stock" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 					  </div>
 					</div>
 					<!--for loop get all project-->
@@ -222,7 +222,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 						<div class="icon">
 						  <i class="fa fa-bar-chart"></i>
 						</div>
-						<a href="<?=$CFG->wwwroot;?>/xxxxxx" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+						<!-- <a href="<?=$CFG->wwwroot;?>/xxxxxx" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 					  </div>
 					</div>
 					<?			
@@ -245,7 +245,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 				<div class="icon">
 				  <i class="fa fa-exclamation-triangle"></i>
 				</div>
-				<a href="<?=$CFG->wwwroot;?>/Order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+				<!-- <a href="<?=$CFG->wwwroot;?>/Order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			  </div>
 			</div>
 			
@@ -260,7 +260,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 				<div class="icon">
 				  <i class="fa fa-exclamation-triangle"></i>
 				</div>
-				<a href="<?=$CFG->wwwroot;?>/Order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+				<!-- <a href="<?=$CFG->wwwroot;?>/Order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			  </div>
 			</div>
 			
@@ -280,7 +280,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 				<div class="icon">
 				  <i class="fa fa-database"></i>
 				</div>
-				<a href="<?=$CFG->wwwroot;?>/bom_mst" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+				<!-- <a href="<?=$CFG->wwwroot;?>/bom_mst" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
 			  </div>
 			</div>
 		  </div>

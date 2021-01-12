@@ -11,7 +11,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-  <?
+        <?
 	require_once("menu.php");
   ?>
         <!--------------------------->
@@ -34,97 +34,124 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 
             <!-- Main content -->
             <section class="content">
-                <i class="fa fa-bar-chart"> <b>WMS Monitoring Summary</b></i>
                 <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total Order Price</font>
-                                <h4><span id="spn_db_replenishment_price"></span></h4>
-                                <p>Replenishment Order</p>
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bar-chart"> <b>WMS Monitoring Summary</b></i><span id="load_client_price"></span>
+                            <div class="pull-right">
+                                <select class="form-control" name="txt_sel_pro_board" id="txt_sel_pro_board" style="width: 100%; background-color:#f4f4f4">
+                                    <option selected="selected" value="">All Project</option>
+
+                                    <?
+										$strSQL = " SELECT [bom_pj_name] FROM tbl_bom_mst group by [bom_pj_name] order by [bom_pj_name] asc ";
+										$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
+										while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
+										{
+						 				?>
+                                    <option value="<?= $objResult["bom_pj_name"]; ?>"><?= $objResult["bom_pj_name"]; ?></option>
+                                    <?
+										}
+										
+						  			?>
+                                </select>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-cart-plus"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                            <b class="pull-right" style="font-size:16px; padding: 6px 10px;">Project Select:</b>  
                         </div>
-                    </div>
 
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-teal">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total Picking Sheet Price</font>
-                                <h4><span id="spn_db_total_picking_price"></span></h4>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-yellow">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total Order Price</font>
+                                            <h4><span id="spn_db_replenishment_price"></span></h4>
+                                            <p>Replenishment Order</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-cart-plus"></i>
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
 
-                                <p>Picking Order</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-files-o"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/picking" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-teal">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total Picking Sheet Price</font>
+                                            <h4><span id="spn_db_total_picking_price"></span></h4>
+                                            <p>Picking Order</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-files-o"></i>
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/picking" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
 
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-green">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total Confirm Order Price</font>
-                                <h4><span id="spn_db_total_picking_confirm_price"></span></h4>
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total Confirm Order Price</font>
+                                            <h4><span id="spn_db_total_picking_confirm_price"></span></h4>
 
-                                <p>Confirm Order</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-check-square-o"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
+                                            <p>Confirm Order</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-check-square-o"></i>
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
 
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-aqua">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total DTN Price</font>
-                                <h4><span id="spn_db_total_dtn_price"></span></h4>
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-aqua">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total DTN Price</font>
+                                            <h4><span id="spn_db_total_dtn_price"></span></h4>
 
-                                <p>Print Delivery Order</p>
+                                            <p>Print Delivery Order</p>
+                                        </div>
+                                        <div class="icon">
+                                            <img src="<?= $CFG->iconsdir; ?>/truck.png" height="50px">
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <img src="<?= $CFG->iconsdir; ?>/truck.png" height="50px">
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/dtn_order" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
 
-                <i class="fa fa-bar-chart"> <b>Terminal Monitoring Summary</b></i>
-                <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-gray">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total Price (Tags)</font>
-                                <h4><span id="spn_db_total_stock_repnish_price"></span></h4>
+                            <div class="box-header with-border">
+                                <i class="fa fa-bar-chart"> <b>Terminal Monitoring Summary</b></i>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-gray">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total Price (Tags)</font>
+                                            <h4><span id="spn_db_total_stock_repnish_price"></span></h4>
+                                            <p>Stock Replenishment</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-cart-arrow-down"></i>
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/stock_replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
 
-                                <p>Stock Replenishment</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-cart-arrow-down"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/stock_replenishment" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
+                                <div class="col-lg-3 col-xs-6">
+                                    <div class="small-box bg-blue">
+                                        <div class="inner">
+                                            <font style="font-size:10px;">Total Price (Tags)</font>
+                                            <h4><span id="spn_db_total_tags_usage_conf_price"></span></h4>
 
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="small-box bg-blue">
-                            <div class="inner">
-                                <font style="font-size:10px;">Total Price (Tags)</font>
-                                <h4><span id="spn_db_total_tags_usage_conf_price"></span></h4>
-
-                                <p>Usage Confirm</p>
+                                            <p>Usage Confirm</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-cubes"></i>
+                                        </div>
+                                        <a href="<?= $CFG->wwwroot; ?>/usage_confirm" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-cubes"></i>
-                            </div>
-                            <a href="<?= $CFG->wwwroot; ?>/usage_confirm" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -156,16 +183,17 @@ $str_terminal = array('TSESA','TSPT','TSRA');
                         <h3 class="box-title"><i class="fa fa-bar-chart"> <b>Billing Monitoring</b></i></h3>
                         <button type="button" class="btn btn-default pull-right" id="daterange-btn">
                             <span>
-                                <i class="fa fa-calendar"></i> Date Range Dashboard
+                                <i class="fa fa-calendar"></i> Date Range
                             </span>
                             <i class="fa fa-caret-down"></i>
                         </button>
+                        <b class="pull-right" style="font-size:16px; padding: 6px 10px;">Date Select:</b> 
                     </div>
                     <div class="box-body">
                         <div class="row">
                             <span id="spn_wms_price_rang"></span>
                         </div>
-                    </div>
+                    </div>                   
                 </div>
 
                 <!-- graph -->
@@ -228,7 +256,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 
                 <!--row-->
                 <!-- require_once dashboard.php -->
-        <?
+                <?
 		  require_once("dashboard.php");
 		?>
                 <!-- /.row -->
@@ -299,6 +327,7 @@ require_once("js_css_footer.php");
             call_time(startDate, endDate);
             _load_usage_top();
             _load_recently();
+            _load_client_price();
         });
 
         function call_time(startDate, endDate) {
@@ -310,6 +339,16 @@ require_once("js_css_footer.php");
 
             }, 300);
         }
+
+        $('#txt_sel_pro_board').on('change', function() {
+            var project = this.value;
+            setTimeout(function() {
+                $("#load_client_price").load("<?= $CFG->src_load_alert; ?>/load_client_price.php", {
+                    project_: project
+                });
+
+            }, 300);
+        });
 
         /*
          * Custom Label formatter
@@ -333,6 +372,13 @@ require_once("js_css_footer.php");
             //Load data
             setTimeout(function() {
                 $("#span_load_data_recently").load("<?= $CFG->src_load_alert; ?>/load_recently_products.php");
+            }, 300);
+        }
+
+        function _load_client_price() {
+            //Load data
+            setTimeout(function() {
+                $("#load_client_price").load("<?= $CFG->src_load_alert; ?>/load_client_price.php");
             }, 300);
         }
     </script>

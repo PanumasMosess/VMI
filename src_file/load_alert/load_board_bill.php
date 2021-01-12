@@ -55,7 +55,7 @@ $str_word_pre_fix = "Terminal";
         <div class="icon">
             <i class="fa fa-bar-chart"></i>
         </div>
-        <a href="<?= $CFG->wwwroot; ?>/xxxxxx" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a>
+        <!-- <a href="<?= $CFG->wwwroot; ?>/xxxxxx" class="small-box-footer">More <i class="fa fa-arrow-circle-right"></i></a> -->
     </div>
 </div>
 <script>

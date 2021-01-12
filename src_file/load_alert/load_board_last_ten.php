@@ -115,7 +115,7 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
     </div>
     <!-- /.box-body -->
     <div class="box-footer clearfix">
-        <a href="<?=$CFG->wwwroot;?>/usage_confirm" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+        <!-- <a href="<?=$CFG->wwwroot;?>/usage_confirm" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a> -->
     </div>
     <!-- /.box-footer -->
 </div>

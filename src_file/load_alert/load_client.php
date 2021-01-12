@@ -38,15 +38,6 @@ $objResult_sp_replenishment = sqlsrv_fetch_array($objQuery_sp_replenishment, SQL
 if($objResult_sp_replenishment['c_total_replenish'] == NULL){ $str_sp_replenishment = '0'; } else { $str_sp_replenishment = $objResult_sp_replenishment['c_total_replenish']; }
 
 
-//get replenishment price
-$objQuery_sp_replenishment_price = sqlsrv_query($db_con, " EXEC sp_db_wms_replenish_price_sum 'null' ");
-$objResult_sp_replenishment_price = sqlsrv_fetch_array($objQuery_sp_replenishment_price, SQLSRV_FETCH_ASSOC);
-
-//check null price
-if($objResult_sp_replenishment_price['sumprice'] == NULL){ $str_sp_replenishment_price = '0'; } else { $str_sp_replenishment_price = $objResult_sp_replenishment_price['sumprice']; }
-$replenishment_price = number_format($str_sp_replenishment_price,2);
-
-
 //get wms picking
 $objQuery_sp_picking = sqlsrv_query($db_con, " EXEC sp_db_wms_picking 'Picking' ");
 $objResult_sp_picking = sqlsrv_fetch_array($objQuery_sp_picking, SQLSRV_FETCH_ASSOC);
@@ -55,14 +46,6 @@ $objResult_sp_picking = sqlsrv_fetch_array($objQuery_sp_picking, SQLSRV_FETCH_AS
 if($objResult_sp_picking['CounterPicking'] == NULL){ $str_sp_c_total_picking_qty = '0'; } else { $str_sp_c_total_picking_qty = $objResult_sp_picking['CounterPicking']; }
 
 
-//get wms picking price sum
-$objQuery_sp_picking_price_sum = sqlsrv_query($db_con, " EXEC sp_db_wms_picking_price_sum 'Picking' ");
-$objResult_sp_picking_price_sum = sqlsrv_fetch_array($objQuery_sp_picking_price_sum, SQLSRV_FETCH_ASSOC);
-
-//check null 
-if($objResult_sp_picking_price_sum['Sum_Price_Picking'] == NULL){ $str_sp_c_total_picking_price = '0'; } else { $str_sp_c_total_picking_price = $objResult_sp_picking_price_sum['Sum_Price_Picking']; }
-$picking_price = number_format($str_sp_c_total_picking_price,2);
-
 //get wms picking confirm
 $objQuery_sp_picking_confirm = sqlsrv_query($db_con, " EXEC sp_db_wms_confirm_order 'Picking', 'Completed' ");
 $objResult_sp_picking_confirm = sqlsrv_fetch_array($objQuery_sp_picking_confirm, SQLSRV_FETCH_ASSOC);
@@ -70,13 +53,6 @@ $objResult_sp_picking_confirm = sqlsrv_fetch_array($objQuery_sp_picking_confirm,
 //check null
 if($objResult_sp_picking_confirm['CounterPickingConfirm'] == NULL){ $str_sp_c_total_picking_confirm_qty = '0'; } else { $str_sp_c_total_picking_confirm_qty = $objResult_sp_picking_confirm['CounterPickingConfirm']; }
 
-//get wms picking confirm price
-$objQuery_sp_picking_confirm_price = sqlsrv_query($db_con, " EXEC sp_db_wms_confirm_order_price_sum 'Picking', 'Completed' ");
-$objResult_sp_picking_confirm_price = sqlsrv_fetch_array($objQuery_sp_picking_confirm_price, SQLSRV_FETCH_ASSOC);
-
-//check null
-if($objResult_sp_picking_confirm_price['CounterPickingConfirmPrice'] == NULL){ $str_sp_c_total_picking_confirm_price = '0'; } else { $str_sp_c_total_picking_confirm_price = $objResult_sp_picking_confirm_price['CounterPickingConfirmPrice']; }
-$confirm_price = number_format($str_sp_c_total_picking_confirm_price,2);
 
 //get DTN
 $objQuery_sp_dtn = sqlsrv_query($db_con, " EXEC sp_db_wms_dtn 'Delivery Transfer Note' ");
@@ -85,13 +61,7 @@ $objResult_sp_dtn = sqlsrv_fetch_array($objQuery_sp_dtn, SQLSRV_FETCH_ASSOC);
 //check null
 if($objResult_sp_dtn['CounterDTN'] == NULL){ $str_sp_c_total_dtn_qty = '0'; } else { $str_sp_c_total_dtn_qty = $objResult_sp_dtn['CounterDTN']; }
 
-//get DTN Price
-$objQuery_sp_dtn_price = sqlsrv_query($db_con, " EXEC sp_db_wms_dtn_price_sum 'Delivery Transfer Note' ");
-$objResult_sp_dtn_price = sqlsrv_fetch_array($objQuery_sp_dtn_price, SQLSRV_FETCH_ASSOC);
 
-//check null
-if($objResult_sp_dtn_price['DTNPrice'] == NULL){ $str_sp_c_total_dtn_price = '0'; } else { $str_sp_c_total_dtn_price = $objResult_sp_dtn_price['DTNPrice']; }
-$dtn_price = number_format($str_sp_c_total_dtn_price,2);
 
 //get stock replenishment
 $objQuery_sp_stock_repn = sqlsrv_query($db_con, " EXEC sp_db_wms_stock_replenish 'Confirmed' ");
@@ -100,13 +70,6 @@ $objResult_sp_stock_repn = sqlsrv_fetch_array($objQuery_sp_stock_repn, SQLSRV_FE
 //check null
 if($objResult_sp_stock_repn['count_pack_qty'] == NULL){ $str_sp_c_total_stock_repn = '0'; } else { $str_sp_c_total_stock_repn = $objResult_sp_stock_repn['count_pack_qty']; }
 
-//get stock replenishment price
-$objQuery_sp_stock_repn_price = sqlsrv_query($db_con, " EXEC sp_db_wms_stock_replenish_price_sum 'Confirmed' ");
-$objResult_sp_stock_repn_price = sqlsrv_fetch_array($objQuery_sp_stock_repn_price, SQLSRV_FETCH_ASSOC);
-
-//check null
-if($objResult_sp_stock_repn_price['sum_repi_'] == NULL){ $str_sp_c_total_stock_repn_price = '0'; } else { $str_sp_c_total_stock_repn_price = $objResult_sp_stock_repn_price['sum_repi_']; }
-$repn_price = number_format($str_sp_c_total_stock_repn_price,2);
 
 //get usage confirm
 $objQuery_sp_usage_conf = sqlsrv_query($db_con, " EXEC sp_db_wms_usage_conf 'USAGE CONFIRM' ");
@@ -115,13 +78,6 @@ $objResult_sp_usage_conf = sqlsrv_fetch_array($objQuery_sp_usage_conf, SQLSRV_FE
 //check null
 if($objResult_sp_usage_conf['c_total_usage_conf_today'] == NULL){ $str_sp_c_total_usage_conf = '0'; } else { $str_sp_c_total_usage_conf = $objResult_sp_usage_conf['c_total_usage_conf_today']; }
 
-//get usage confirm price
-$objQuery_sp_usage_conf_price = sqlsrv_query($db_con, " EXEC sp_db_wms_usage_conf_price 'USAGE CONFIRM' ");
-$objResult_sp_usage_conf_price = sqlsrv_fetch_array($objQuery_sp_usage_conf_price, SQLSRV_FETCH_ASSOC);
-
-//check null
-if($objResult_sp_usage_conf_price['sum_usage_'] == NULL){ $str_sp_c_total_usage_conf_price = '0'; } else { $str_sp_c_total_usage_conf_price = $objResult_sp_usage_conf_price['sum_usage_']; }
-$use_con_price = number_format($str_sp_c_total_usage_conf_price,2);
 
 //get wms stock (Received)
 $objQuery_sp_wms_stock = sqlsrv_query($db_con, " EXEC sp_db_wms_stock 'Received' ");
@@ -165,38 +121,20 @@ if($objResult_sp_bom_mst['bom_inactive'] == NULL){ $str_sp_bom_inactive = '0'; }
     //replenishment
     $("#spn_db_replenishment").html('<?= number_format($str_sp_replenishment); ?>');
 
-    //replenishment price
-    $("#spn_db_replenishment_price").html('<?= $replenishment_price . "฿"; ?>');
-
     //picking
     $("#spn_db_total_picking_qty").html('<?= number_format($str_sp_c_total_picking_qty); ?>');
-
-    //picking price sum
-    $("#spn_db_total_picking_price").html('<?= $picking_price . "฿"; ?>');
 
     //picking confirm
     $("#spn_db_total_picking_confirm_qty").html('<?= number_format($str_sp_c_total_picking_confirm_qty); ?>');
 
-    //picking confirm price sum
-    $("#spn_db_total_picking_confirm_price").html('<?= $confirm_price . "฿"; ?>');
-
     //print delivery order
     $("#spn_db_total_dtn_qty").html('<?= number_format($str_sp_c_total_dtn_qty); ?>');
-
-    //print delivery order price
-    $("#spn_db_total_dtn_price").html('<?= $dtn_price . "฿"; ?>');
 
     //stock replenishment
     $("#spn_db_total_stock_repnish").html('<?= number_format($str_sp_c_total_stock_repn); ?>');
 
-    //stock replenishment
-    $("#spn_db_total_stock_repnish_price").html('<?= $repn_price . "฿"; ?>');
-
     //usage confirm
     $("#spn_db_total_tags_usage_conf").html('<?= number_format($str_sp_c_total_usage_conf); ?>');
-
-    //usage confirm price
-    $("#spn_db_total_tags_usage_conf_price").html('<?= $use_con_price . "฿"; ?>');
 
     //stock
     $("#spn_db_wms_stock_pcs").html('<?= number_format($str_sp_wms_stock_sum_pcs_qty); ?>');
@@ -212,73 +150,6 @@ if($objResult_sp_bom_mst['bom_inactive'] == NULL){ $str_sp_bom_inactive = '0'; }
     $("#spn_db_bom_active").html('<?= number_format($str_sp_bom_active); ?>');
     $("#spn_db_bom_inactive").html('<?= number_format($str_sp_bom_inactive); ?>');
 
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-
-    /*
-     * FULL WIDTH STATIC AREA CHART
-     * -----------------
-     */
-    var areaData = [
-        [1, <?= $str_sp_replenishment_price ?>],
-        [2, <?= $str_sp_c_total_picking_price ?>],
-        [3, <?= $str_sp_c_total_picking_confirm_price ?>],
-        [4, <?= $str_sp_c_total_dtn_price ?>],
-        [5, <?= $str_sp_c_total_stock_repn_price ?>],
-        [6, <?= $str_sp_c_total_usage_conf_price ?>]
-    ]
-
-
-    $.plot('#price_chart_status', [areaData], {
-        grid: {
-            borderWidth: 0,
-            hoverable: true
-        },
-        series: {
-            shadowSize: 0.2, // Drawing is faster without shadows
-            color: getRandomColor(),
-            lines: {
-                show: true
-            },
-            points: {
-                show: true,
-            }
-        },
-        yaxis: {
-            show: true,
-            tickFormatter: function(val, axis) {
-                var bath = (val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                return "<span style='font-weight: bold'>" + bath + "</span>";;
-            }
-        },
-        xaxis: {
-            show: true,
-            ticks: [
-                [1, 'Replenish Order'],
-                [2, 'Picking Order'],
-                [3, 'Confirm Order'],
-                [4, 'Print Delivery Order'],
-                [5, 'Stock Replenish'],
-                [6, 'Usage Confirm'],
-            ],
-        },
-        tooltip: {
-            show: true,
-            cssClass: "flotTip",
-            content: function(label, xval, yval, flotItem) {
-                var bath = (yval).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                return ('&nbsp;<b>' + bath + '&nbsp;฿</b>');
-            },
-        }
-    })
-
-    /* END AREA CHART */
 </script>
 <?
 sqlsrv_close($db_con);

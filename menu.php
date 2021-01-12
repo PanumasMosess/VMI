@@ -214,7 +214,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  </a>
 		  <ul class="treeview-menu">
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock_replenishment"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/wms_stock_replenishment"><i class="fa fa-cart-arrow-down"></i> <span>Stock Replenishment</span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_usage_confirm"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/wms_usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li>
+			<!-- <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_usage_confirm"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/wms_usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li> -->
 		  </ul>
 		</li>
 		
