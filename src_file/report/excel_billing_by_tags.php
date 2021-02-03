@@ -179,7 +179,7 @@ while($objResult = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
     $usage_pick_date = $objResult['usage_pick_date'];
 
     $pcs_num = number_format($ps_t_tags_packing_std);
-    $price_num = number_format($usage_price_sale_per_pcs);
+    $price_num = number_format($usage_price_sale_per_pcs,2);
 
     $price = $pcs_num * $price_num;
 	
@@ -199,7 +199,7 @@ while($objResult = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $usage_sku_code_abt);
 	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, $usage_ship_type);
 	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, number_format($ps_t_tags_packing_std), PHPExcel_Cell_DataType::TYPE_STRING);
-	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, number_format($price), PHPExcel_Cell_DataType::TYPE_STRING);
+	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, number_format($price,2), PHPExcel_Cell_DataType::TYPE_STRING);
 	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $receive_status);
     $objPHPExcel->getActiveSheet()->setCellValue('I' . $i, $usage_pick_by);
     $objPHPExcel->getActiveSheet()->setCellValue('J' . $i, $usage_pick_date);

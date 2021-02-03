@@ -4,6 +4,40 @@ require_once("js_css_header.php");
 ?>
 <!DOCTYPE html>
 <html>
+<style>
+	/** SPINNER CREATION **/
+	.modal-dialog-load {
+		padding-top: 15%;
+		padding-left: 10%;
+	}
+
+	.loader {
+		position: relative;
+		text-align: center;
+		margin: 15px auto 25px auto;
+		z-index: 9999;
+		display: block;
+		width: 80px;
+		height: 80px;
+		border: 10px solid rgba(0, 0, 0, .3);
+		border-radius: 50%;
+		border-top-color: #000;
+		animation: spin 1s ease-in-out infinite;
+		-webkit-animation: spin 1s ease-in-out infinite;
+	}
+
+	@keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+
+	@-webkit-keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+</style>
 
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -20,7 +54,7 @@ require_once("js_css_header.php");
 			<section class="content-header">
 				<h1><i class="fa fa-caret-right"></i>&nbsp;Usage Confirm<small>Storage Location</small></h1>
 				<ol class="breadcrumb">
-					<li><a href="<?=$CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
+					<li><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
 					<li class="active">Usage Confirm</li>
 				</ol>
 			</section>
@@ -51,7 +85,7 @@ require_once("js_css_header.php");
 					                            }
 				                                 ?>
 										</select>
-									</div>&nbsp;<button type="button" class="btn btn-info btn-md" onclick="reload_table();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
+									</div>&nbsp;<div class="col-md-1"><button type="button" class="btn btn-info btn-md" onclick="reload_table();"><i class="fa fa-refresh fa-lg"></i> Refresh</button></div>
 								</div>
 
 							</div>
@@ -92,7 +126,7 @@ require_once("js_css_footer.php");
 			//$('#txt_scn_put_pallet').keyup(function() { this.value = this.value.toUpperCase(); });
 
 			//load pallet no
-			func_load_pallate("");
+			reload_table();
 			$('#sel_fj_name').val("");
 
 		});
@@ -115,7 +149,7 @@ require_once("js_css_footer.php");
 
 
 		function openRePrintTag(id) {
-			window.open("<?=$CFG->src_mPDF; ?>/print_tag_on_tag?tag=" + id + "", "_blank");
+			window.open("<?= $CFG->src_mPDF; ?>/print_tag_on_tag?tag=" + id + "", "_blank");
 		}
 
 		function openRefill(id) {
@@ -141,7 +175,7 @@ require_once("js_css_footer.php");
 			//load pallet no
 			setTimeout(function() {
 				//$("#spn_load_open_pallet_details").html(""); //clear span
-				$("#spn_load_open_pallet_details").load("<?=$CFG->src_put_away; ?>/load_data_on_pallet_details.php", {
+				$("#spn_load_open_pallet_details").load("<?= $CFG->src_put_away; ?>/load_data_on_pallet_details.php", {
 					t_receive_pallet_code: t_receive_pallet_code,
 					t_tags_fg_code_gdj: t_tags_fg_code_gdj,
 					t_receive_location: t_receive_location,
@@ -152,6 +186,12 @@ require_once("js_css_footer.php");
 		}
 
 		function func_load_pallate(value) {
+			// <!--datatable search paging-->
+			$("#loadding").modal({
+				backdrop: "static", //remove ability to close modal with click
+				keyboard: false, //remove option to close with keyboard
+				show: true //Display loader!
+			});
 			//Load data
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
@@ -162,7 +202,7 @@ require_once("js_css_footer.php");
 
 		}
 
-		function reload_table(){
+		function reload_table() {
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
 				$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
@@ -177,7 +217,7 @@ require_once("js_css_footer.php");
 		function _export_stock_by_pallet() {
 			//href
 			var value = $("#sel_fj_name").val();
-			
+
 			var mapForm = document.createElement("form");
 			mapForm.target = "_blank";
 			mapForm.method = "POST";
@@ -206,7 +246,7 @@ require_once("js_css_footer.php");
 			var mapForm = document.createElement("form");
 			mapForm.target = "_blank";
 			mapForm.method = "POST";
-			mapForm.action = '<?=$CFG->src_terminal; ?>/excel_terminal_confirm_by_tags';
+			mapForm.action = '<?= $CFG->src_terminal; ?>/excel_terminal_confirm_by_tags';
 
 			// Create an input
 			var mapInput = document.createElement("input");
@@ -278,3 +318,15 @@ require_once("js_css_footer.php");
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+
+<!-- Model loading -->
+<div class="modal fade" id="loadding" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+	<div class="modal-dialog modal-dialog-load  modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<div class="loader"></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -46,11 +46,11 @@ $str_word_pre_fix = "Terminal";
    $pricephp =  number_format($price,2);
 ?>
 <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-lime">
+    <div class="small-box bg-blue">
         <div class="inner">
-            <font style="font-size:10px; color: #000;">Total Price</font>
-            <h4 style="color: #000;"><?= $pricephp . "฿";  ?></h4>
-            <p style="color: #000;"><?= $str_word_pre_fix ?> <b><?= $value_all_PJ; ?></b></p>
+            <font style="font-size:10px; color: #FFF;">Total Price</font>
+            <h4 style="color: #FFF;"><?= $pricephp . "฿";  ?></h4>
+            <p style="color: #FFF;"><?= $str_word_pre_fix ?> <b><?= $value_all_PJ; ?></b></p>
         </div>
         <div class="icon">
             <i class="fa fa-bar-chart"></i>
@@ -154,4 +154,6 @@ $str_word_pre_fix = "Terminal";
         }
     })
     /* END BAR CHART */
+
+    $("#spn_time").html("<?=date("Y-m-d H:i:s")?>");
 </script>

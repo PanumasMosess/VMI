@@ -80,7 +80,7 @@ if($fileupload)
 		$objQuery_check_col = sqlsrv_query($db_con, $strSQL_check_col);
 		$sum_fields = sqlsrv_num_fields($objQuery_check_col);
 
-		$sum_fields = $sum_fields - 7;
+		$sum_fields = $sum_fields - 6;
 		if($sum_fields != $sum_highestColumn)
 		{
 			sleep(2);
@@ -165,6 +165,7 @@ if($fileupload)
 							  ,[bom_part_customer] = '".trim(strtoupper($result["Part Customer"]))."'
 							  ,[bom_cost_per_pcs] = '$tmp_cost_per_pcs'
 							  ,[bom_price_sale_per_pcs] = '$tmp_price_sale_per_pcs'
+							  ,[bom_status] = '".trim($result["Bom Status"])."'
 							  ,[bom_issue_by] = '".$t_cur_user_code_VMI_GDJ."'
 							  ,[bom_issue_date] = '$buffer_date'
 							  ,[bom_issue_time] = '$buffer_time'

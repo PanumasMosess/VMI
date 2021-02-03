@@ -115,7 +115,7 @@ require_once("../../js_css_footer_noConflict.php");
 
 <script language="javascript">
     $(document).ready(function() {
-        var check_data = $('#tbl_detail_Customer').DataTable({
+        var check_data = jQuery('#tbl_detail_Customer').DataTable({
             rowReorder: true,
             "aLengthMenu": [
                 [25, 50, 75, 100, -1],

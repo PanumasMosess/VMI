@@ -38,7 +38,7 @@ require_once("js_css_header.php");
 						<button type="button" class="btn btn-info btn-sm" onclick="_load_tags_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
 					</div>
 					<div style="padding-left: 8px;">
-						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT * ROWS</font>
+						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT Date - 7 Days</font>
 					</div>
 					<!-- /.box-header -->
 					<span id="spn_load_tags_details"></span>

@@ -1,6 +1,6 @@
 <?
-require_once("../../application.php");
-require_once("../../js_css_header.php");
+ require_once("../../application.php");
+ require_once("../../js_css_header.php");
 
 /**********************************************************************************/
 /*current user ********************************************************************/
@@ -84,9 +84,11 @@ and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
 left join tbl_receive
 on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
 where
-dn_h_status = 'Confirmed' and bom_pj_name = '$stock_locate'  and  receive_status != 'USAGE CONFIRM'
+dn_h_status = 'Confirmed' and bom_pj_name = '$stock_locate'  
 order by dn_h_receive_date desc
 ";
+
+// and  receive_status != 'USAGE CONFIRM'
 
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
 $num_row = sqlsrv_num_rows($objQuery);
@@ -99,7 +101,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$tag_id = $objResult['ps_t_tags_code'];
 	$tags_fg_code_gdj = $objResult['ps_t_fg_code_gdj'];
 	$tags_fg_code_gdj_des = $objResult['bom_fg_desc'];
-	$confirm_status = $objResult['dn_h_status'];
+	$receive_status = $objResult['receive_status'];
 	$confirm_date = $objResult['dn_h_receive_date'];
 	$tags_packing_std = $objResult['ps_t_tags_packing_std'];
 ?>
@@ -112,7 +114,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 				<td><?= $tags_fg_code_gdj; ?></td>
 				<td><?= $tags_fg_code_gdj_des; ?></td>
 				<td style="color: indigo;"><?= number_format($tags_packing_std); ?></td>
-				<td style="color: green;"><?= $confirm_status; ?></td>
+				<td style="color: green;"><?= $receive_status; ?></td>
 				<td><?= $confirm_date; ?></td>
 			</tr>
 			<?
@@ -127,16 +129,16 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 <input type="hidden" name="hdn_row_inventory" id="hdn_row_inventory" value="<?= $row_id; ?>" />
 
 <?
-require_once("../../js_css_footer.php");
+ require_once("../../js_css_footer_noConflict.php");
 ?>
 
 <script language="javascript">
+
 	$(document).ready(function() {
-		// <!--datatable search paging-->
-		var replnishmentTable = $('#tbl_inventory_terminal').DataTable({
+		var replnishmentTable = jQuery('#tbl_inventory_terminal').DataTable({
 			rowReorder: true,
 			"oLanguage": {
-				"sSearch": "Filter Data"
+				"sSearch": "Filter Data",
 			},
 			// columnDefs: [
 			//     { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
@@ -145,6 +147,9 @@ require_once("../../js_css_footer.php");
 			pagingType: "full_numbers",
 
 		});
+
+		$("#loadding").modal("hide"); 
+
 		$.fn.dataTable.ext.search.push(
 			function(settings, data, dataIndex) {
 				var min = $('#min_replenish').datepicker('getDate');

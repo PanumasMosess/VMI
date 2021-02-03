@@ -120,10 +120,12 @@ tfoot input{width:100%;padding:3px;box-sizing:border-box}
 }
 </style>
 <style>
+/* custom radio */
 input.largerRadio { 
 		transform : scale(1.5); 
 	}
-	
+
+/* custom table */
 .table_css {
   border-collapse: collapse;
   width: 100%;
@@ -150,5 +152,46 @@ input.largerRadio {
   background-color: #fff;
   color: black;
   border-bottom: 3px solid #ddd;
+}
+
+/* custom tooltip */
+.custom_tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.custom_tooltip .custom_tooltiptext {
+  visibility: hidden;
+  width: 120px; 
+  background-color: #555;
+  color: #fff;
+  border-radius: 6px;
+  padding: 15px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  word-wrap: break-word;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.custom_tooltip .custom_tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.custom_tooltip:hover .custom_tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
 </style>

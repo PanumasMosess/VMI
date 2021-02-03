@@ -218,7 +218,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  </ul>
 		</li>
 		
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm"){ echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance"){ echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-folder-open-o"></i> <span>Terminal</span>
 			<i class="fa fa-angle-left pull-right"></i>
@@ -226,6 +226,8 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  <ul class="treeview-menu">
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/stock_replenishment"><i class="fa fa-cart-arrow-down"></i> <span>Stock Replenishment</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/stock_blance"><i class="fa fa-cube"></i> <span>Stock Blance</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "transaction"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/transaction"><i class="fa fa-arrows-h"></i> <span>Transaction</span></a></li>
 		  </ul>
 		</li>
 
@@ -240,16 +242,19 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  </ul>
 		</li>
 
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php')  == "replenishment_reject" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing") { echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php')  == "replenishment_reject" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history") { echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-search"></i> <span>Reporting</span>
 			<i class="fa fa-angle-left pull-right"></i>
 		  </a>
 		  <ul class="treeview-menu">
-		    <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/bom_recheck"><i class="fa fa-search"></i> <span>Bom Recheck</span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_reject"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_reject"><i class="fa fa-search"></i> <span>Replenishment Reject</span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/billing"><i class="fa fa-search"></i> <span>Billing</span></a></li>
-			<li><a href="<?=$CFG->wwwroot;?>/xxxxx"><i class="fa fa-search"></i> <span>Invoice</span></a></li>
+		    <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/bom_recheck"><i class="fa fa-file"></i> <span>Bom Recheck</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_reject"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_reject"><i class="fa fa-file"></i> <span>Replenishment Reject</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/billing"><i class="fa fa-file"></i> <span>Billing</span></a></li>
+			<li><a href="<?=$CFG->wwwroot;?>/xxxxx"><i class="fa fa-file"></i> <span>Invoice</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "tag_check"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/tag_check"><i class="fa fa-file"></i> <span>Tag Checking</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_history"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/picking_history"><i class="fa fa-file"></i> <span>Picking History</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history"){ echo "active"; }; ?>"><a href="<?=$CFG->wwwroot;?>/dtn_history"><i class="fa fa-file"></i> <span>DTN History</span></a></li>
 		  </ul>
 		</li>
 		
@@ -294,7 +299,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
 		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm"){ echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance"){ echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-folder-open-o"></i> <span>Terminal</span>
 			<i class="fa fa-angle-left pull-right"></i>
@@ -302,6 +307,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  <ul class="treeview-menu">
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_replenishment"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/stock_replenishment"><i class="fa fa-cart-arrow-down"></i> <span>Stock Replenishment</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/stock_blance"><i class="fa fa-cube"></i> <span>Stock Blance</span></a></li>
 		  </ul>
 		</li>
 
@@ -315,13 +321,17 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  </ul>
 		</li>
 
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_reject" ){ echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php')  == "replenishment_reject" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing") { echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-search"></i> <span>Reporting</span>
 			<i class="fa fa-angle-left pull-right"></i>
 		  </a>
 		  <ul class="treeview-menu">
-			<li ><i class="fa fa-search"></i> <span>Billing</span></a></li>		
+		    <!-- <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/bom_recheck"><i class="fa fa-file"></i> <span>Bom Recheck</span></a></li> -->
+			<!-- <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_reject"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_reject"><i class="fa fa-file"></i> <span>Replenishment Reject</span></a></li> -->
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/billing"><i class="fa fa-file"></i> <span>Billing</span></a></li>
+			<!-- <li><a href="<?=$CFG->wwwroot;?>/xxxxx"><i class="fa fa-file"></i> <span>Invoice</span></a></li> -->
+			<!-- <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "tag_check"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/tag_check"><i class="fa fa-file"></i> <span>Tag Checking</span></a></li> -->
 		  </ul>
 		</li>
 		

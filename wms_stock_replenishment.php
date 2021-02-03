@@ -510,6 +510,7 @@ require_once("js_css_footer.php");
                             });
 
                             $("#txt_scn_driver_id").val('');
+                            $('#txt_scn_dtn_id').prop('disabled', false);
                         }
 
                     },
@@ -666,9 +667,10 @@ require_once("js_css_footer.php");
             });
 
             return false;
-        } else if (parseInt($("#hdn_row_ChkCompleteScan").val()) < 3) {
+        } else if ((parseInt($("#hdn_row_DTNSheetDetails").val()) >= 3) && (parseInt($("#hdn_row_ChkCompleteScan").val()) < 3)) {
             //call
             // var row_check = parseInt($("#hdn_row_DTNSheetDetails").val());
+           
             var scan_check = parseInt($("#hdn_row_ChkCompleteScan").val());
             var str_minus = 3 - scan_check;
 

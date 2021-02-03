@@ -1,6 +1,6 @@
 <?
-require_once("../../application.php");
-require_once("../../js_css_header.php");
+ require_once("../../application.php");
+ require_once("../../js_css_header.php");
 
 /**********************************************************************************/
 /*current user ********************************************************************/
@@ -10,6 +10,7 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
 
 /*var *****************************************************************************/
 $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
+
 
 $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
@@ -28,7 +29,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 			<!-- /.input group -->
 		</div>
 		<div class="form-group col-md-3">
-			<label>From Date:</label>
+			<label>To Date:</label>
 			<div class="input-group date">
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
@@ -93,7 +94,7 @@ left join tbl_usage_conf
 on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
 where
 dn_h_status = 'Confirmed' and bom_pj_name = '$stock_locate' and receive_status = 'USAGE CONFIRM'
-order by dn_h_receive_date desc
+order by usage_pick_date desc
 ";
 
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
@@ -108,7 +109,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$tags_fg_code_gdj = $objResult['ps_t_fg_code_gdj'];
 	$tags_fg_code_gdj_des = $objResult['bom_fg_desc'];
 	$confirm_status = $objResult['receive_status'];
-	$confirm_date = $objResult['dn_h_receive_date'];
+	$confirm_date = $objResult['usage_pick_date'];
     $tags_packing_std = $objResult['ps_t_tags_packing_std'];
     $user_pick = $objResult['usage_pick_by'];
     $user_pick_date = $objResult['usage_pick_date'];
@@ -128,7 +129,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 				<td><?= $tags_fg_code_gdj_des; ?></td>
 				<td style="color: indigo;"><?= number_format($tags_packing_std); ?></td>
 				<td style="color: green;"><?= $confirm_status; ?></td>
-				<td><?= $confirm_date; ?></td>
+				<td><?= $user_pick_date; ?></td>
 				<td><?= $user_pick; ?></td>
 				<td><?= $user_pick_date; ?></td>
 				<td><?= $str_dif; ?></td>
@@ -145,17 +146,17 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 <input type="hidden" name="hdn_row_inventory" id="hdn_row_inventory" value="<?= $row_id; ?>" />
 
 <?
-require_once("../../js_css_footer.php");
+ require_once("../../js_css_footer_noConflict.php");
 ?>
 
 <script language="javascript">
 	$(document).ready(function() {
 		// <!--datatable search paging-->
-		var conTable = $('#tbl_inventory_terminal').DataTable({
-			rowReorder: true,
+		var conTable = jQuery('#tbl_inventory_terminal').DataTable({
+			rowReorder: true,			
 			"oLanguage": {
-                "sSearch": "Filter Data"
-            },
+				"sSearch": "Filter Data",			
+			},
 			// columnDefs: [
 			//     { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
 			//     { orderable: false, targets: '_all' }
@@ -168,6 +169,7 @@ require_once("../../js_css_footer.php");
 			function(settings, data, dataIndex) {
 				var min = $('#min_con').datepicker('getDate');
 				var max = $('#max_con').datepicker('getDate');
+				max.setDate(max.getDate()+1); 
 				var startDate = new Date(data[7]);
 				if (min == null && max == null) return true;
 				if (min == null && startDate <= max) return true;
@@ -177,7 +179,7 @@ require_once("../../js_css_footer.php");
 			}
 		);
 
-
+		$("#loadding").modal("hide"); 
 
 		$('#min_con').datepicker({
 			autoclose: true,

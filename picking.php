@@ -463,6 +463,11 @@ function openRePrintPickingSheet(id)
 	},500);
 }
 
+function openRePrintSet_on_picking_sheet(id)
+{
+	window.open("<?=$CFG->src_mPDF;?>/print_all_tags_on_picking_sheet?picking_sheet_no="+ id +"","_blank");
+}
+
 function openFuncDetails(id)
 {
 	$('#modal-pickingDetails').modal('show');

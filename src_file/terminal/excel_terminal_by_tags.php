@@ -81,20 +81,20 @@ $styleArray = array(
 			));			
 
 // Set fonts
-$objPHPExcel->getActiveSheet()->getStyle('A1:G2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
-$objPHPExcel->getActiveSheet()->getStyle('A1:G2')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle("A1:G2")->getFont()->setSize(10);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I2')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle("A1:I2")->getFont()->setSize(10);
 
 //header
-$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:G1');
+$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:I1');
 $objPHPExcel->getActiveSheet()->setCellValue('A1', "Report FG Stock By Tags On $buffer_datetime");
 
 //border		
-$objPHPExcel->getActiveSheet()->getStyle('A1:G2')->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle('A1:G2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I2')->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
 //Set BG
-$objPHPExcel->getActiveSheet()->getStyle('A2:G2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF00FFFF');
+$objPHPExcel->getActiveSheet()->getStyle('A2:I2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF00FFFF');
 
 //Set main
 //$objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
@@ -113,6 +113,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('D2', "Qty. (Pcs.)");
 $objPHPExcel->getActiveSheet()->setCellValue('E2', "Status");
 $objPHPExcel->getActiveSheet()->setCellValue('F2', "Confirmed Date");
 $objPHPExcel->getActiveSheet()->setCellValue('G2', "Part Customer");
+$objPHPExcel->getActiveSheet()->setCellValue('I2', "Status");
 
 
 //get data
@@ -122,10 +123,12 @@ SELECT
 ps_t_tags_code,
 ps_t_fg_code_gdj,
 bom_fg_desc,
+bom_pj_name,
 bom_part_customer,
 ps_t_tags_packing_std,
 dn_h_status,
-dn_h_receive_date
+dn_h_receive_date,
+receive_status
 
 FROM tbl_dn_head
 left join tbl_dn_tail 
@@ -141,6 +144,8 @@ and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
 and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
 and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
 and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+left join tbl_receive
+on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
 where
 dn_h_status = 'Confirmed' and bom_pj_name = '$tag_locate'
 order by dn_h_receive_date desc
@@ -157,6 +162,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$tags_code = $objResult_d['ps_t_tags_code'];
 	$tags_fg_code_gdj = $objResult_d['ps_t_fg_code_gdj'];
 	$tags_fg_code_gdj_desc = $objResult_d['bom_fg_desc'];
+	$bom_pj_name = $objResult_d['receive_status'];
 	$bom_part_customer = $objResult_d['bom_part_customer'];
 	$tags_packing_std = $objResult_d['ps_t_tags_packing_std'];
 	$confirm_status = $objResult_d['dn_h_status'];
@@ -171,7 +177,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->getStyle('F' .($i). ':'.'F'.($i))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 	
 	//border
-	$objPHPExcel->getActiveSheet()->getStyle('A' .$i. ':'.'G'.($i))->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+	$objPHPExcel->getActiveSheet()->getStyle('A' .$i. ':'.'I'.($i))->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 	
 	//data
 	$objPHPExcel->getActiveSheet()->setCellValueExplicit('A' . $i, $tags_code, PHPExcel_Cell_DataType::TYPE_STRING);
@@ -181,6 +187,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, $confirm_status);
 	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $confirm_date);
 	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $bom_part_customer_arr[1]);
+	$objPHPExcel->getActiveSheet()->setCellValue('I' . $i, $bom_pj_name);
 
 }
 	
@@ -208,6 +215,7 @@ $objPHPExcel->getActiveSheet()->setCellValueExplicit('D' . $i, number_format($st
 $objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'Pcs.');
 $objPHPExcel->getActiveSheet()->setCellValueExplicit('F' . $i, '');
 $objPHPExcel->getActiveSheet()->setCellValueExplicit('G' . $i, '');
+$objPHPExcel->getActiveSheet()->setCellValue('I' . $i, '');
 
 // Rename sheet 
 $objPHPExcel->getActiveSheet()->setTitle('Report FG Stock By Tags');

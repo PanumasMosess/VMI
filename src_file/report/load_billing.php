@@ -29,7 +29,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
             <!-- /.input group -->
         </div>
         <div class="form-group col-md-3">
-            <label>From Date:</label>
+            <label>To Date:</label>
             <div class="input-group date">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -39,21 +39,23 @@ $buffer_datetime = date("Y-m-d H:i:s");
             <!-- /.input group -->
         </div>
     </div>
-    <table id="tbl_inventory_terminal" class="table table-bordered table-hover table-striped nowrap">
+    <table id="tbl_bill_terminal" class="table table-bordered table-hover table-striped nowrap">
         <thead>
             <tr style="font-size: 15px;">
-                <th colspan="14" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Billing</b>&nbsp;<b class="btn" id="excel_export"></b></th>
+                <th colspan="16" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Billing</b>&nbsp;<b class="btn" id="excel_export"></b></th>
             </tr>
             <tr style="font-size: 13px;">
                 <th style="width: 30px;">No.</th>
                 <th style="text-align: center;">Actions/Details</th>
                 <th>Tag ID</th>
                 <th>Part Customer</th>
-                <th>FG Code GDJ</th>
+                <th>FG Code Set ABT</th>
                 <th>Project Name</th>
                 <th>Package Code</th>
                 <th>SNP (PCS)</th>
                 <th>Ship Type</th>
+                <th>GDJ Description</th>
+                <th>FG Code GDJ</th>
                 <th style="color: indigo;">Quantity (Pcs.)</th>
                 <th style="color: indigo;">Price (Bath.)</th>
                 <th style="color: green; text-align: center;">Status</th>
@@ -78,6 +80,8 @@ $buffer_datetime = date("Y-m-d H:i:s");
                 ,receive_status  
                 ,usage_pick_by
                 ,usage_pick_date
+                ,bom_fg_desc
+                ,bom_fg_code_gdj
                 
                 FROM [tbl_usage_conf]
                 left join tbl_bom_mst
@@ -105,6 +109,8 @@ $buffer_datetime = date("Y-m-d H:i:s");
                       ,receive_status  
                       ,usage_pick_by
                       ,usage_pick_date
+                      ,bom_fg_desc
+                      ,bom_fg_code_gdj
                 
                    order by usage_pick_date desc                   
                 ";
@@ -124,6 +130,8 @@ $buffer_datetime = date("Y-m-d H:i:s");
                    ,receive_status  
                    ,usage_pick_by
                    ,usage_pick_date
+                   ,bom_fg_desc
+                   ,bom_fg_code_gdj
                 
                 FROM [tbl_usage_conf]
                 left join tbl_bom_mst
@@ -151,6 +159,8 @@ $buffer_datetime = date("Y-m-d H:i:s");
                         ,receive_status  
                         ,usage_pick_by
                         ,usage_pick_date
+                        ,bom_fg_desc
+                        ,bom_fg_code_gdj
                 
                    order by usage_pick_date desc
                    
@@ -178,9 +188,11 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
     $receive_status = $objResult['receive_status'];
     $usage_pick_by = $objResult['usage_pick_by'];
     $usage_pick_date = $objResult['usage_pick_date'];
+    $bom_fg_desc = $objResult['bom_fg_desc'];
+    $bom_fg_code_gdj = $objResult['bom_fg_code_gdj'];
 
     $pcs_num = number_format($ps_t_tags_packing_std);
-    $price_num = number_format($usage_price_sale_per_pcs);
+    $price_num = number_format($usage_price_sale_per_pcs,2);
 
     $usage_part_customer_arr = explode('-', $usage_part_customer);
 
@@ -198,8 +210,10 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
                 <td><?= $bom_ctn_code_normal; ?></td>
                 <td><?= $bom_snp; ?></td>
                 <td><?= $usage_ship_type; ?></td>
+                <td><?= $bom_fg_desc; ?></td>
+                <td><?= $bom_fg_code_gdj?></td>
                 <td style="color: indigo;"><?= number_format($ps_t_tags_packing_std); ?></td>
-                <td style="color: indigo;"><?= number_format($price); ?></td>
+                <td style="color: indigo;"><?= number_format($price,2); ?></td>
                 <td style="color: green;"><?= $receive_status; ?></td>
                 <td><?= $usage_pick_by; ?></td>
                 <td><?= $usage_pick_date; ?></td>
@@ -216,13 +230,13 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 <input type="hidden" name="hdn_row_inventory" id="hdn_row_inventory" value="<?= $row_id; ?>" />
 
 <?
-require_once("../../js_css_footer.php");
+ require_once("../../js_css_footer_noConflict.php");
 ?>
 
 <script language="javascript">
     $(document).ready(function() {
         // <!--datatable search paging-->
-        var oTable = $('#tbl_inventory_terminal').DataTable({
+        var oTable = jQuery('#tbl_bill_terminal').DataTable({
             rowReorder: true,
             "oLanguage": {
                 "sSearch": "Filter Data"
@@ -231,12 +245,12 @@ require_once("../../js_css_footer.php");
             //     { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
             //     { orderable: false, targets: '_all' }
             // ],
-            pagingType: "full_numbers",
             // dom: 'Bfrtip',
             // buttons: [{
             //     extend: 'excel',
             //     text: 'Export Billing by Tags',
             // }]
+            pagingType: "full_numbers",
         });
 
         var buttons = new $.fn.dataTable.Buttons(oTable, {
@@ -249,7 +263,7 @@ require_once("../../js_css_footer.php");
                     modifier: {
                     page: 'all'
                 },
-                columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
                 }
             }],
             dom: {
@@ -265,7 +279,8 @@ require_once("../../js_css_footer.php");
             function(settings, data, dataIndex) {
                 var min = $('#min').datepicker('getDate');
                 var max = $('#max').datepicker('getDate');
-                var startDate = new Date(data[13]);
+                max.setDate(max.getDate()+1); 
+                var startDate = new Date(data[15]);
                 if (min == null && max == null) return true;
                 if (min == null && startDate <= max) return true;
                 if (max == null && startDate >= min) return true;

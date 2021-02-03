@@ -456,6 +456,7 @@ function getBrowser()
 //$yourbrowser= "Your browser: " . $ua['name'] . " " .$ua['platform'] . " reports: <br >" . $ua['userAgent'];
 //print_r($yourbrowser);
 
+////-----------------------------
 /**********************************************************************************/
 /*IP for mobile for show results **************************************************/
 //$serverIP = $_SERVER['REMOTE_ADDR'];

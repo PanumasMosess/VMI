@@ -206,7 +206,7 @@ require_once("js_css_header.php");
 						  }
 						  ?>
 						  <td align="center">
-						  <button type="button" class="btn btn-primary btn-sm" id="<?=$repn_id;?>#####<?=$repn_order_type;?>#####<?=$repn_order_ref;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>" onclick="openFuncConfirm(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Confirm"><i class="fa fa-check-square-o fa-lg"></i></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm" id="<?=$repn_id;?>" onclick="openFuncReject(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Reject"><i class="fa fa-times fa-lg"></i></button>
+						  <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=$repn_id;?>#####<?=$repn_order_type;?>#####<?=$repn_order_ref;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
 						  </td>
 						  <td><font style="color: <?=$str_order_color;?>"><?=$repn_order_type;?></font>/<?=$repn_unit_type;?></td>
 						  <td><?=$repn_order_ref;?></td>

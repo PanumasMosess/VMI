@@ -59,7 +59,7 @@ require_once("js_css_header.php");
 								<i class="fa fa-filter" style="color: #00F;"></i>
 								<font style="color: #00F;">SQL >_ SELECT * ROWS</font>
 							</div>
-							<span id="spn_load_data_main"></span>
+							<span id="spn_load_data_main_bill"></span>
 						</div>
 						<!-- /.box -->
 					</div>
@@ -122,17 +122,18 @@ require_once("js_css_footer.php");
 			//Load data
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
-				$("#spn_load_data_main").load("<?= $CFG->src_report; ?>/load_billing.php", {
+				$("#spn_load_data_main_bill").load("<?= $CFG->src_report; ?>/load_billing.php", {
 					sel_fj_name: value
 				});
 			}, 500);
+
 
 		}
 
 		function reload_table(){
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
-				$("#spn_load_data_main").load("<?= $CFG->src_report; ?>/load_billing.php", {
+				$("#spn_load_data_main_bill").load("<?= $CFG->src_report; ?>/load_billing.php", {
 					sel_fj_name: ""
 				});
 			}, 500);

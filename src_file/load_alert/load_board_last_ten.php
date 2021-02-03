@@ -15,7 +15,7 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
 <!-- TABLE: LATEST ORDERS -->
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title"><b>&nbsp;Latest Usage Confirm Orders</b></h3>
+        <h3 class="box-title"></h3><b>&nbsp;Latest Usage Confirm Orders</b>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
             </button>
