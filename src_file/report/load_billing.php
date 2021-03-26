@@ -216,6 +216,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
             <?
 }
 ?>
+
         </tbody>
     </table>
 </div>
