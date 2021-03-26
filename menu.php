@@ -242,7 +242,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 		  </ul>
 		</li>
 
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php')  == "replenishment_reject" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history") { echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_recheck" || basename($_SERVER["SCRIPT_FILENAME"], '.php')  == "replenishment_reject" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "put_away_history") { echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-search"></i> <span>Reporting</span>
 			<i class="fa fa-angle-left pull-right"></i>
@@ -252,7 +252,8 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_reject"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_reject"><i class="fa fa-file"></i> <span>Replenishment Reject</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "billing"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/billing"><i class="fa fa-file"></i> <span>Billing</span></a></li>
 			<li><a href="<?=$CFG->wwwroot;?>/xxxxx"><i class="fa fa-file"></i> <span>Invoice</span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "tag_check"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/tag_check"><i class="fa fa-file"></i> <span>Tag Checking</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "tag_check"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/tag_check"><i class="fa fa-file"></i> <span>Tag Terminal Checking</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "put_away_history"){ echo "active"; }; ?>"><a href="<?=$CFG->wwwroot;?>/put_away_history"><i class="fa fa-file"></i> <span>Put Away(Receive) History</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_history"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/picking_history"><i class="fa fa-file"></i> <span>Picking History</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history"){ echo "active"; }; ?>"><a href="<?=$CFG->wwwroot;?>/dtn_history"><i class="fa fa-file"></i> <span>DTN History</span></a></li>
 		  </ul>

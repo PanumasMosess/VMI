@@ -15,7 +15,7 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
     <table id="tbl_detail_bom_wrong" class="table table-bordered table-hover table-striped nowrap">
         <thead>
             <tr style="font-size: 18px;">
-                <th colspan="8" class="bg-light-blue"><b>
+                <th colspan="10" class="bg-light-blue"><b>
                         <font style="color: #FFF;"><i class="fa fa-bar-chart fa-lg"></i> Bom Wrong List</font>
                     </b>
                 </th>
@@ -26,12 +26,12 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
                         <font style="color: #FFF;"></font>
                     </b>
                 </th>
-                <th colspan="2" class="bg-yellow" style="text-align: center;">
+                <th colspan="4" class="bg-yellow" style="text-align: center;">
                     <b>
                         <font style="color: #000;">WMS</font>
                     </b>
                 </th>
-                <th colspan="2" class="bg-yellow" style="text-align: center;">
+                <th colspan="4" class="bg-yellow" style="text-align: center;">
                     <b>
                         <font style="color: #000;">Bom MST</font>
                     </b>
@@ -41,8 +41,12 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
                 <th style="text-align: center;">No.</th>
                 <th style="text-align: center;">Action.</th>
                 <th style="text-align: center;">FG Code DGJ</th>
+                <th style="text-align: center;">FG Code DGJ Description</th>
+                <th style="text-align: center;">PartCustomer</th>
                 <th style="text-align: center;">Packing (Pcs.)</th>
                 <th style="text-align: center;">FG Code GDJ</th>
+                <th style="text-align: center;">FG Code DGJ Description</th>
+                <th style="text-align: center;">PartCustomer</th>
                 <th style="text-align: center;">Packing (Pcs.)</th>
             </tr>
         </thead>
@@ -50,10 +54,13 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
             <?
 $strSql = " 
 SELECT 
-	tags_fg_code_gdj
+	 tags_fg_code_gdj
+	,tags_fg_code_gdj_desc
 	,tags_packing_std
 	,bom_fg_code_gdj
-	,bom_packing
+    ,bom_fg_desc
+    ,bom_part_customer
+    ,bom_packing
 
 FROM tbl_pallet_running
 left join tbl_receive
@@ -66,9 +73,13 @@ where
 (receive_status = 'Received') and (tags_packing_std != bom_packing) 
 group by
 	 tags_fg_code_gdj
+	,tags_fg_code_gdj_desc
 	,tags_packing_std
 	,bom_fg_code_gdj
+    ,bom_fg_desc
+    ,bom_part_customer
 	,bom_packing
+
 order by 
 tags_fg_code_gdj desc
 ";
@@ -83,9 +94,12 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
         $row_id_pallet++;
 
         $wms_fg_code_gdj = $objResult['tags_fg_code_gdj'];
+        $tags_fg_code_gdj_desc = $objResult['tags_fg_code_gdj_desc'];
         $wms_qty_code = $objResult['tags_packing_std'];
         $bom_fg_code_gdj = $objResult['bom_fg_code_gdj'];
-        $bom_qty_code = $objResult['bom_packing']; 
+        $bom_fg_desc = $objResult['bom_fg_desc'];
+        $bom_qty_code = $objResult['bom_packing'];
+        $bom_part_customer = $objResult['bom_part_customer'];  
     
     
 ?>
@@ -93,9 +107,13 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
                 <td align="center"><?= $row_id_pallet; ?></td>
                 <td align="center">
                     <button type="button" class="btn btn-warning btn-sm" id="" onclick="updatePacking('<?=$wms_fg_code_gdj?>','<?=$wms_qty_code?>','<?=$bom_qty_code?>' );" data-placement="top" data-toggle="tooltip" data-original-title="Update Packing Size"><i class="fa fa-pencil-square-o fa-lg"></i></button></td>
-                <td align="center"><?= $wms_fg_code_gdj ?></td>
+                <td align="center"><?= $wms_fg_code_gdj; ?></td>
+                <td align="center"><?= $tags_fg_code_gdj_desc; ?></td>
+                <td align="center"><?= $bom_part_customer; ?></td>
                 <td align="center"><?= $wms_qty_code; ?></td>
                 <td align="center"><?= $bom_fg_code_gdj; ?></td>
+                <td align="center"><?= $bom_fg_desc; ?></td>
+                <td align="center"><?= $bom_part_customer; ?></td>
                 <td align="center"><?= $bom_qty_code; ?></td>
             </tr>
             <?
@@ -120,13 +138,13 @@ require_once("../../js_css_footer_noConflict.php");
             //     [25, 50, 75, 100, "All"]
             // ],           
             columnDefs: [{
-                targets: 3,
+                targets: 5,
                 render: function(data, type, row) {
                     color = 'red';
                     return '<span style="color:' + color + '">' + data + '</span>';
                 }
             }, {
-                targets: 5,
+                targets: 9,
                 render: function(data, type, row) {
                     color = 'red';
                     return '<span style="color:' + color + '">' + data + '</span>';

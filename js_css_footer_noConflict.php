@@ -12,8 +12,11 @@
 <!-- daterangepicker -->
 <script src="<?=$CFG->wwwroot;?>/bower_components/moment/min/moment.min.js"></script>
 <script src="<?=$CFG->wwwroot;?>/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
 <!-- datepicker -->
 <script src="<?=$CFG->wwwroot;?>/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> -->
+
 
 <!-- Button Export  -->
 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>

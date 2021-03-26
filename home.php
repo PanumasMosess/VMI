@@ -340,7 +340,7 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 				<div class="row">
 					<!--for loop get all project-->
 					<?
-					$str_implode_all_PJ = _get_all_project_name($db_con);
+					$str_implode_all_PJ = _get_all_project_name_customer($db_con,$objResult_authorized['user_section']);
 					//explode
 					$separated_all_PJ = explode(",", $str_implode_all_PJ);
 					$num_all_PJ_separated = count($separated_all_PJ);

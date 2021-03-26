@@ -1,12 +1,13 @@
 <?
 require_once("../../application.php");
-
 /**********************************************************************************/
 /*current user ********************************************************************/
 $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
 $date_start = isset($_POST['startDate_']) ? $_POST['startDate_'] : '';
 $date_end = isset($_POST['endDate_']) ? $_POST['endDate_'] : '';
+
+
 
 //set project is setup terminal
 $str_terminal = array('TSESA','TSPT','TSRA');
@@ -19,8 +20,42 @@ $str_terminal = array('TSESA','TSPT','TSRA');
 
 <?
 
+/*query get project name **********************************************************/
+function _get_all_project_name_by_user($db_con)
+{
+
+    require_once("../../get_authorized.php");
+	if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") 
+    || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ") 
+    || ($objResult_authorized['user_section'] == "IT") 
+    || ($objResult_authorized['user_section'] == NULL)
+    ){
+        $strSQL = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name order by bom_pj_name asc ";
+    }
+    else 
+    {     
+        $section = $objResult_authorized['user_section']; 
+        $strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$section' group by bom_pj_name";
+    }
+    
+
+	$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
+	//clear
+	$str_all_pj = '';
+	while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
+	{
+		$str_all_pj.="".ltrim(rtrim($objResult["bom_pj_name"]))."".",";
+	}
+	
+	//substr last digit
+	$str_all_pj = substr($str_all_pj, 0, -1);
+	
+	return $str_all_pj;
+	sqlsrv_close($db_con);
+}
+
 //<!--for loop get all project-->
-$str_implode_all_PJ = _get_all_project_name($db_con);
+$str_implode_all_PJ = _get_all_project_name_by_user($db_con);
 //explode
 $separated_all_PJ = explode(",", $str_implode_all_PJ);
 $num_all_PJ_separated = count($separated_all_PJ);

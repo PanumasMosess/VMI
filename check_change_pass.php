@@ -93,6 +93,7 @@ while($objResult_com = sqlsrv_fetch_array($objQuery_com, SQLSRV_FETCH_ASSOC))
 								// 2 = messages only
 								$mail->CharSet = "utf-8";
 								$mail->SMTPAuth = true; // enable SMTP authentication
+								$mail->SMTPSecure = 'tls';  // Enable TLS encryption, `ssl` also accepted
 								$mail->Host = $CFG->mail_host; // sets the SMTP server
 								$mail->Port = $CFG->mail_port; // set the SMTP port
 								$mail->Username = $CFG->user_smtp_mail; // SMTP account username

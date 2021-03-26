@@ -45,22 +45,38 @@ $time_now = date("Y-m-d H:i:s");
                         <!-- daily -->
                         <div class="box box-info">
                             <div class="box-header with-border">
-                                <i class="fa fa-bar-chart"> </i><span id="load_client_price"></span><b>WMS - Monitoring Summary Daily</b>
+                                <i class="fa fa-bar-chart"> </i><span id="load_client_price"></span><b>WMS - Monitoring Summary Daily</b> 
                                 <div class="pull-right">
                                     <select class="form-control" style="font-size:11px;"  name="txt_sel_pro_board" id="txt_sel_pro_board" style="width: 100%; background-color:#f4f4f4">
-                                        <option selected="selected" value="">All Project</option>
-
                                         <?
-                                  $strSQL = " SELECT [bom_pj_name] FROM tbl_bom_mst group by [bom_pj_name] order by [bom_pj_name] asc ";
-                                  $objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
-                                  while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
-                                  {
-                                   ?>
-                                        <option value="<?= $objResult["bom_pj_name"]; ?>"><?= $objResult["bom_pj_name"]; ?></option>
-                                        <?
-                                  }
-                                  
-                                ?>
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+											?>
+											<option value="ALL" selected="selected">All Project</option>
+											<?
+											}else{
+												$cus_code = $objResult_authorized['user_section'];
+												if($cus_code == "IT"){
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+												}else{
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' group by bom_pj_name";
+												}
+												
+												?>
+											<option selected="selected" value="ALL">All Project</option>
+											<?
+											}
+											?>
+											<?
+					                              //  $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+					                                $objQuery_fj_name = sqlsrv_query($db_con, $strSQL_fj_name) or die ("Error Query [".$strSQL_fj_name."]");
+					                                while($objResult_fj_name = sqlsrv_fetch_array($objQuery_fj_name, SQLSRV_FETCH_ASSOC))
+					                            {
+				                                ?>
+											<option value="<?= $objResult_fj_name["bom_pj_name"]; ?>"><?= $objResult_fj_name["bom_pj_name"]; ?></option>
+											<?
+					                            }
+				                                 ?>
                                     </select>
                                 </div>
                                 <b class="pull-right" style="font-size:12px; padding: 6px 10px;">Project Select:</b>

@@ -33,7 +33,7 @@ require_once("js_css_header.php");
 					</div>
 					<!-- /.box-header -->					
 					<div class="box-header">
-                        <button type="button" class="btn btn-info btn-sm" onclick="_load_pallet_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
+                        <button type="button" class="btn btn-info btn-sm" onclick="_load_wrong_bom();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
 					</div>
 					<div style="padding-left: 8px;">
 						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT * ROWS</font>

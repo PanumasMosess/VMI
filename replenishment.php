@@ -34,7 +34,7 @@ require_once("js_css_header.php");
 					<!-- /.box-header -->
 					
 					<div class="box-header">
-						<button type="button" class="btn btn-primary btn-sm" onclick="OpenFrmUploadOrder();"><i class="fa fa-cloud-upload"></i> Upload Order</button>&nbsp;|&nbsp;<button type="button" class="btn btn-success btn-sm" onclick="confSelOrder();"><i class="fa fa-check-square-o"></i> Confirm Order</button>&nbsp;/&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="_delete_normal_order();"><i class="fa fa-trash fa-lg"></i> Delete</button>&nbsp;|&nbsp;<button type="button" class="btn btn-info btn-sm" onclick="javascript:location.reload();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
+						<button type="button" class="btn btn-primary btn-sm" onclick="OpenFrmUploadOrder();"><i class="fa fa-cloud-upload"></i> Upload Order</button>&nbsp;|&nbsp;<button type="button" class="btn btn-success btn-sm" onclick="confSelOrder();"><i class="fa fa-check-square-o"></i> Confirm Order</button>&nbsp;/&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="_delete_normal_order();"><i class="fa fa-trash fa-lg"></i> Delete</button>&nbsp;|&nbsp;<button type="button" class="btn btn-info btn-sm" onclick="javascript:location.reload();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>&nbsp;|<b class="btn" id="excel_export"></b>
 					</div>
 					<div style="padding-left: 8px;">
 						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT * ROWS</font> | <font style="color: #F00;">Refill Type: VMI Order, Special Order Can't delete.</font>
@@ -307,7 +307,8 @@ $(document).ready(function()
 		{
 			$(this).html( '' );
 		}
-    } );
+    });
+
 	
 	var table = $('#tbl_replenishment_order').DataTable( {
 		rowReorder: true,
@@ -330,8 +331,29 @@ $(document).ready(function()
       'info'        : true,
       'autoWidth'   : false
     });*/
+
+	var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [{
+                extend: 'excel',
+                text: '<i class="fa fa-file-excel-o"></i> Export Replenishment Order',
+                titleAttr: 'Excel Replenishment Order Report',
+                title: 'Excel Replenishment Order Report',
+                exportOptions: {
+                    modifier: {
+                        page: 'all'
+                    },
+                    columns: [3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17]
+                }
+            }],
+            dom: {
+                button: {
+                    tag: 'button',
+                    className: 'btn btn-default btn-sm'
+                }
+            },
+        }).container().appendTo($('#excel_export'));
 	
-	<!--datatable search paging-->
+	// <!--datatable search paging-->
 	/*$('#tbl_replenishment_order').DataTable( {
         rowReorder: true,
         columnDefs: [

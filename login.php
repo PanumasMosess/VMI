@@ -27,9 +27,9 @@ unset($_SESSION['strFacebookName_VMI_GDJ']);
   <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><i class="fa fa-caret-right"></i>&nbsp;User/Officer<small>Enter username and password</small></h1>
+		<h1><i class="fa fa-caret-right"></i>&nbsp;Administrator/Customer<small>Enter username and password</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=$CFG->wwwroot;?>/index"><i class="fa fa-home"></i>Home</a></li><li class="active"><?=$CFG->AppNameTitleMini;?> Login</li><li class="active">User/Officer</li>
+        <li><a href="<?=$CFG->wwwroot;?>/index"><i class="fa fa-home"></i>Home</a></li><li class="active"><?=$CFG->AppNameTitleMini;?> Login</li><li class="active">Administrator/Customer</li>
       </ol>
     </section>
 	

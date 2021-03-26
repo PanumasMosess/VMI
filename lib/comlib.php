@@ -456,7 +456,6 @@ function getBrowser()
 //$yourbrowser= "Your browser: " . $ua['name'] . " " .$ua['platform'] . " reports: <br >" . $ua['userAgent'];
 //print_r($yourbrowser);
 
-////-----------------------------
 /**********************************************************************************/
 /*IP for mobile for show results **************************************************/
 //$serverIP = $_SERVER['REMOTE_ADDR'];
@@ -793,6 +792,35 @@ function _get_all_project_name($db_con)
 }
 
 /**********************************************************************************/
+/*query get project name customer **********************************************************/
+function _get_all_project_name_customer($db_con, $section)
+{			
+	
+	if($section == "IT"){
+		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name order by bom_pj_name asc ";
+	}
+	else 
+	{     	
+		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$section' group by bom_pj_name";
+	}
+	
+
+	$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
+	//clear
+	$str_all_pj = '';
+	while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
+	{
+		$str_all_pj.="".ltrim(rtrim($objResult["bom_pj_name"]))."".",";
+	}
+	
+	//substr last digit
+	$str_all_pj = substr($str_all_pj, 0, -1);
+	
+	return $str_all_pj;
+	sqlsrv_close($db_con);
+}
+
+/**********************************************************************************/
 /*query get each project name **********************************************************/
 function _get_each_project_name($db_con,$pj_name)
 {
@@ -891,6 +919,9 @@ function get_vmi_stock_price($db_con,$pj_name,$date_start,$date_end)
 	
 	sqlsrv_close($db_con);
 }
+
+
+
 
 
 ?>

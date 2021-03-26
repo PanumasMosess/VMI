@@ -26,9 +26,7 @@ SELECT
 	,receive_status
 	,receive_date
 	,sum(tags_packing_std) as sum_pkg_std
-FROM tbl_pallet_running
-left join tbl_receive
-on tbl_pallet_running.pallet_code = tbl_receive.receive_pallet_code
+FROM tbl_receive
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where

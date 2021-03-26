@@ -72,10 +72,28 @@ require_once("js_css_header.php");
 							<div class="box-header">
 								<div class="row">
 									<div class="col-md-3">
-										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_pallate(this.value)">
-											<option selected="selected" value="">Select Project Name</option>
+										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_project()">
 											<?
-					                                $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+											?>
+											<option value="ALL" selected="selected">All Project</option>
+											<?
+											}else{
+												$cus_code = $objResult_authorized['user_section'];
+												if($cus_code == "IT"){
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+												}else{
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' group by bom_pj_name";
+												}
+												
+												?>
+											<option selected="selected" value="ALL">All Project</option>
+											<?
+											}
+											?>
+											<?
+					                              //  $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
 					                                $objQuery_fj_name = sqlsrv_query($db_con, $strSQL_fj_name) or die ("Error Query [".$strSQL_fj_name."]");
 					                                while($objResult_fj_name = sqlsrv_fetch_array($objQuery_fj_name, SQLSRV_FETCH_ASSOC))
 					                            {
@@ -85,12 +103,32 @@ require_once("js_css_header.php");
 					                            }
 				                                 ?>
 										</select>
-										
-											
 									</div>&nbsp;<div class="col-md-1"><button type="button" class="btn btn-info btn-md" onclick="reload_table();"><i class="fa fa-refresh fa-lg"></i> Refresh</button></div>
+								</div><br />
+								<div class="row">
+									<div class="form-group col-md-3">
+										<label>From Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="min_replenish" name="min_replenish">
+										</div>
+										<!-- /.input group -->
+									</div>
+									<div class="form-group col-md-3">
+										<label>To Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="max_replenish" name="max_replenish">
+										</div>
+										<!-- /.input group -->
+									</div>
 								</div>
-
 							</div>
+							
 							<div style="padding-left: 8px;">
 								<i class="fa fa-filter" style="color: #00F;"></i>
 								<font style="color: #00F;">SQL >_ SELECT * ROWS</font>
@@ -129,7 +167,67 @@ require_once("js_css_footer.php");
 
 			//load pallet no
 			reload_table();
-			$('#sel_fj_name').val("");
+			//$('#sel_fj_name').val("");
+
+		});
+
+		$('#min_replenish').datepicker({
+			autoclose: true,
+			yearRange: '1990:+0',
+			format: 'yyyy-mm-dd',
+			onSelect: function(date) {
+				alert(date);
+			},
+			changeMonth: true,
+			changeYear: true,
+		});
+		$('#max_replenish').datepicker({
+			autoclose: true,
+			yearRange: '1990:+0',
+			format: 'yyyy-mm-dd',
+			onSelect: function(date) {
+				alert(date);
+			},
+			changeMonth: true,
+			changeYear: true,
+		});
+
+		var min = '';
+		var max = '';
+		var value_project = '';
+
+		$('#min_replenish').change(function() {
+			$("#max_replenish").val('');
+			max = '';
+		});
+
+		$('#max_replenish').change(function() {
+			max = $('#max_replenish').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+			min = $('#min_replenish').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+
+			value_project = $('#sel_fj_name').val();
+
+			//Load data
+			setTimeout(function() {
+				// <!--datatable search paging-->
+				$("#loadding").modal({
+					backdrop: "static", //remove ability to close modal with click
+					keyboard: false, //remove option to close with keyboard
+					show: true //Display loader!
+				});
+				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
+				$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
+					sel_fj_name: value_project,
+					date_start_: min,
+					date_end_: max
+				});
+
+			}, 500);
+
 
 		});
 
@@ -187,33 +285,48 @@ require_once("js_css_footer.php");
 			}, 300);
 		}
 
-		function func_load_pallate(value) {
-			// <!--datatable search paging-->
-			$("#loadding").modal({
-				backdrop: "static", //remove ability to close modal with click
-				keyboard: false, //remove option to close with keyboard
-				show: true //Display loader!
-			});
-			//Load data
-			setTimeout(function() {
-				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
-				$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
-					sel_fj_name: value
-				});
-			}, 500);
-
+		function func_load_project() {
+			$("#max_replenish").val('');
+			max = '';
+			$("#min_replenish").val('');
+			min = '';
 		}
 
+		// function func_load_pallate(value) {
+		// 	// <!--datatable search paging-->
+		// 	$("#loadding").modal({
+		// 		backdrop: "static", //remove ability to close modal with click
+		// 		keyboard: false, //remove option to close with keyboard
+		// 		show: true //Display loader!
+		// 	});
+		// 	//Load data
+		// 	setTimeout(function() {
+		// 		//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
+		// 		$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
+		// 			sel_fj_name: value,
+		// 			date_start_: min,
+		// 			date_end_: max
+		// 		});
+		// 	}, 500);
+
+		// }
+
 		function reload_table() {
-			
+			// // <!--datatable search paging-->
+			// $("#loadding").modal({
+			// 	backdrop: "static", //remove ability to close modal with click
+			// 	keyboard: false, //remove option to close with keyboard
+			// 	show: true //Display loader!
+			// });
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
 				$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
-					sel_fj_name: ""
+					sel_fj_name: $('#sel_fj_name').val(),
+					date_start_: '',
+					date_end_: ''
 				});
 			}, 500);
 
-			$('#sel_fj_name').val("");
 		}
 
 
@@ -299,7 +412,7 @@ require_once("js_css_footer.php");
 <!-- /.modal -->
 
 <!-- Model loading -->
-<div class="modal fade" id="loadding" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+<div class="modal fade" id="loadding" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel" data-keyboard="false" data-backdrop="static">
 	<div class="modal-dialog modal-dialog-load  modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-body text-center">

@@ -9,6 +9,10 @@ $project = isset($_POST['project_']) ? $_POST['project_'] : '';
 $date_start = isset($_POST['start_']) ? $_POST['start_'] : '';
 $date_end = isset($_POST['end_']) ? $_POST['end_'] : '';
 
+if($project  == 'ALL'){
+    $project = '';
+}
+
 //get replenishment price
 $objQuery_sp_replenishment_price = sqlsrv_query($db_con, " EXEC sp_db_wms_replenish_price_sum 'null', '$project', '$date_start','$date_end' ");
 $objResult_sp_replenishment_price = sqlsrv_fetch_array($objQuery_sp_replenishment_price, SQLSRV_FETCH_ASSOC);

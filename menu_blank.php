@@ -66,17 +66,11 @@ $lang_th_title = isset($_GET['lang_th_title']) ? $_GET['lang_th_title'] : '';
 			<i class="fa fa-angle-left pull-right"></i>
 		  </a>
 		  <ul class="treeview-menu">
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "login" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "check_login" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "forgot_pass" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "change_pass"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/login"><i class="fa fa-angle-double-right"></i> <span>User/Officer</span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "cus_login"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/cus_login"><i class="fa fa-angle-double-right"></i> <span>Customer</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "login" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "check_login" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "forgot_pass" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "change_pass"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/login"><i class="fa fa-angle-double-right"></i> <span>Administrator/Customer</span></a></li>
 		  </ul>
 		</li>	
 		<li class="header"><i class="fa fa-list-ul"></i> General information</li>
-		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "manual"){ echo "active"; } ?>">
-		  <a href="<?=$CFG->src_pathattc_manual;?>/xxx.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a>
-		</li>
-		<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "FAQ"){ echo "active"; } ?>">
-		  <a href="<?=$CFG->wwwroot;?>/FAQ" title="FAQ"><i class="fa fa-question-circle-o"></i> <span>FAQ</span></a>
-		</li>
+		<li><a href="<?=$CFG->src_pathattc_manual;?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
 		
 		<?
 			require_once("stats.php");

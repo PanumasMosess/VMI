@@ -4,6 +4,41 @@ require_once("js_css_header.php");
 ?>
 <!DOCTYPE html>
 <html>
+<style>
+	/** SPINNER CREATION **/
+	.modal-dialog-load {
+		padding-top: 15%;
+		padding-left: 10%;
+	}
+
+	.loader {
+		position: relative;
+		text-align: center;
+		margin: 15px auto 25px auto;
+		z-index: 9999;
+		display: block;
+		width: 80px;
+		height: 80px;
+		border: 10px solid rgba(0, 0, 0, .3);
+		border-radius: 50%;
+		border-top-color: #000;
+		animation: spin 1s ease-in-out infinite;
+		-webkit-animation: spin 1s ease-in-out infinite;
+	}
+
+	@keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+
+	@-webkit-keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+</style>
+
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
@@ -19,7 +54,7 @@ require_once("js_css_header.php");
 			<section class="content-header">
 				<h1><i class="fa fa-caret-right"></i>&nbsp;Billing<small>Storage Location</small></h1>
 				<ol class="breadcrumb">
-					<li><a href="<?=$CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
+					<li><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
 					<li class="active">Billing</li>
 				</ol>
 			</section>
@@ -38,10 +73,27 @@ require_once("js_css_header.php");
 								<div class="row">
 									<div class="col-md-3">
 										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_billing(this.value)">
-											<option selected="selected" value="">Select Project Name</option>
-											<option value="ALL">ALL Project</option>
 											<?
-					                                $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+											?>
+											<option value="ALL" selected="selected">All Project</option>
+											<?
+											}else{
+												$cus_code = $objResult_authorized['user_section'];
+												if($cus_code == "IT"){
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+												}else{
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' group by bom_pj_name";
+												}
+												
+												?>
+											<option selected="selected" value="ALL">All Project</option>
+											<?
+											}
+											?>
+											<?
+					                              //  $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
 					                                $objQuery_fj_name = sqlsrv_query($db_con, $strSQL_fj_name) or die ("Error Query [".$strSQL_fj_name."]");
 					                                while($objResult_fj_name = sqlsrv_fetch_array($objQuery_fj_name, SQLSRV_FETCH_ASSOC))
 					                            {
@@ -51,9 +103,30 @@ require_once("js_css_header.php");
 					                            }
 				                                 ?>
 										</select>
-									</div>&nbsp;<button type="button" class="btn btn-info btn-md" onclick="reload_table();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
+									</div>&nbsp;<div class="col-md-1"><button type="button" class="btn btn-info btn-md" onclick="reload_table();"><i class="fa fa-refresh fa-lg"></i> Refresh</button></div>
+								</div><br />
+								<div class="row">
+									<div class="form-group col-md-3">
+										<label>From Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="min" name="min">
+										</div>
+										<!-- /.input group -->
+									</div>
+									<div class="form-group col-md-3">
+										<label>To Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="max" name="max">
+										</div>
+										<!-- /.input group -->
+									</div>
 								</div>
-
 							</div>
 							<div style="padding-left: 8px;">
 								<i class="fa fa-filter" style="color: #00F;"></i>
@@ -92,9 +165,7 @@ require_once("js_css_footer.php");
 			//$('#txt_scn_put_pallet').keyup(function() { this.value = this.value.toUpperCase(); });
 
 			//load pallet no
-			func_load_billing("");
-			$('#sel_fj_name').val("");
-
+			reload_table();
 		});
 
 		//check eng only
@@ -115,30 +186,33 @@ require_once("js_css_footer.php");
 
 
 		function openRePrintTag(id) {
-			window.open("<?=$CFG->src_mPDF; ?>/print_tag_on_tag?tag=" + id + "", "_blank");
+			window.open("<?= $CFG->src_mPDF; ?>/print_tag_on_tag?tag=" + id + "", "_blank");
 		}
 
-		function func_load_billing(value) {
-			//Load data
+		function func_load_billing() {
+			max = '';
+			min ='';
+			$('#max').val('');
+			$('#min').val('');
+		}
+
+		function reload_table() {
+			// // <!--datatable search paging-->
+			// $("#loadding").modal({
+			// 	backdrop: "static", //remove ability to close modal with click
+			// 	keyboard: false, //remove option to close with keyboard
+			// 	show: true //Display loader!
+			// });
 			setTimeout(function() {
 				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
 				$("#spn_load_data_main_bill").load("<?= $CFG->src_report; ?>/load_billing.php", {
-					sel_fj_name: value
+					sel_fj_name: $('#sel_fj_name').val(),
+					date_start_: '',
+					date_end_: ''
 				});
 			}, 500);
 
 
-		}
-
-		function reload_table(){
-			setTimeout(function() {
-				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
-				$("#spn_load_data_main_bill").load("<?= $CFG->src_report; ?>/load_billing.php", {
-					sel_fj_name: ""
-				});
-			}, 500);
-
-			$('#sel_fj_name').val("");
 		}
 
 		function _export_billing_by_tags() {
@@ -148,7 +222,7 @@ require_once("js_css_footer.php");
 			var mapForm = document.createElement("form");
 			mapForm.target = "_blank";
 			mapForm.method = "POST";
-			mapForm.action = '<?=$CFG->src_report; ?>/excel_billing_by_tags';
+			mapForm.action = '<?= $CFG->src_report; ?>/excel_billing_by_tags';
 
 			// Create an input
 			var mapInput = document.createElement("input");
@@ -165,6 +239,66 @@ require_once("js_css_footer.php");
 			// Just submit
 			mapForm.submit();
 		}
+
+		$('#min').datepicker({
+			autoclose: true,
+			yearRange: '1990:+0',
+			format: 'yyyy-mm-dd',
+			onSelect: function(date) {
+				alert(date);
+			},
+			changeMonth: true,
+			changeYear: true,
+		});
+		$('#max').datepicker({
+			autoclose: true,
+			yearRange: '1990:+0',
+			format: 'yyyy-mm-dd',
+			onSelect: function(date) {
+				alert(date);
+			},
+			changeMonth: true,
+			changeYear: true,
+		});
+
+		var min = '';
+		var max = '';
+		var value_project = '';
+
+		$('#min').change(function() {
+			$("#max").val('');
+			max = '';
+		});
+
+		$('#max').change(function() {
+			max = $('#max').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+			min = $('#min').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+
+			value_project = $('#sel_fj_name').val();
+
+			//Load data
+			setTimeout(function() {
+				// <!--datatable search paging-->
+				$("#loadding").modal({
+					backdrop: "static", //remove ability to close modal with click
+					keyboard: false, //remove option to close with keyboard
+					show: true //Display loader!
+				});
+				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
+				$("#spn_load_data_main_bill").load("<?= $CFG->src_report; ?>/load_billing.php", {
+					sel_fj_name: value_project,
+					date_start_: min,
+					date_end_: max
+				});
+
+			}, 500);
+
+
+		});
 	</script>
 </body>
 
@@ -220,3 +354,14 @@ require_once("js_css_footer.php");
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<!-- Model loading -->
+<div class="modal fade" id="loadding" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+	<div class="modal-dialog modal-dialog-load  modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<div class="loader"></div>
+			</div>
+		</div>
+	</div>
+</div>

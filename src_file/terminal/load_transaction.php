@@ -1,6 +1,6 @@
 <?
 require_once("../../application.php");
-require_once("../../js_css_header.php");
+// require_once("../../js_css_header.php");
 
 
 /**********************************************************************************/
@@ -73,6 +73,127 @@ $buffer_datetime = date("Y-m-d H:i:s");
                 </thead>
                 <tbody>
                 <?
+                if($stock_locate == "ALL"){
+                    $strSql = " 
+                    SELECT  *
+                        FROM (
+                        
+                        SELECT
+                        ps_t_fg_code_set_abt,
+                        ps_t_fg_code_gdj,
+                        bom_fg_desc,
+                        SUM(ps_t_tags_packing_std) as SUM_QTY,
+                        dn_h_receive_date,
+                        bom_snp,
+                        receive_status,
+                        bom_packing,
+                        bom_ctn_code_normal,
+                        usage_pick_by,
+                        usage_pick_date,
+                        bom_pj_name,
+                        bom_price_sale_per_pcs,
+                        tags_packing_std
+                        
+                        FROM tbl_dn_head 
+                        left join tbl_dn_tail 
+                        on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+                        left join tbl_picking_head
+                        on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
+                        left join tbl_picking_tail
+                        on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+                        left join tbl_bom_mst 
+                        on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+                        and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+                        and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+                        and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
+                        and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
+                        and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+                        left join tbl_receive
+                        on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
+                        left join tbl_usage_conf
+                        on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
+                        left join tbl_tags_running
+                        on tbl_usage_conf.usage_tags_code = tbl_tags_running.tags_code
+                        where
+                        dn_h_status = 'Confirmed'  and dn_h_receive_date < '$date_start' 
+                        group by 
+                        ps_t_fg_code_set_abt,
+                        ps_t_fg_code_gdj,
+                        bom_fg_desc,
+                        ps_t_tags_packing_std,
+                        dn_h_receive_date,
+                        bom_snp,
+                        receive_status,
+                        bom_packing,
+                        bom_ctn_code_normal,
+                        usage_pick_by,
+                        usage_pick_date,
+                        bom_pj_name,
+                        bom_price_sale_per_pcs,
+                        tags_packing_std
+                        
+                        
+                        UNION ALL
+                        
+                        
+                        SELECT
+                        ps_t_fg_code_set_abt,
+                        ps_t_fg_code_gdj,
+                        bom_fg_desc,
+                        SUM(ps_t_tags_packing_std) as SUM_QTY,
+                        dn_h_receive_date,
+                        bom_snp,
+                        receive_status,
+                        bom_packing,
+                        bom_ctn_code_normal,
+                        usage_pick_by,
+                        usage_pick_date,
+                        bom_pj_name,
+                        bom_price_sale_per_pcs,
+                        tags_packing_std
+                        FROM tbl_dn_head
+                        left join tbl_dn_tail 
+                        on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+                        left join tbl_picking_head
+                        on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
+                        left join tbl_picking_tail
+                        on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+                        left join tbl_bom_mst 
+                        on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+                        and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+                        and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+                        and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
+                        and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
+                        and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+                        left join tbl_receive
+                        on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
+                        left join tbl_usage_conf
+                        on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
+                        left join tbl_tags_running
+                        on tbl_usage_conf.usage_tags_code = tbl_tags_running.tags_code
+                        where
+                        dn_h_status = 'Confirmed' 
+                        and (dn_h_receive_date between '$date_start' and '$date_end') 
+                        group by 
+                        ps_t_fg_code_set_abt,
+                        ps_t_fg_code_gdj,
+                        bom_fg_desc,
+                        ps_t_tags_packing_std,
+                        dn_h_receive_date,
+                        bom_snp,
+                        receive_status,
+                        bom_packing,
+                        bom_ctn_code_normal,
+                        usage_pick_by,
+                        usage_pick_date,
+                        bom_pj_name,
+                        bom_price_sale_per_pcs,
+                        tags_packing_std
+                        ) as a
+                        order by ps_t_fg_code_set_abt asc, ps_t_fg_code_gdj,dn_h_receive_date, usage_pick_date
+        
+                                        ";                   
+                }else{
                 $strSql = " 
             SELECT  *
                 FROM (
@@ -192,8 +313,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
                 order by ps_t_fg_code_set_abt asc, ps_t_fg_code_gdj,dn_h_receive_date, usage_pick_date
 
                                 ";
-
-            
+                }
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
 $num_row = sqlsrv_num_rows($objQuery);
 
@@ -265,11 +385,12 @@ foreach ($temp_for_check as $key=>$element) {
         }      
    }else{
        if(($abt == $element[0]) && ($gdj == $element[1])){
-            if($element[6] == 'USAGE CONFIRM'){
-                $show = (($temp_for_next_line + $element[3]) - $element[13]);
+            if($element[6] == 'USAGE CONFIRM'){   
+                $show = ($temp_for_next_line + $element[3]) - $element[13];
                 $temp_for_next_line = $show;  
             }else{
-                $show = $show + $element[3];                
+                $show = $show + $element[3];     
+                $temp_for_next_line = $show;           
             }
        }else{
             $temp_for_next_line = 0;

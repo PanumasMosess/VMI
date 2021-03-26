@@ -41,118 +41,94 @@ $buffer_datetime = date("Y-m-d H:i:s");
     <table id="tbl_inventory_terminal" class="table table-bordered table-hover table-striped nowrap">
         <thead>
             <tr style="font-size: 15px;">
-                <th colspan="14" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Billing</b>&nbsp;<b class="btn" id="excel_export"></b></th>
+                <th colspan="11" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Tag Terminal Checking</b>&nbsp;<b class="btn" id="excel_export"></b></th>
             </tr>
             <tr style="font-size: 13px;">
                 <th style="width: 30px;">No.</th>
                 <th style="text-align: center;">Actions/Details</th>
                 <th>Tag ID</th>
-                <th>Part Customer</th>
+                <th>Part No</th>
                 <th>FG Code GDJ</th>
-                <th>Project Name</th>
-                <th>Package Code</th>
-                <th>SNP (PCS)</th>
-                <th>Ship Type</th>
+                <th>FG Code GDJ Desc.</th>
                 <th style="color: indigo;">Quantity (Pcs.)</th>
-                <th style="color: indigo;">Price (Bath.)</th>
-                <th style="color: green; text-align: center;">Status</th>
-                <th>User Pick By</th>
-                <th>Pick Date</th>
+                <th>Status</th>
+                <th>In Cart</th>
+                <th>Project Name</th>
+                <th>Confirmed Date</th>
             </tr>
         </thead>
         <tbody>
             <?
-            if($stock_locate == "ALL"){
+            if($stock_locate == ""){
                 $strSql = " 
-                SELECT 
-                usage_tags_code
-                ,usage_part_customer
-                ,usage_fg_code_set_abt
-                ,usage_terminal_name
-                ,bom_ctn_code_normal
-                ,bom_snp
-                ,usage_ship_type
-                ,ps_t_tags_packing_std
-                ,usage_price_sale_per_pcs
-                ,receive_status  
-                ,usage_pick_by
-                ,usage_pick_date
-                
-                FROM [tbl_usage_conf]
-                left join tbl_bom_mst
-                on tbl_bom_mst.bom_fg_code_set_abt = tbl_usage_conf.usage_fg_code_set_abt
-                and tbl_bom_mst.bom_fg_sku_code_abt = tbl_usage_conf.usage_sku_code_abt
-                and tbl_bom_mst.bom_fg_code_gdj = tbl_usage_conf.usage_fg_code_gdj 
-                and tbl_bom_mst.bom_ship_type = tbl_usage_conf.usage_ship_type
-                and tbl_bom_mst.bom_part_customer = tbl_usage_conf.usage_part_customer
-                and tbl_bom_mst.bom_pj_name = tbl_usage_conf.usage_terminal_name
-                left join tbl_receive
-                on tbl_receive.receive_tags_code = tbl_usage_conf.usage_tags_code
-                left join tbl_picking_tail
-                on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
-                where receive_status = 'USAGE CONFIRM' 
-                group by 
-                      usage_tags_code
-                      ,usage_part_customer
-                      ,usage_fg_code_set_abt
-                      ,usage_terminal_name
-                      ,bom_ctn_code_normal
-                      ,bom_snp
-                      ,usage_ship_type
-                      ,ps_t_tags_packing_std
-                      ,usage_price_sale_per_pcs
-                      ,receive_status  
-                      ,usage_pick_by
-                      ,usage_pick_date
-                
-                   order by usage_pick_date desc                   
+                SELECT
+		
+                tags_code,
+                tags_fg_code_gdj,
+                ps_t_tags_packing_std,
+                ps_t_part_customer,
+                receive_status,
+                receive_date,
+                dn_h_issue_date,
+                tags_fg_code_gdj_desc,
+                conf_qc_tags_code,
+                dn_h_status,
+                dn_h_receive_date,
+                ps_t_pj_name
+                    
+                    
+                    FROM tbl_receive
+                    left join tbl_tags_running
+                    on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+                    left join tbl_picking_tail
+                    on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
+                    left join tbl_usage_conf_qc
+                    on tbl_usage_conf_qc.conf_qc_tags_code = tbl_receive.receive_tags_code
+                    left join tbl_picking_head
+                    on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+                    left join tbl_dn_tail 
+                    on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
+                    left join tbl_dn_head
+                    on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
+                    
+                    where (receive_status != 'USAGE CONFIRM' and receive_status != 'Received' and receive_status != 'Picking' and
+                    receive_status != 'Delivery Transfer Note' and dn_h_receive_date between FORMAT (GETDATE() - 7, 'yyyy-MM-dd') and FORMAT (GETDATE(), 'yyyy-MM-dd'))
                 ";
             }else{
 
                 $strSql = " 
-                SELECT 
-                    usage_tags_code
-                   ,usage_part_customer
-                   ,usage_fg_code_set_abt
-                   ,usage_terminal_name
-                   ,bom_ctn_code_normal
-                   ,bom_snp
-                   ,usage_ship_type
-                   ,ps_t_tags_packing_std
-                   ,usage_price_sale_per_pcs
-                   ,receive_status  
-                   ,usage_pick_by
-                   ,usage_pick_date
-                
-                FROM [tbl_usage_conf]
-                left join tbl_bom_mst
-                on tbl_bom_mst.bom_fg_code_set_abt = tbl_usage_conf.usage_fg_code_set_abt
-                and tbl_bom_mst.bom_fg_sku_code_abt = tbl_usage_conf.usage_sku_code_abt
-                and tbl_bom_mst.bom_fg_code_gdj = tbl_usage_conf.usage_fg_code_gdj 
-                and tbl_bom_mst.bom_ship_type = tbl_usage_conf.usage_ship_type
-                and tbl_bom_mst.bom_part_customer = tbl_usage_conf.usage_part_customer
-                and tbl_bom_mst.bom_pj_name = tbl_usage_conf.usage_terminal_name
-                left join tbl_receive
-                on tbl_receive.receive_tags_code = tbl_usage_conf.usage_tags_code
-                left join tbl_picking_tail
-                on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
-                where receive_status = 'USAGE CONFIRM' and usage_terminal_name = '$stock_locate'
-                group by 
-                        usage_tags_code
-                        ,usage_part_customer
-                        ,usage_fg_code_set_abt
-                        ,usage_terminal_name
-                        ,bom_ctn_code_normal
-                        ,bom_snp
-                        ,usage_ship_type
-                        ,ps_t_tags_packing_std
-                        ,usage_price_sale_per_pcs
-                        ,receive_status  
-                        ,usage_pick_by
-                        ,usage_pick_date
-                
-                   order by usage_pick_date desc
-                   
+                SELECT
+		
+                tags_code,
+                tags_fg_code_gdj,
+                ps_t_tags_packing_std,
+                ps_t_part_customer,
+                receive_status,
+                receive_date,
+                dn_h_issue_date,
+                tags_fg_code_gdj_desc,
+                conf_qc_tags_code,
+                dn_h_status,
+                dn_h_receive_date,
+                ps_t_pj_name
+                    
+                    
+                    FROM tbl_receive
+                    left join tbl_tags_running
+                    on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+                    left join tbl_picking_tail
+                    on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
+                    left join tbl_usage_conf_qc
+                    on tbl_usage_conf_qc.conf_qc_tags_code = tbl_receive.receive_tags_code
+                    left join tbl_picking_head
+                    on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+                    left join tbl_dn_tail 
+                    on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
+                    left join tbl_dn_head
+                    on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
+                    
+                    where (receive_status = '$stock_locate'  
+                    and dn_h_receive_date between FORMAT (GETDATE() - 7, 'yyyy-MM-dd') and FORMAT (GETDATE(), 'yyyy-MM-dd'))     
                 ";
             }
 
@@ -163,62 +139,91 @@ $num_row = sqlsrv_num_rows($objQuery);
 $row_id = 0;
 while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 {
-	$row_id++;
+    $row_id++;
 
-	$usage_tags_code = $objResult['usage_tags_code'];
-	$usage_part_customer = $objResult['usage_part_customer'];
-	$usage_fg_code_set_abt = $objResult['usage_fg_code_set_abt'];
-    $usage_terminal_name = $objResult['usage_terminal_name'];
-    $bom_ctn_code_normal = $objResult['bom_ctn_code_normal'];
-    $bom_snp = $objResult['bom_snp'];
-	$usage_ship_type = $objResult['usage_ship_type'];
-    $ps_t_tags_packing_std = $objResult['ps_t_tags_packing_std'];
-    $usage_price_sale_per_pcs = $objResult['usage_price_sale_per_pcs'];
-    $receive_status = $objResult['receive_status'];
-    $usage_pick_by = $objResult['usage_pick_by'];
-    $usage_pick_date = $objResult['usage_pick_date'];
+	$tag_id = $objResult['tags_code'];
+	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
+	$tags_fg_code_gdj_desc = $objResult['tags_fg_code_gdj_desc'];
+	$receive_status = $objResult['receive_status'];
+	$confirm_date = $objResult['dn_h_receive_date'];
+	$ps_t_tags_packing_std = $objResult['ps_t_tags_packing_std'];
+	$ps_t_pj_name = $objResult['ps_t_pj_name'];
+	$ps_t_part_customer = $objResult['ps_t_part_customer'];
+    $conf_qc_tags_code = $objResult['conf_qc_tags_code'];
 
-    $pcs_num = number_format($ps_t_tags_packing_std);
-    $price_num = number_format($usage_price_sale_per_pcs,2);
+	$usage_part_customer_arr = explode('-', $ps_t_part_customer);
 
-    if (strpos($usage_part_customer, '-') !== false) {
-        $usage_part_customer_arr = explode('-', $usage_part_customer);
-    }else{
-        $usage_part_customer_arr = $usage_part_customer;
-    }
-
-    
-
-    $price = $pcs_num * $price_num;
 ?>
             <tr style="font-size: 13px;">
                 <td><?= $row_id; ?></td>
                 <td align="center">
-                    <button type="button" class="btn btn-primary btn-sm" id="<?= var_encode($usage_tags_code); ?>" onclick="openRePrintTag(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print Tag By Tag ID"><i class="fa fa-print fa-lg"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= var_encode($tag_id); ?>" onclick="openRePrintTag(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print Tags</span></button>
                 </td>
-                <td><?= $usage_tags_code; ?></td>
+                <td><?= $tag_id; ?></td>
                 <?
-                if(strpos($usage_part_customer, '-') !== false){
-                ?>  
-                    <td><?=$usage_part_customer_arr[1]; ?></td>
+				if($ps_t_part_customer == NULL)
+				{
+				?>
+					<td>Old Data( < 2020-10)</td>
+				<?
+				}else{
+				?>
+					<td><?= $usage_part_customer_arr[1]; ?></td>
+				<?
+				}
+				?>
+                <td><?= $tags_fg_code_gdj; ?></td>
+                <td><?= $tags_fg_code_gdj_desc; ?></td>
+                <?if($ps_t_tags_packing_std == NULL)
+				{
+				?>
+					<td>0</td>
+				<?
+				}else{
+				?>
+					<td style="color: indigo;"><?= number_format($ps_t_tags_packing_std); ?></td>
+				<?
+				}
+				?>				
+                <td style="color: green;"><?= $receive_status; ?></td>
                 <?
-                }else{
-                ?>
-                    <td><?=$usage_part_customer_arr; ?></td>
+                if($conf_qc_tags_code == null ){?>
+                <td align="center" >
+                    <!-- <i style="color: orange;" class="fa fa-cart-plus fa-lg"></i> -->
+                </td>
+                <?}else{
+                     ?>
+                <td align="center" >
+                    <i style="color: orange;" class="fa fa-cart-plus fa-lg"></i>
+                </td>
                 <?
                 }
                 ?>
-                           
-                <td><?= $usage_fg_code_set_abt; ?></td>
-                <td><?= $usage_terminal_name; ?></td>
-                <td><?= $bom_ctn_code_normal; ?></td>
-                <td><?= $bom_snp; ?></td>
-                <td><?= $usage_ship_type; ?></td>
-                <td style="color: indigo;"><?= number_format($ps_t_tags_packing_std); ?></td>
-                <td style="color: indigo;"><?= number_format($price,2); ?></td>
-                <td style="color: green;"><?= $receive_status; ?></td>
-                <td><?= $usage_pick_by; ?></td>
-                <td><?= $usage_pick_date; ?></td>
+               	<?
+				if($ps_t_pj_name == NULL)
+				{
+				?>
+					<td>Old Data( < 2020-10)</td>
+				<?
+				}else{
+				?>
+					<td><?= $ps_t_pj_name; ?></td>
+				<?
+				}
+				?>
+
+				<?
+				if($confirm_date == NULL)
+				{
+				?>
+					<td>2020-10-01</td>
+				<?
+				}else{
+				?>
+					<td><?= $confirm_date; ?></td>
+				<?
+				}
+				?>
             </tr>
             <?
 }
@@ -232,13 +237,13 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 <input type="hidden" name="hdn_row_inventory" id="hdn_row_inventory" value="<?= $row_id; ?>" />
 
 <?
-require_once("../../js_css_footer.php");
+require_once("../../js_css_footer_noConflict.php");
 ?>
 
 <script language="javascript">
     $(document).ready(function() {
         // <!--datatable search paging-->
-        var oTable = $('#tbl_inventory_terminal').DataTable({
+        var oTable = jQuery('#tbl_inventory_terminal').DataTable({
             rowReorder: true,
             "oLanguage": {
                 "sSearch": "Filter Data"
@@ -258,14 +263,14 @@ require_once("../../js_css_footer.php");
         var buttons = new $.fn.dataTable.Buttons(oTable, {
             buttons: [{
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel-o"></i> Export Billing by Tags',
-                titleAttr: 'Excel Billing Report',
-                title: 'Excel Tag Check',
-                exportOptions:{
+                text: '<i class="fa fa-file-excel-o"></i> Export Tag Recheck by Tags',
+                titleAttr: 'Excel Tag Recheck Report',
+                title: 'Excel Tag ReCheck',
+                exportOptions: {
                     modifier: {
-                    page: 'all'
-                },
-                columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        page: 'all'
+                    },
+                    columns: [2, 3, 4, 5, 6, 7, 9, 10]
                 }
             }],
             dom: {
@@ -275,7 +280,7 @@ require_once("../../js_css_footer.php");
                 }
             },
         }).container().appendTo($('#excel_export'));
-
+        $("#loadding").modal("hide"); 
 
         // $.fn.dataTable.ext.search.push(
         //     function(settings, data, dataIndex) {
