@@ -763,7 +763,14 @@ function confirmReceivingPutaway()
 
 function openRePrintPalletID(id)
 {
-	window.open("<?=$CFG->src_mPDF;?>/print_pallet_tags?tag="+ id +"","_blank");
+	//split id
+	var str_split = id;
+	var str_split_result = str_split.split("#####");
+
+	var _id = str_split_result[0];
+	var t_tags_fg = str_split_result[1];
+
+	window.open("<?=$CFG->src_mPDF;?>/print_pallet_tags?tag="+ _id +"&fg="+ t_tags_fg +"","_blank");
 }
 
 function openRefill(id)
@@ -795,6 +802,18 @@ function _open_pallet_details(id)
 		$("#spn_load_open_pallet_details").load("<?=$CFG->src_put_away;?>/load_data_on_pallet_details.php", { t_receive_pallet_code: t_receive_pallet_code, t_tags_fg_code_gdj: t_tags_fg_code_gdj, t_receive_location: t_receive_location, t_receive_status: t_receive_status, t_receive_date: t_receive_date });
 	},300);
 }
+</script>
+<script type="text/javascript">
+inactivityTimeout = false;
+resetTimeout()
+function onUserInactivity() {
+    location.reload();
+}
+function resetTimeout() {
+   clearTimeout(inactivityTimeout)
+   inactivityTimeout = setTimeout(onUserInactivity, 1000 * 1800)
+}
+window.onmousemove = resetTimeout
 </script>
 </body>
 </html>

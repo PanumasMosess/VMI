@@ -78,7 +78,7 @@ while($objResult_DTNHead = sqlsrv_fetch_array($objQuery_DTNHead, SQLSRV_FETCH_AS
 ////////////////////qrcode////////////////////
 //////////////////////////////////////////////
 //set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
+$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'wms_special/QRCode_File_temp'.DIRECTORY_SEPARATOR;
 
 //html PNG location prefix
 $PNG_WEB_DIR = 'QRCode_File_temp/';

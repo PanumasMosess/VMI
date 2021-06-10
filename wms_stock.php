@@ -122,7 +122,14 @@ function openRePrintIndividual(id)
 
 function openRePrintPalletID(id)
 {
-	window.open("<?=$CFG->src_mPDF;?>/print_pallet_tags?tag="+ id +"","_blank");
+	//split id
+	var str_split = id;
+	var str_split_result = str_split.split("#####");
+
+	var _id = str_split_result[0];
+	var t_tags_fg = str_split_result[1];
+
+	window.open("<?=$CFG->src_mPDF;?>/print_pallet_tags?tag="+ _id +"&fg="+ t_tags_fg +"","_blank");
 }
 
 function openRePrintAllTagsOnPalletID(id)

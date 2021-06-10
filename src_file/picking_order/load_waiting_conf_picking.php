@@ -25,10 +25,16 @@ require_once("../../js_css_header.php");
 	  <th>Project Name</th>
 	  <th>Issue By</th>
 	  <th>Issue Datetime</th>
+	  <!-- <th>repn_qty</th>
+	  <th>bom_packing</th>
+	  <th>ceil($repn_qty / $bom_packing)</th>
+	  <th>floor($repn_qty / $bom_packing)</th>
+	  <th>$repn_qty % $bom_packing</th> -->
 	</tr>
 	</thead>
 	<tbody>
 <?
+
 $strSql = " select * from tbl_replenishment 
 left join tbl_bom_mst 
 on tbl_replenishment.repn_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
@@ -38,7 +44,7 @@ and tbl_replenishment.repn_pj_name = tbl_bom_mst.bom_pj_name
 and tbl_replenishment.repn_ship_type = tbl_bom_mst.bom_ship_type
 and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
 where
-repn_conf_status = 'Confirmed'
+repn_conf_status = 'Confirmed' and repn_pj_name != 'B2C'
 order by repn_id desc ";
 
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
@@ -106,6 +112,12 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 		$str_fifo_picking_pack = ceil($repn_qty / $bom_packing);
 		$str_conv_pack = floor($repn_qty / $bom_packing); 
 		$str_conv_piece = $repn_qty % $bom_packing;
+
+		// if($repn_qty < $bom_packing){
+
+		// 	$str_fifo_picking_pack++;
+
+		// }
 		
 		//check piece
 		if($str_conv_piece > 0)
@@ -197,7 +209,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  <? */ ?>
 	  
 	  
-	  <? if($repn_qty != $str_fifo_pick_qry){ ?><button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>#####<?=$repn_id;?>" onclick="openFuncSplitTags(this.id)"><i class="glyphicon glyphicon-resize-full"></i><span class="custom_tooltiptext">Split Tags</span></button>&nbsp;&nbsp;<? } ?><? if($str_count_split_tags != 0){ ?><button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>#####<?=$repn_id;?>" onclick="openFuncReturnSplitTags(this.id)"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Return Split Tags</span></button>&nbsp;&nbsp;<? } ?><? if($str_count_split_tags == 0){ ?><button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openReturnReplenish(this.id)"><i class="fa fa-undo fa-lg"></i><span class="custom_tooltiptext">Return To Replenishment Order</span></button>&nbsp;&nbsp;<? } ?><button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_id;?>" onclick="openFuncDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
+	  <? if($repn_qty != $str_fifo_pick_qry){ ?><button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>#####<?=$repn_id;?>" onclick="openFuncSplitTags(this.id)"><i class="glyphicon glyphicon-resize-full"></i><span class="custom_tooltiptext">Split Tags</span></button>&nbsp;&nbsp;<? } ?><? if($str_count_split_tags != 0){ ?><button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>#####<?=$repn_id;?>" onclick="openFuncReturnSplitTags(this.id)"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Return Split Tags</span></button>&nbsp;&nbsp;<? } ?><? if($str_count_split_tags == 0){ ?><button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openReturnReplenish(this.id)"><i class="fa fa-undo fa-lg"></i><span class="custom_tooltiptext">Return To Replenishment Order</span></button>&nbsp;&nbsp;<? } ?><button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$repn_fg_code_set_abt;?>#####<?=$repn_sku_code_abt;?>#####<?=$bom_fg_code_gdj;?>#####<?=$bom_pj_name;?>#####<?=$bom_ship_type;?>#####<?=$bom_part_customer;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_id;?>#####<?=$repn_qty;?>" onclick="openFuncDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
 	 
 	  </td>
 	  <td><?=$repn_conf_status;?></td>
@@ -209,12 +221,17 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  <td style="color: #00F;"><?=$bom_fg_code_gdj;?></td>
 	  <td style="color: #00F;"><?=$repn_qty;?> (<?=$remark_pack_piece;?>)</td>
 	  <td style="color: orange;"><?=$str_fifo_pick_qry;?> (<?=$str_fifo_picking_pack;?> Pack)</td>
-	  <!-- <td style="color: indigo;"><?=number_format($str_stock);?> (<?=$str_stock_conv_pack;?> Pack)</td> -->
+	  <!--<td style="color: indigo;"><?=number_format($str_stock);?> (<?=$str_stock_conv_pack;?> Pack)</td>-->
 	  <td><?=$repn_terminal_name;?></td>
 	  <td><?=$bom_cus_code;?></td>
 	  <td><?=$bom_pj_name;?></td>
 	  <td><?=$repn_by;?></td>
 	  <td><?=substr($repn_datetime,0,19);?></td>
+	  <!-- <td><?=$repn_qty;?></td>
+	  <td><?=$bom_packing;?></td>
+	  <td><?=$str_fifo_picking_pack;?></td>
+	  <td><?=$str_conv_pack;?></td>
+	  <td><?=$str_conv_piece;?></td> -->
 	</tr>
 <?
 }
@@ -261,8 +278,8 @@ $(document).ready(function()
 	
 	var table = $('#tbl_picking_order').DataTable( {
 		rowReorder: true,
-		"aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
-		"iDisplayLength": 25,
+		"aLengthMenu": [[10,25, 50, 75, 100, -1], [10,25, 50, 75, 100, "All"]],
+		"iDisplayLength": 10,
         columnDefs: [
             { orderable: true, className: 'reorder', targets: [ 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16 ] },
             { orderable: false, targets: '_all' }

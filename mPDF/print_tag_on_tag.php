@@ -62,7 +62,7 @@ $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp',
                 'R' => 'THSarabunNew.ttf',
                 'I' => 'THSarabunNewItalic.ttf',
                 'B' =>  'THSarabunNewBold.ttf',
-                'BI' => "THSarabunNewBoldItalic.ttf",
+                'BI' => 'THSarabunNewBoldItalic.ttf',
             ]
         ],
 ]);
@@ -191,11 +191,11 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				$html .= '<img style="padding: 2px;" align="center" width="60px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
 			  </tr>
 			  <tr>
-				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
+				<td colspan="3" style="border-left:solid 1px #000; border-bottom:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
-			  <tr>
+			  <!--<tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding: 2px;" class="barcodecell"><barcode code="'.$rs['tags_fg_code_gdj'].'" type="C39" class="barcode" size="0.9" height="1.2"/></td>
-			  </tr>
+			  </tr>-->
 			  <tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 8pt;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
@@ -205,7 +205,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
-				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="50px" style="padding: 2px;"/></td>
+				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="50px" style="padding: 2px;"/></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
@@ -243,11 +243,11 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				$html .= '<img style="padding: 2px;" align="center" width="60px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
 			  </tr>
 			  <tr>
-				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
+				<td colspan="3" style="border-left:solid 1px #000; border-bottom:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
-			  <tr>
+			  <!--<tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding: 2px;" class="barcodecell"><barcode code="'.$rs['tags_fg_code_gdj'].'" type="C39" class="barcode" size="0.9" height="1.2"/></td>
-			  </tr>
+			  </tr>-->
 			  <tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 8pt;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
@@ -257,7 +257,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
-				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="50px" style="padding: 2px;"/></td>
+				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="50px" style="padding: 2px;"/></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
@@ -295,11 +295,11 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				$html .= '<img style="padding: 2px;" align="center" width="60px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
 			  </tr>
 			  <tr>
-				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
+				<td colspan="3" style="border-left:solid 1px #000; border-bottom:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
-			  <tr>
+			  <!--<tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding: 2px;" class="barcodecell"><barcode code="'.$rs['tags_fg_code_gdj'].'" type="C39" class="barcode" size="0.9" height="1.2"/></td>
-			  </tr>
+			  </tr>-->
 			  <tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 8pt;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
@@ -309,7 +309,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
-				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="50px" style="padding: 2px;"/></td>
+				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="50px" style="padding: 2px;"/></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
@@ -347,11 +347,11 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				$html .= '<img style="padding: 2px;" align="center" width="60px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
 			  </tr>
 			  <tr>
-				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
+				<td colspan="3" style="border-left:solid 1px #000; border-bottom:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
-			  <tr>
+			  <!--<tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding: 2px;" class="barcodecell"><barcode code="'.$rs['tags_fg_code_gdj'].'" type="C39" class="barcode" size="0.9" height="1.2"/></td>
-			  </tr>
+			  </tr>-->
 			  <tr>
 				<td colspan="4" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 8pt;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
@@ -361,7 +361,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
-				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="50px" style="padding: 2px;"/></td>
+				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="50px" style="padding: 2px;"/></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>

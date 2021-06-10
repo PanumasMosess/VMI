@@ -663,8 +663,6 @@ function get_stock_each_fg_gdj($db_con,$fg_code_set_abt,$sku_code_abt,$fg_code_g
 		receive_repn_id is NULL
 		and
 		tags_fg_code_gdj = '$fg_code_gdj'
-		group by
-		tags_packing_std
 	";
 	$objQuery = sqlsrv_query($db_con, $strSQL);
 	//clear
@@ -921,7 +919,180 @@ function get_vmi_stock_price($db_con,$pj_name,$date_start,$date_end)
 }
 
 
+function update_status_b2c($db_con)
+{
+	$strSql_DTNSheet = " 
+	SELECT 
+	[dn_h_dtn_code]
+   ,[dn_h_cus_code]
+   ,[dn_h_cus_name]
+   ,[dn_h_driver_code]
+   ,[dn_h_delivery_date]
+   ,[dn_h_status]
+   ,[ps_t_pj_name]
+   ,[b2c_track_num]
+   ,[b2c_repn_order_ref]
+   ,sum([tags_packing_std]) as sum_picking_std 
+		FROM [tbl_dn_head]
+		left join
+		tbl_dn_tail
+		on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+		left join
+		tbl_picking_tail
+		on tbl_dn_tail.dn_t_picking_code = tbl_picking_tail.ps_t_picking_code
+		left join
+		tbl_receive
+		on tbl_picking_tail.ps_t_tags_code = tbl_receive.receive_tags_code
+		left join
+		tbl_tags_running
+		on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+		left join 
+		tbl_b2c_detail
+		on tbl_dn_head.dn_h_dtn_code = tbl_b2c_detail.b2c_dtn
+		where
+		dn_h_status = 'Delivery Transfer Note'
+		and
+		ps_t_pj_name = 'B2C'
+		group by
+			[dn_h_dtn_code]
+		   ,[dn_h_cus_code]
+		   ,[dn_h_cus_name]
+		   ,[dn_h_driver_code]
+		   ,[dn_h_delivery_date]
+		   ,[dn_h_status]
+		   ,[ps_t_pj_name]
+		   ,[b2c_track_num]
+		   ,[b2c_repn_order_ref]
+			order by 
+			dn_h_dtn_code desc";
 
+$objQuery_DTNSheet = sqlsrv_query($db_con, $strSql_DTNSheet);
+
+$row_id_DTNSheet = 0;
+while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_ASSOC))
+{
+	$row_id_DTNSheet++;
+
+	$dn_h_dtn_code = $objResult_DTNSheet['dn_h_dtn_code'];
+	$ps_t_pj_name = $objResult_DTNSheet['ps_t_pj_name'];
+	$b2c_track_num = $objResult_DTNSheet['b2c_track_num'];
+	$b2c_repn_order_ref = $objResult_DTNSheet['b2c_repn_order_ref'];
+
+    $token_ = '';
+	
+    //login for send API 
+    $url_login = "https://scgyamatodev.flare.works/api/authentication";
+
+    $curl_login = curl_init($url_login);
+    curl_setopt($curl_login, CURLOPT_URL, $url_login);
+    curl_setopt($curl_login, CURLOPT_POST, true);
+    curl_setopt($curl_login, CURLOPT_RETURNTRANSFER, true);
+
+    $headers = array(
+       "Content-Type: application/x-www-form-urlencoded",
+    );
+    curl_setopt($curl_login, CURLOPT_HTTPHEADER, $headers);
+
+    $data_login = "username=info%40GLONGDUANGJAI.com&password=Initial%401234";
+
+    curl_setopt($curl_login, CURLOPT_POSTFIELDS, $data_login);
+
+    //for debug only!
+    curl_setopt($curl_login, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl_login, CURLOPT_SSL_VERIFYPEER, false);
+
+    $resp_login = curl_exec($curl_login);
+    $data_arr_login = json_decode($resp_login, true);
+    curl_close($curl_login);
+
+    $token_  = $data_arr_login['token'];
+
+    //check Login 
+    if($data_arr_login['status'] == true){
+         
+    //Status for Update
+    $url_status = "https://scgyamatodev.flare.works/api/getHistoricalStatusByorder";
+
+    $curl_status = curl_init($url_status);
+    curl_setopt($curl_status, CURLOPT_URL, $url_status);
+    curl_setopt($curl_status, CURLOPT_POST, true);
+    curl_setopt($curl_status, CURLOPT_RETURNTRANSFER, true);
+
+    $headers = array(
+       "Content-Type: application/x-www-form-urlencoded",
+    );
+    curl_setopt($curl_status, CURLOPT_HTTPHEADER, $headers);
+
+    $data_status = "token=$token_&order_id=$dn_h_dtn_code";
+
+    curl_setopt($curl_status, CURLOPT_POSTFIELDS, $data_status);
+
+    //for debug only!
+    curl_setopt($curl_status, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl_status, CURLOPT_SSL_VERIFYPEER, false);
+
+    $resp_status = curl_exec($curl_status);
+    $data_arr_status = json_decode($resp_status, true);
+    curl_close($curl_status);
+
+	$stats_b2c = $data_arr_status['parcel_data'][$b2c_track_num]['tracking_data'][0]['status_code'];
+		
+	$sqlUpdateStatusB2c = " UPDATE tbl_b2c_detail SET b2c_status = '$stats_b2c' WHERE b2c_dtn = '$dn_h_dtn_code'";
+	$result_sqlUpdateStatusB2c = sqlsrv_query($db_con, $sqlUpdateStatusB2c);
+
+    if($stats_b2c == '90'){
+
+        //update tbl_picking_head - ps_h_status = Delivery Transfer Note
+        $sqlUpdatePicking_head = " UPDATE tbl_picking_head SET ps_h_status = 'Confirmed' WHERE ps_h_picking_code = '$dn_h_dtn_code' and ps_h_status = 'Delivery Transfer Note' ";
+        $result_sqlUpdatePicking_head = sqlsrv_query($db_con, $sqlUpdatePicking_head);
+        
+        //update tbl_picking_tail - ps_t_status = Delivery Transfer Note
+        $sqlUpdatePicking_tail = " UPDATE tbl_picking_tail SET ps_t_status = 'Confirmed' WHERE ps_t_picking_code = '$dn_h_dtn_code' and ps_t_status = 'Delivery Transfer Note' ";
+        $result_sqlUpdatePicking_tail = sqlsrv_query($db_con, $sqlUpdatePicking_tail);
+        
+    }	
+
+	 //Status for Update
+	 $url_b2c_web = "https://glong-duang-jai.com/wp-json/wc-ast/v3/orders/$b2c_repn_order_ref/shipment-trackings";
+    
+	 $curl_web = curl_init($url_b2c_web);
+	 curl_setopt($curl_web, CURLOPT_URL, $url_b2c_web);
+	 curl_setopt($curl_web, CURLOPT_POST, true);
+	 curl_setopt($curl_web, CURLOPT_RETURNTRANSFER, true);
+
+	 $user_web = 'ck_1bd61eba6c4bdb507d5c81f901f4a9a4d3b9447a';
+	 $pass_web = 'cs_95b6835ebaf976a8444bb4942721946a6619f12b';
+ 
+	 $headers = array(
+		"Content-Type: application/x-www-form-urlencoded",
+		'Authorization: Basic '. base64_encode("$user_web:$pass_web")
+	 );
+
+	 curl_setopt($curl_web, CURLOPT_HTTPHEADER, $headers);
+ 
+	 $data_web = "tracking_number=$b2c_track_num&tracking_provider=SCG Express&status_shipped=1";
+ 
+	 curl_setopt($curl_web, CURLOPT_POSTFIELDS, $data_web);
+ 
+	 //for debug only!
+	 curl_setopt($curl_web, CURLOPT_SSL_VERIFYHOST, false);
+	 curl_setopt($curl_web, CURLOPT_SSL_VERIFYPEER, false);
+ 
+	 $resp_web = curl_exec($curl_web);
+	 curl_close($curl_web);
+
+         
+    }
+    else
+    {
+        echo 'Login False';
+        
+    }
+
+}
+
+	sqlsrv_close($db_con);
+}
 
 
 ?>

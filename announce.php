@@ -18,7 +18,7 @@
 		?>
 		<div id="div_announce_re">
 		<div class="box-header no-border">
-			<p><img src="<?=$CFG->logodir;?>/GDJ.png" style="height:150px; border: 1px solid #ddd; border-radius: 4px;padding: 5px;"/></p>
+			<p><img src="<?=$CFG->logodir;?>/GDJ3.jpg" style="height:115px; border: 1.5px solid #ddd; border-radius: 4px;padding: 5px;"/></p>
 			<h5><font style="color:#000;"><i><li class="fa fa-hand-o-right"></li>&nbsp;<?=$CFG->AppName;?> version <?=$CFG->App_ver;?> -- Last updated <?=$CFG->App_ver_update;?></i></font></h5>
 			<h5><font style="color:#000;"><i><li class="fa fa-hand-o-right"></li>&nbsp;The system will work at full efficiency on the Google Chrome.</i> <i class="fa fa-chrome"></i></font></h5>
 			<h5><font style="color:#4B0082;"><li class="fa fa-hand-o-right"></li>&nbsp;Your IP : <?=getVisitorIP();?></font> | <font style="color:#4B0082;">Browser : <?=$tmp_browser;?></font></h5>

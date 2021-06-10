@@ -135,7 +135,7 @@ require_once("js_css_header.php");
                                             <select class="form-control input-lg" name="txt_sel_pro" id="txt_sel_pro" style="width: 100%; background-color:#f4f4f4" onInput='_onselect_Project()'>
                                                 <option selected="selected" value="">Select Project</option>
                                                 <?
-										$strSQL = " SELECT [bom_pj_name] FROM tbl_bom_mst group by [bom_pj_name] order by [bom_pj_name] asc ";
+										$strSQL = " SELECT [bom_pj_name] FROM tbl_bom_mst left join tbl_pod_check on tbl_bom_mst.bom_pj_name = tbl_pod_check.pod_project where pod_type != 'POD' group by [bom_pj_name] order by [bom_pj_name] asc ";
 										$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
 										while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 										{

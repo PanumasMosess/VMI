@@ -72,6 +72,7 @@ while($objResult_DTNHead = sqlsrv_fetch_array($objQuery_DTNHead, SQLSRV_FETCH_AS
 	$driver_truck_head_no = $objResult_DTNHead['driver_truck_head_no'];
 	$driver_truck_tail_no = $objResult_DTNHead['driver_truck_tail_no'];
 	$driver_truck_type = $objResult_DTNHead['driver_truck_type'];
+
 }
 
 //////////////////////////////////////////////
@@ -183,7 +184,7 @@ $html = '
 $html .= '
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-  <td colspan="2" align="left"><img src="../logo_company/GDJ_png.png" style="width: 100px; padding: 0px;" /></td>
+  <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><barcode code="'.$dn_h_dtn_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$dn_h_dtn_code.'</td>	  
   <td colspan="2" align="right">';
 	//set var
@@ -314,6 +315,8 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	$ps_t_order_type = $objResult_DTNSheetDetails['ps_t_order_type'];
 	$ps_t_terminal_name = $objResult_DTNSheetDetails['ps_t_terminal_name'];
 	$ps_t_ref_replenish_code = $objResult_DTNSheetDetails['ps_t_ref_replenish_code'];
+
+	$bom_fg_desc = substr($bom_fg_desc, 0, 26);
 	
 	//sum qty
 	$sum_packing_std = $sum_packing_std + $ps_t_tags_packing_std;
@@ -333,7 +336,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	{
 		$html .= '
 		<tr>
-  <td colspan="2" align="left"><img src="../logo_company/GDJ_png.png" style="width: 100px; padding: 0px;" /></td>
+  <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><barcode code="'.$dn_h_dtn_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$dn_h_dtn_code.'</td>	  
   <td colspan="2" align="right">';
 	//set var
@@ -406,7 +409,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	  <td height="25px" style="font-size: 8pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_pj_name.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_order_type.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_tags_code.'</td>
-	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_fg_code_gdj.'</td>
+	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:solid 1px #000; ">'.$ps_t_fg_code_gdj.'</td>
 	  <td style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:solid 1px #000;">'.$bom_part_customer.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-top:solid 1px #000;">'.$ps_t_tags_packing_std.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000; border-right:solid 1px #000; border-top:solid 1px #000;"></td>
@@ -414,8 +417,11 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	<tr>
 	  <td height="25px" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:dotted 1px #000;">'.$ps_t_ref_replenish_code.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$ps_t_replenish_unit_type.'</td>
-	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$bom_fg_desc.'</td>
+	  <td style="font-weight:900; font-family: thsarabun; font-size: 10pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000; ">'.$bom_fg_desc.'</td>
 	  <td style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-top:dotted 1px #000;">(1 Pack)</td>
+	</tr>
+	<tr>
+  		<td colspan="8" style="font-size: 0.5pt;">&nbsp;</td>	  
 	</tr>
 	';
 }
@@ -479,7 +485,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 			group by
 				[ps_t_fg_code_gdj]
 				,[bom_fg_desc]
-				,[ps_t_tags_packing_std]
+				--,[ps_t_tags_packing_std]
 			";
 
 			$objQuery_sum_FG_qty = sqlsrv_query($db_con, $strSql_sum_FG_qty, $params, $options);
@@ -491,7 +497,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 				$bom_fg_desc = $objResult_sum_FG_qty['bom_fg_desc'];
 				$tags_qty = $objResult_sum_FG_qty['tags_qty'];
 				$tags_pack = $objResult_sum_FG_qty['tags_pack'];
-				$html .= ' &nbsp;<b>'.$bom_fg_desc.'</b> / Qty.: <b>'.$tags_qty.'</b> Pcs. (<b>'.$tags_pack.'</b> Pack) <br> ';
+				$html .= ' &nbsp;<b style="font-weight:bold; font-size: 13pt; font-family: thsarabun;">'.$bom_fg_desc.'</b> / Qty.: <b>'.$tags_qty.'</b> Pcs. (<b>'.$tags_pack.'</b> Pack) <br> ';
 			}
 			$html .= '
 			<br><br>

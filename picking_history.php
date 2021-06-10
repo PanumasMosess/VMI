@@ -158,6 +158,10 @@ require_once("js_css_footer.php");
 			}, 500);
 		}
 
+		function openRePrintTagWithOrderNum(id){
+			window.open("<?=$CFG->src_mPDF;?>/print_all_tags_on_picking_sheet_order_num?picking_sheet_no="+ id +"","_blank");
+		}
+
 		$('#min_pick').datepicker({
 			autoclose: true,
 			yearRange: '1990:+0',

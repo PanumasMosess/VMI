@@ -5,6 +5,7 @@ require_once("js_css_header.php");
 
 //set project is setup terminal
 $str_terminal = array('TSESA','TSPT','TSRA');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -415,13 +416,14 @@ require_once("js_css_footer.php");
 ?>
 
 <script language="javascript">
-<!--Onload this page-->
+// <!--Onload this page-->
 $(document).ready(function()
 {
 	//auto hide announce
 	$("#div_announce_re").show().delay(5000).queue(function(n) {
 	  $(this).hide(1200); n();
 	});
+
 });
 </script>
 </body>

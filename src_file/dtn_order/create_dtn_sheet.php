@@ -102,6 +102,7 @@ $strSql_insert_dtn_tail = " INSERT INTO tbl_dn_tail
 
 $objQuery_insert_dtn_tail = sqlsrv_query($db_con, $strSql_insert_dtn_tail);
 
+
 if($objQuery_insert_dtn_tail)
 {
 	//read tbl_picking_tail for update tags ID to Delivery Transfer Note
@@ -125,6 +126,167 @@ if($objQuery_insert_dtn_tail)
 		$sqlUpdateDTN = " UPDATE tbl_receive SET receive_status = 'Delivery Transfer Note' WHERE receive_tags_code = '$ps_t_tags_code' ";
 		$result_sqlUpdateDTN = sqlsrv_query($db_con, $sqlUpdateDTN);
 	}
+
+	// ///call scg express for B2C
+	if(($ps_h_cus_code == 'B2C') && ($tmp_sel == 1))
+	{
+	
+			//get data
+		$strSql_d = " 
+		SELECT 
+		 dn_h_dtn_code
+		,dn_h_delivery_date
+		,[b2c_customer_code]
+		,[b2c_customer_name]
+		,[b2c_delivery_address]
+		,[b2c_zipcode]
+		,[b2c_contact_name]
+		,[b2c_tel]
+		,[b2c_note]
+		,[b2c_order_date]
+		,[b2c_repn_order_ref]
+	   ,[ps_t_cus_name]
+	   ,[ps_t_pj_name]
+	   ,[ps_t_replenish_unit_type]
+		FROM tbl_dn_head
+		left join tbl_dn_tail 
+		on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+		left join tbl_picking_head
+		on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
+		left join tbl_picking_tail
+		on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+		left join tbl_b2c_detail
+		on tbl_picking_tail.ps_t_ref_replenish_code = tbl_b2c_detail.[b2c_repn_order_ref]
+		left join tbl_bom_mst 
+		on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+		and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+		and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+		and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
+		and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
+		and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+		where
+		[dn_t_dtn_code] = '$iden_txt_curr_dtn_no'
+		group by 		
+		 dn_h_dtn_code
+		,dn_h_delivery_date
+		,[b2c_customer_code]
+		,[b2c_customer_name]
+		,[b2c_delivery_address]
+		,[b2c_zipcode]
+		,[b2c_contact_name]
+		,[b2c_tel]
+		,[b2c_note]
+		,[b2c_order_date]
+		,[b2c_repn_order_ref]	
+	    ,[ps_t_cus_name]
+	    ,[ps_t_pj_name]
+	    ,[ps_t_replenish_unit_type]
+	";
+	
+	
+	
+			$objQuery_d = sqlsrv_query($db_con, $strSql_d);
+			while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
+			{
+
+				$dn_h_dtn_code = $objResult_d['dn_h_dtn_code'];
+				$dn_h_delivery_date = $objResult_d['dn_h_delivery_date'];
+				$b2c_repn_order_ref = $objResult_d['b2c_repn_order_ref'];
+				$b2c_customer_code = $objResult_d['b2c_customer_code'];
+				$b2c_customer_name = $objResult_d['b2c_customer_name'];
+				$b2c_delivery_address = $objResult_d['b2c_delivery_address'];
+				$b2c_zipcode = $objResult_d['b2c_zipcode'];
+				$b2c_contact_name = $objResult_d['b2c_contact_name'];
+				$b2c_tel = $objResult_d['b2c_tel'];
+				$b2c_note = $objResult_d['b2c_note'];
+				$b2c_order_date = $objResult_d['b2c_order_date'];
+				$b2c_order_date = $objResult_d['b2c_order_date'];
+				$ps_t_location = $objResult_d['ps_t_location'];
+				$qty = $objResult_d['qty'];
+				$ps_t_cus_name = $objResult_d['ps_t_cus_name'];
+				$ps_t_pj_name = $objResult_d['ps_t_pj_name'];
+				$ps_t_replenish_unit_type = $objResult_d['ps_t_replenish_unit_type'];
+				$ps_t_replenish_qty_to_pack = $objResult_d['ps_t_replenish_qty_to_pack'];
+	
+			$token_ = '';
+	
+			//login for send API 
+			$url_login = "https://scgyamatodev.flare.works/api/authentication";
+	
+			$curl_login = curl_init($url_login);
+			curl_setopt($curl_login, CURLOPT_URL, $url_login);
+			curl_setopt($curl_login, CURLOPT_POST, true);
+			curl_setopt($curl_login, CURLOPT_RETURNTRANSFER, true);
+	
+			$headers = array(
+			   "Content-Type: application/x-www-form-urlencoded",
+			);
+			curl_setopt($curl_login, CURLOPT_HTTPHEADER, $headers);
+	
+			$data_login = "username=info%40GLONGDUANGJAI.com&password=Initial%401234";
+	
+			curl_setopt($curl_login, CURLOPT_POSTFIELDS, $data_login);
+	
+			//for debug only!
+			curl_setopt($curl_login, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($curl_login, CURLOPT_SSL_VERIFYPEER, false);
+	
+			$resp_login = curl_exec($curl_login);
+			$data_arr_login = json_decode($resp_login, true);
+			curl_close($curl_login);
+	
+			$token_  = $data_arr_login['token'];
+	
+			//check Login 
+			if($data_arr_login['status'] == true){
+				
+					//Order for send API 
+					$url = "https://scgyamatodev.flare.works/api/orderwithouttrackingnumber";
+	
+					$curl = curl_init($url);
+					curl_setopt($curl, CURLOPT_URL, $url);
+					curl_setopt($curl, CURLOPT_POST, true);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	
+					$headers = array(
+					   "Content-Type: application/x-www-form-urlencoded",
+					);
+					curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+				
+					$data = "token=$token_&ShipperCode=101092&ShipperName=GLONG DUANG JAI&ShipperTel=0989878678&ShipperAddress=GLONG DUANG JAI CO.,LTD. Head Office 336/11 Moo 7 Bowin - Sriracha ชลบุรี&ShipperZipcode=20110&DeliveryAddress=$b2c_delivery_address&Zipcode=$b2c_zipcode&ContactName=$b2c_customer_name&Tel=$b2c_tel&OrderCode=$iden_txt_curr_dtn_no&OrderDate=$b2c_order_date&TotalBoxs=1";
+				
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+				
+					//for debug only!
+					curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+				
+					$resp = curl_exec($curl);
+					$data_arr_create = json_decode($resp, true);
+
+					$trackingNumber = $data_arr_create['trackingNumber'];
+					$trackingNumber = substr($trackingNumber,1,6);
+
+					//update track and tracknumber
+					$sqlUpdateb2c_table = " UPDATE tbl_b2c_detail SET b2c_dtn = '$dn_h_dtn_code', b2c_track_num = '$trackingNumber' WHERE b2c_repn_order_ref = '$b2c_repn_order_ref'";
+					$sqlUpdateb2c_table = sqlsrv_query($db_con, $sqlUpdateb2c_table);
+					
+					curl_close($curl);
+					echo $resp. '\n';
+					
+			}
+			else
+			{
+				echo 'Login False';
+				
+			}
+	
+		 }
+	
+	}
+
+	$index_check++;
+ 
 }
 
 //update tbl_picking_head - ps_h_status = Delivery Transfer Note
@@ -139,5 +301,8 @@ $result_sqlUpdatePicking_tail = sqlsrv_query($db_con, $sqlUpdatePicking_tail);
 $sqlUpdateDTNRunning = " UPDATE tbl_dn_running SET dn_status = 'Matched' WHERE dn_dtn_code = '$iden_txt_curr_dtn_no' ";
 $result_sqlUpdateDTNRunning = sqlsrv_query($db_con, $sqlUpdateDTNRunning);
 
+
+
 sqlsrv_close($db_con);
+
 ?>

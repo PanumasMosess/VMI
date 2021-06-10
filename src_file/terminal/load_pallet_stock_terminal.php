@@ -130,7 +130,11 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$ps_t_part_customer = $objResult['ps_t_part_customer'];
 	$dn_t_dtn_code = $objResult['dn_t_dtn_code'];
 
-	$usage_part_customer_arr = explode('-', $ps_t_part_customer);
+	if(strpos($ps_t_part_customer, '-') !== false){
+		$usage_part_customer_arr = explode('-', $ps_t_part_customer);
+	}else{
+		$usage_part_customer_arr[1] = $ps_t_part_customer;
+	}
 	
 	
 ?>

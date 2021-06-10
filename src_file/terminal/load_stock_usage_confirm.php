@@ -142,7 +142,11 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
     $user_pick_time = $objResult['usage_pick_time'];
 	$bom_part_customer = $objResult['bom_part_customer'];
 
-	$usage_part_customer_arr = explode('-', $bom_part_customer);
+	if(strpos($bom_part_customer, '-') !== false){
+		$usage_part_customer_arr = explode('-', $bom_part_customer);
+	}else{
+		$usage_part_customer_arr[1] = $bom_part_customer;
+	}
 
     $user_pick_time_2 = new DateTime($user_pick_time);
     $str_dif = $user_pick_time_2->format('H:i:s');

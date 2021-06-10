@@ -36,6 +36,8 @@ on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
 where
 ps_h_status = 'Picking'
 and
+ps_t_pj_name != 'B2C'
+and
 ps_h_qc is NULL
 group by
 	[ps_h_picking_code]
@@ -67,8 +69,9 @@ while($objResult_PickingSheet = sqlsrv_fetch_array($objQuery_PickingSheet, SQLSR
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id_PickingSheet;?></td>
 	  <td align="center">
-	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$ps_h_picking_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;--><button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintPickingSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintSet_on_picking_sheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-print All Tags on Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_status;?>#####<?=$ps_h_issue_date;?>" onclick="openFuncPickingSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
-	  &nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_status;?>#####<?=$ps_h_issue_date;?>" onclick="restoreToConfirmedReplenishment(this.id);"><i class="fa fa-undo fa-lg"></i><span class="custom_tooltiptext">Return to Confirmed Replenishment</span></button>
+	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$ps_h_picking_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;-->
+	  <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintPickingSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-success btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintTagWithOrderNum(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-print All Tags(With Order Number) on Picking Sheet ID </span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintSet_on_picking_sheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-print All Tags on Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_status;?>#####<?=$ps_h_issue_date;?>" onclick="openFuncPickingSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
+	  &nbsp;<button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_status;?>#####<?=$ps_h_issue_date;?>" onclick="restoreToConfirmedReplenishment(this.id);"><i class="fa fa-undo fa-lg"></i><span class="custom_tooltiptext">Return to Confirmed Replenishment</span></button>
 	  </td>
 	  <td><?=$ps_h_picking_code;?></td>
 	  <td><?=$ps_h_cus_code;?></td>

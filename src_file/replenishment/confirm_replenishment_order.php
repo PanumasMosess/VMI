@@ -18,6 +18,7 @@ $iden_t_ref_no = isset($_POST['iden_t_ref_no']) ? $_POST['iden_t_ref_no'] : '';
 $iden_t_fifo_picking_pack = isset($_POST['iden_t_fifo_picking_pack']) ? $_POST['iden_t_fifo_picking_pack'] : '';
 $iden_hdn_repn_qty = isset($_POST['iden_hdn_repn_qty']) ? $_POST['iden_hdn_repn_qty'] : '';
 
+
 //replenishment get unique
 $strSql = " select * from tbl_replenishment 
 left join tbl_bom_mst 
@@ -87,8 +88,9 @@ else
 
 	if($result_sqlUpdate)
 	{
-		//reserve tags
-		$strSql_picking_order_details = " 
+		
+		//check tags
+		$strSql_picking_order_details_check = " 
 		select top $iden_t_fifo_picking_pack 
 			  [receive_tags_code]
 			  ,[receive_pallet_code]
@@ -147,28 +149,109 @@ else
 		,receive_tags_code asc
 		";
 
-		$objQuery_picking_order_details = sqlsrv_query($db_con, $strSql_picking_order_details, $params, $options);
-		$num_row_picking_order_details = sqlsrv_num_rows($objQuery_picking_order_details);
-
-		$row_id_picking_order_details = 0;
-		while($objResult_picking_order_details = sqlsrv_fetch_array($objQuery_picking_order_details, SQLSRV_FETCH_ASSOC))
+		$objQuery_picking_order_details_c = sqlsrv_query($db_con, $strSql_picking_order_details_check, $params, $options);
+		$num_row_picking_order_details_c = sqlsrv_num_rows($objQuery_picking_order_details_c);
+		
+		$str_total_qty_c = 0;
+		while($objResult_picking_order_details_c = sqlsrv_fetch_array($objQuery_picking_order_details_c, SQLSRV_FETCH_ASSOC))
 		{
-			$row_id_picking_order_details++;
-			
-			$receive_pallet_code = $objResult_picking_order_details['receive_pallet_code'];
-			$receive_tags_code = $objResult_picking_order_details['receive_tags_code'];
-			$tags_fg_code_gdj = $objResult_picking_order_details['tags_fg_code_gdj'];
-			$receive_location = $objResult_picking_order_details['receive_location'];
-			$tags_packing_std = $objResult_picking_order_details['tags_packing_std'];
 			
 			
-			//tbl_receive reserve by replenish id
-			$sqlUpdate_reserve_repn_id = " UPDATE tbl_receive
-			   SET receive_repn_id = '$iden_t_repn_id'
-			 WHERE receive_tags_code = '$receive_tags_code'
-			 ";
-			$result_sqlUpdate_reserve_repn_id = sqlsrv_query($db_con, $sqlUpdate_reserve_repn_id);
+			$tags_packing_std_c = $objResult_picking_order_details_c['tags_packing_std'];
+			
+			//sum total qty
+			$str_total_qty_c = $str_total_qty_c + $tags_packing_std_c;		
 		}
+
+		if($str_total_qty_c < $iden_hdn_repn_qty){
+			$iden_t_fifo_picking_pack++;
+		}
+
+
+		
+			//reserve tags
+			$strSql_picking_order_details = " 
+			select top $iden_t_fifo_picking_pack 
+				  [receive_tags_code]
+				  ,[receive_pallet_code]
+				  ,[receive_location]
+				  ,[tags_fg_code_gdj]
+				  ,[tags_fg_code_gdj_desc]
+				  ,[repn_fg_code_set_abt]
+				  ,[repn_sku_code_abt]
+				  ,[repn_pj_name]
+				  ,[tags_packing_std]
+				  ,[receive_date]
+				  from tbl_replenishment 
+			left join tbl_bom_mst 
+			on tbl_replenishment.repn_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+			and tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+			and tbl_replenishment.repn_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+			and tbl_replenishment.repn_pj_name = tbl_bom_mst.bom_pj_name
+			and tbl_replenishment.repn_ship_type = tbl_bom_mst.bom_ship_type
+			and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
+			left join tbl_tags_running
+			on tbl_bom_mst.bom_fg_code_gdj = tbl_tags_running.tags_fg_code_gdj
+			left join tbl_receive
+			on tbl_tags_running.tags_code = tbl_receive.receive_tags_code
+			where
+			repn_conf_status = 'Confirmed'
+			and
+			receive_status = 'Received'
+			and 
+			receive_repn_id is NULL
+			and
+			repn_fg_code_set_abt = '$index_repn_fg_code_set_abt'
+			and
+			repn_sku_code_abt = '$index_repn_sku_code_abt'
+			and
+			bom_fg_code_gdj = '$index_bom_fg_code_gdj'
+			and
+			bom_pj_name = '$index_bom_pj_name'
+			and
+			bom_ship_type = '$index_bom_ship_type'
+			and
+			bom_part_customer = '$index_bom_part_customer'
+			group by
+			 [receive_tags_code]
+				  ,[receive_pallet_code]
+				  ,[receive_location]
+				  ,[tags_fg_code_gdj]
+				  ,[tags_fg_code_gdj_desc]
+				  ,[repn_fg_code_set_abt]
+				  ,[repn_sku_code_abt]
+				  ,[repn_pj_name]
+				  ,[tags_packing_std]
+				  ,[receive_date]
+			order by 
+			receive_date asc
+			,SUBSTRING(receive_pallet_code,3,10) asc
+			,receive_tags_code asc
+			";
+	
+			$objQuery_picking_order_details = sqlsrv_query($db_con, $strSql_picking_order_details, $params, $options);
+			$num_row_picking_order_details = sqlsrv_num_rows($objQuery_picking_order_details);
+	
+			$row_id_picking_order_details = 0;
+			while($objResult_picking_order_details = sqlsrv_fetch_array($objQuery_picking_order_details, SQLSRV_FETCH_ASSOC))
+			{
+				$row_id_picking_order_details++;
+				
+				$receive_pallet_code = $objResult_picking_order_details['receive_pallet_code'];
+				$receive_tags_code = $objResult_picking_order_details['receive_tags_code'];
+				$tags_fg_code_gdj = $objResult_picking_order_details['tags_fg_code_gdj'];
+				$receive_location = $objResult_picking_order_details['receive_location'];
+				$tags_packing_std = $objResult_picking_order_details['tags_packing_std'];
+				
+				
+				//tbl_receive reserve by replenish id
+				$sqlUpdate_reserve_repn_id = " UPDATE tbl_receive
+				   SET receive_repn_id = '$iden_t_repn_id'
+				 WHERE receive_tags_code = '$receive_tags_code'
+				 ";
+				$result_sqlUpdate_reserve_repn_id = sqlsrv_query($db_con, $sqlUpdate_reserve_repn_id);
+			}
+	
 	}
 }
 

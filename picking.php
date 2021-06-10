@@ -519,6 +519,10 @@ require_once("js_css_footer.php");
 			}, 500);
 		}
 
+		function openRePrintTagWithOrderNum(id){
+			window.open("<?= $CFG->src_mPDF; ?>/print_all_tags_on_picking_sheet_order_num?picking_sheet_no=" + id + "", "_blank");
+		}
+
 		function openRePrintSet_on_picking_sheet(id) {
 			window.open("<?= $CFG->src_mPDF; ?>/print_all_tags_on_picking_sheet?picking_sheet_no=" + id + "", "_blank");
 		}
@@ -541,6 +545,7 @@ require_once("js_css_footer.php");
 			var t_part_customer = str_split_result[5];
 			var t_conv_pack_qty = str_split_result[6];
 			var t_repn_id = str_split_result[7];
+			var t_repn_qty = str_split_result[8];
 
 			//load pallet no
 			setTimeout(function() {
@@ -553,7 +558,8 @@ require_once("js_css_footer.php");
 					t_ship_type: t_ship_type,
 					t_part_customer: t_part_customer,
 					t_conv_pack_qty: t_conv_pack_qty,
-					t_repn_id: t_repn_id
+					t_repn_id: t_repn_id,
+					t_repn_qty: t_repn_qty
 				});
 			}, 300);
 		}
@@ -593,6 +599,7 @@ require_once("js_css_footer.php");
 					t_repn_id: t_repn_id
 				});
 			}, 300);
+
 		}
 
 		function openReturnReplenish(id) {

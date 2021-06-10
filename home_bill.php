@@ -55,6 +55,9 @@ $time_now = date("Y-m-d H:i:s");
 											<option value="ALL" selected="selected">All Project</option>
 											<?
 											}else{
+                                                ?>
+                                                <option selected="selected"  value="selected">Selected.</option>
+                                                <?
 												$cus_code = $objResult_authorized['user_section'];
 												if($cus_code == "IT"){
 													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
@@ -62,9 +65,7 @@ $time_now = date("Y-m-d H:i:s");
 													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' group by bom_pj_name";
 												}
 												
-												?>
-											<option selected="selected" value="ALL">All Project</option>
-											<?
+										
 											}
 											?>
 											<?
@@ -625,8 +626,10 @@ $time_now = date("Y-m-d H:i:s");
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <div class="row">
+                <?
+                if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+                ?>
+                    <div class="row">
                     <div class="col-md-8">
                         <span id="spn_load_data_latest"></span>
                     </div>
@@ -635,6 +638,10 @@ $time_now = date("Y-m-d H:i:s");
                         <span id="span_load_data_recently"></span>
                     </div>
                 </div>
+                <?
+                }
+                ?>
+               
 
                 <!--row-->
                 <!-- require_once dashboard.php -->
@@ -738,7 +745,7 @@ require_once("js_css_footer.php");
             _load_usage_top();
             _load_recently();
             _load_client_price();
-            $("#spn_time").html("<?= $time_now; ?>");
+            $("#spn_time").html("<?= $time_now; ?>");         
         });
 
         function call_time(startDate, endDate) {
@@ -811,6 +818,7 @@ require_once("js_css_footer.php");
             //Load data
             setTimeout(function() {
                 $("#load_client_price").load("<?= $CFG->src_load_alert; ?>/load_client_price.php", {
+                    project_: $('#txt_sel_pro_board').val(),
                     start_: start5,
                     end_: end5
                 });

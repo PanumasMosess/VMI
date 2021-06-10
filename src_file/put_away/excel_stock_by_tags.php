@@ -101,9 +101,9 @@ $objPHPExcel->getActiveSheet()->getStyle('A2:H2')->getFill()->setFillType(PHPExc
 //$objPHPExcel->getActiveSheet()->getStyle('M3:R3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 	
 // Set fonts
-$objPHPExcel->getActiveSheet()->getStyle('A2:H2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
-$objPHPExcel->getActiveSheet()->getStyle('A2:H2')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle('A2:H2')->getFont()->setSize(10);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I2')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A2:I2')->getFont()->setSize(10);
 
 $objPHPExcel->getActiveSheet()->setCellValue('A2', "Tags ID.");
 $objPHPExcel->getActiveSheet()->setCellValue('B2', "FG Code GDJ");
@@ -152,6 +152,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$tags_packing_std = $objResult_d['tags_packing_std'];
 	$receive_status = $objResult_d['receive_status'];
 	$receive_date = $objResult_d['receive_date'];
+
 	
 	//total count
 	$str_sum_stock = $str_sum_stock + $tags_packing_std;
@@ -171,6 +172,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, number_format($tags_packing_std), PHPExcel_Cell_DataType::TYPE_STRING);
 	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $receive_status);
 	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $receive_date);
+	
 }
 	
 $i = $i + 1;

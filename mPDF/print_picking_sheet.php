@@ -153,7 +153,7 @@ $html = '
 $html .= '
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-  <td colspan="2" align="left"><img src="../logo_company/GDJ_png.png" style="width: 100px; padding: 0px;" /></td>
+  <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>PICKING SHEET</b></font><br><barcode code="'.$head_picking_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$head_picking_code.'</td>	  
   <td colspan="2" align="right">';
 	//set var
@@ -286,7 +286,7 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	{
 		$html .= '
 		<tr>
-  <td colspan="2" align="left"><img src="../logo_company/GDJ_png.png" style="width: 100px; padding: 0px;" /></td>
+  <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>PICKING SHEET</b></font><br><barcode code="'.$head_picking_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$head_picking_code.'</td>	  
   <td colspan="2" align="right">';
 	//set var
@@ -350,7 +350,7 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	  <td height="25px" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:dotted 1px #000;">'.$ps_t_ref_replenish_code.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$ps_t_order_type.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$ps_t_tags_code.'</td>
-	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$bom_fg_desc.'</td>
+	  <td style="font-weight:900; font-family: thsarabun; font-size: 12pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$bom_fg_desc.'</td>
 	  <td style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-top:dotted 1px #000;">(1 Pack)</td>
 	</tr>
 	';

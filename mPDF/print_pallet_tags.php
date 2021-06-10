@@ -13,11 +13,13 @@ $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSI
 /**********************************************************************************/
 /*var *****************************************************************************/
 $tag = isset($_REQUEST['tag']) ? $_REQUEST['tag'] : '';
+$fg =  isset($_REQUEST['fg']) ? $_REQUEST['fg'] : '';
 
 //decode
 $tag = var_decode($tag);
 
-$strSql = " 
+if($fg != 'undefined'){
+	$strSql = " 
 SELECT 
 	receive_pallet_code
 	,tags_fg_code_gdj
@@ -30,7 +32,7 @@ FROM tbl_receive
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
-receive_status = 'Received' and receive_pallet_code = '$tag'
+receive_status = 'Received' and receive_pallet_code = '$tag' and  tags_fg_code_gdj = '$fg'
 group by
 	receive_pallet_code
 	,tags_fg_code_gdj
@@ -41,6 +43,35 @@ group by
 order by 
 receive_pallet_code desc
 ";
+
+}else{
+	$strSql = " 
+	SELECT 
+		receive_pallet_code
+		,tags_fg_code_gdj
+		,tags_fg_code_gdj_desc
+		,receive_location
+		,receive_status
+		,receive_date
+		,sum(tags_packing_std) as sum_pkg_std
+	FROM tbl_receive
+	left join tbl_tags_running
+	on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+	where
+	receive_status = 'Received' and receive_pallet_code = '$tag'
+	group by
+		receive_pallet_code
+		,tags_fg_code_gdj
+		,tags_fg_code_gdj_desc
+		,receive_location
+		,receive_status
+		,receive_date
+	order by 
+	receive_pallet_code desc
+	";
+}
+
+
 
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
 $num_row = sqlsrv_num_rows($objQuery);
@@ -126,13 +157,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
 $fontData = $defaultFontConfig['fontdata'];
+
 $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp',
     'fontdata' => $fontData + [
             'sarabun' => [
                 'R' => 'THSarabunNew.ttf',
                 'I' => 'THSarabunNewItalic.ttf',
                 'B' =>  'THSarabunNewBold.ttf',
-                'BI' => "THSarabunNewBoldItalic.ttf",
+                'BI' => 'THSarabunNewBoldItalic.ttf',
             ]
         ],
 ]);
@@ -205,7 +237,7 @@ $html .= '<br><table width="100%" cellpadding="0" cellspacing="35">
 				<td colspan="4" style="border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 15pt";><br><b>&nbsp;&nbsp;FG. Code: '.$fg_code.'</b></font><br><br><br></td>
 			  </tr>
 			<tr>
-			  <td colspan="4"  style="text-align: center; border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 50pt;";><b>'.$fg_des.'</b></font><br><br><br><br></td>
+			  <td colspan="4"  style="text-align: center; border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 50pt;font-family: thsarabun;";><b>'.$fg_des.'</b></font><br><br><br><br></td>
 			</tr>
 			<tr>
 				<td colspan="4" style="border-left:solid 1px #e0ebeb;border-right:solid 1px #e0ebeb;">&nbsp;</td>
@@ -233,7 +265,7 @@ $html .= '<br><table width="100%" cellpadding="0" cellspacing="35">
 			<td colspan="4" style="text-align: center; border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 13pt";><b>Location:</b></font><font style="font-size: 30pt";><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$receive_location.'</b></font></td>	
 		  </tr>
 			<tr>
-				<td colspan="4" style="text-align: right; border-left:solid 1px #e0ebeb; border-bottom:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><img src="../logo_company/GDJ.png" height="60px" style="padding: 2px;"/></td>
+				<td colspan="4" style="text-align: right; border-left:solid 1px #e0ebeb; border-bottom:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><img src="../logo_company/GDJ2.png" height="60px" style="padding: 2px;"/></td>
 			</tr>
 			</table>
 		  </td>

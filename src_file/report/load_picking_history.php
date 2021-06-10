@@ -114,7 +114,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 			<tr style="font-size: 13px;">
 				<td style="text-align: center;"><?= $row_id; ?></td>
 				<td align="center">
-					<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= var_encode($ps_h_picking_code); ?>" onclick="openRePrintPickingSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= var_encode($ps_h_picking_code); ?>" onclick="openRePrintTag(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Picking ID</span></button>
+					<button type="button" class="btn btn-success btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintTagWithOrderNum(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-print All Tags(With Order Number) on Picking Sheet ID </span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=var_encode($ps_h_picking_code);?>" onclick="openRePrintTag(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-print All Tags on Picking Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= var_encode($ps_h_picking_code); ?>" onclick="openRePrintTag(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Picking ID</span></button>
 				</td>
 				<td><?= $ps_h_picking_code; ?></td>
 				<td><?= $ps_t_pallet_code; ?></td>

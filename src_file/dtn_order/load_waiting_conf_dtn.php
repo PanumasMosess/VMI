@@ -38,6 +38,8 @@ where
 ps_h_status = 'Picking'
 and
 ps_h_qc = 'Completed'
+and
+ps_t_pj_name != 'B2C'
 group by
 	[ps_h_picking_code]
 	,[ps_h_cus_code]
@@ -72,7 +74,7 @@ while($objResult_conf_dtn_order = sqlsrv_fetch_array($objQuery_conf_dtn_order, S
 		<input type="hidden" name="hdn_ps_h_picking_code<?=$row_id_conf_dtn_order;?>" id="hdn_ps_h_picking_code<?=$row_id_conf_dtn_order;?>" value="<?=$ps_h_picking_code;?>"/>
 	  </td>	  
 	  <td align="center">
-	  <button type="button" class="btn btn-info btn-sm" data-placement="top" data-toggle="tooltip" data-original-title="View" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_issue_date;?>" onclick="openFuncDTNWatingDetails(this.id);"><i class="fa fa-search fa-lg"></i></button>
+	  <button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$ps_h_picking_code;?>#####<?=$ps_h_cus_code;?>#####<?=$ps_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$ps_h_issue_date;?>" onclick="openFuncDTNWatingDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
 	  </td>
 	  <td><?=$ps_h_picking_code;?></td>
 	  <td><?=$ps_h_cus_code;?></td>

@@ -10,6 +10,7 @@ unset($_SESSION['strOwnerType_VMI_GDJ']);
 unset($_SESSION['strOwnerType_VMI_GDJ']);
 unset($_SESSION['strFacebookID_VMI_GDJ']);
 unset($_SESSION['strFacebookName_VMI_GDJ']);
+
 ?>
 
 <!DOCTYPE html>

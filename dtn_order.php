@@ -639,7 +639,7 @@ function confirmDTN()
 				var tmp = 0;
 				$("input[name='_chk_dtn[]']:checked").each(function ()
 				{
-					<!--Alert not select item-->
+					// <!--Alert not select item-->
 					tmp = tmp + 1;
 					
 					var iden_hdn_ps_h_picking_code = "#hdn_ps_h_picking_code"+$(this).val();
@@ -710,6 +710,13 @@ function openRePrintDTNSheet(id)
 	},500);
 }
 
+function openRePrintDTNSheetShotFrom(id)
+{
+	setTimeout(function(){
+		window.open("<?=$CFG->src_mPDF;?>/print_dtn_shotfrom?tag="+ id +"","_blank");
+	},500);
+}
+
 function openFuncDTNSheetDetails(id)
 {
 	$('#modal-DTNDetails').modal('show');
@@ -734,6 +741,58 @@ function _load_dtn_details(id)
 		//$("#spn_load_dtn_details").html(""); //clear span
 		$("#spn_load_dtn_details").load("<?=$CFG->src_dtn_order;?>/load_dtn_sheet_details_popup.php", { t_dn_h_dtn_code: t_dn_h_dtn_code, t_dn_h_cus_code: t_dn_h_cus_code, t_dn_h_cus_name: t_dn_h_cus_name, t_ps_t_pj_name: t_ps_t_pj_name, t_dn_h_status: t_dn_h_status, t_dn_h_delivery_date: t_dn_h_delivery_date });
 	},300);
+}
+
+function reTurnToConfirmDTN(id){
+
+	
+			var id_dtn = id;
+
+			//dialog ctrl
+			swal({
+					html: true,
+					title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+					text: "<span style='font-size: 15px; color: #000;'>Confirm <b>Return To </b> Waiting Confirm ???</span>",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonClass: "btn-info",
+					confirmButtonText: "Yes",
+					cancelButtonText: "No",
+					closeOnConfirm: true,
+					closeOnCancel: true
+				},
+				function(isConfirm) {
+					if (isConfirm) {
+
+						$.ajax({
+							type: 'POST',
+							url: '<?= $CFG->src_dtn_order;?>/return_to_waiting_confirm.php',
+							data: {
+								iden_t_dtn_id: id_dtn
+							},
+							success: function(response) {
+
+								_load_waiting_conf_dtn();
+								_load_dtn_sheet_details();
+								_clear_step_after_conf_dtn();
+
+							},
+							error: function() {
+								//dialog ctrl
+								swal({
+									html: true,
+									title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+									text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+									type: "warning",
+									timer: 3000,
+									showConfirmButton: false,
+									allowOutsideClick: false
+								});
+							}
+						});
+
+					}
+				});
 }
 </script>
 </body>

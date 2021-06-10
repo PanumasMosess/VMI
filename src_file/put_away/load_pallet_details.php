@@ -30,9 +30,7 @@ SELECT
 	,receive_status
 	,receive_date
 	,sum(tags_packing_std) as sum_pkg_std
-FROM tbl_pallet_running
-left join tbl_receive
-on tbl_pallet_running.pallet_code = tbl_receive.receive_pallet_code
+FROM tbl_receive
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
@@ -67,7 +65,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id;?></td>
 	  <td align="center">
-	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$receive_pallet_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;--><button type="button" class="btn btn-primary btn-sm" id="<?=var_encode($receive_pallet_code);?>" onclick="openRePrintPalletID(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print this Pallet ID"><i class="fa fa-print fa-lg"></i></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm" data-placement="top" data-toggle="tooltip" data-original-title="View" id="<?=$receive_pallet_code;?>#####<?=$tags_fg_code_gdj;?>#####<?=$receive_location;?>#####<?=$receive_status;?>#####<?=$receive_date;?>" onclick="openFuncDetails(this.id);"><i class="fa fa-search fa-lg"></i></button>
+	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$receive_pallet_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;--><button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($receive_pallet_code);?>#####<?=$tags_fg_code_gdj;?>" onclick="openRePrintPalletID(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Pallet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$receive_pallet_code;?>#####<?=$tags_fg_code_gdj;?>#####<?=$receive_location;?>#####<?=$receive_status;?>#####<?=$receive_date;?>" onclick="openFuncDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
 	  </td>
 	  <td><?=$receive_pallet_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>

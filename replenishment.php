@@ -4,6 +4,7 @@ require_once("js_css_header.php");
 ?>
 <!DOCTYPE html>
 <html>
+
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -77,7 +78,11 @@ require_once("js_css_header.php");
 					and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
 					where
 					repn_conf_status is null
+					and repn_pj_name != 'B2C'
+					and bom_status = 'Active'
 					order by repn_id desc ";
+
+					//and bom_status = 'Active'
 					
 					$objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
 					$num_row = sqlsrv_num_rows($objQuery);
@@ -121,7 +126,8 @@ require_once("js_css_header.php");
 							$str_fifo_picking_pack = ceil($repn_qty / $bom_packing);
 							$str_conv_pack = floor($repn_qty / $bom_packing); 
 							$str_conv_piece = $repn_qty % $bom_packing;
-							
+
+									
 							//check piece
 							if($str_conv_piece > 0)
 							{
@@ -206,7 +212,7 @@ require_once("js_css_header.php");
 						  }
 						  ?>
 						  <td align="center">
-						  <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=$repn_id;?>#####<?=$repn_order_type;?>#####<?=$repn_order_ref;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
+						  <button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openFuncSplitPlan(this.id);"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Split Plan</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=$repn_id;?>#####<?=$repn_order_type;?>#####<?=$repn_order_ref;?>#####<?=$str_fifo_picking_pack;?>#####<?=$repn_qty;?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$repn_id;?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
 						  </td>
 						  <td><font style="color: <?=$str_order_color;?>"><?=$repn_order_type;?></font>/<?=$repn_unit_type;?></td>
 						  <td><?=$repn_order_ref;?></td>
@@ -813,7 +819,7 @@ function showResult_frmUploadOrder(result)
 	{
 		$("#divresult_upload_order").html("<font style='font-size:14px; color: #F00; font-weight:bold;'><img src='<?=$CFG->imagedir;?>/No_admittance_sign.png' width='60' border='0'><br>&nbsp;<i class='fa fa-caret-right'></i> [D002] --- Error !! Column in excel file does not match the database.</font>");
 				
-		<!--Clear value type file-->
+		// <!--Clear value type file-->
 		//$("#order_file").replaceWith($("#order_file").clone());
 		$("#order_file").replaceWith($("#order_file").val('').clone(true));
 
@@ -827,7 +833,7 @@ function showResult_frmUploadOrder(result)
 	{
 		$("#divresult_upload_order").html("<font style='font-size:14px; color: green; font-weight:bold;'><img src='<?=$CFG->imagedir;?>/Check_icon.svg.png' width='60' border='0'><br>&nbsp;<i class='fa fa-caret-right'></i> [D003] --- Upload order file success.</font>");
 		
-		<!--Clear value type file-->
+		// <!--Clear value type file-->
 		//$("#order_file").replaceWith($("#order_file").clone());
 		$("#order_file").replaceWith($("#order_file").val('').clone(true));
 		
@@ -847,7 +853,7 @@ function showResult_frmUploadOrder(result)
 		//show result
 		$("#divresult_upload_order").html("<font style='font-size:14px; color: #F00; font-weight:bold;'><img src='<?=$CFG->imagedir;?>/No_admittance_sign.png' width='60' border='0'><br>&nbsp;<i class='fa fa-caret-right'></i> [D002] --- Error !! Unable to upload order file.</font>");
 		
-		<!--Clear value type file-->
+		// <!--Clear value type file-->
 		//$("#order_file").replaceWith($("#order_file").clone());
 		$("#order_file").replaceWith($("#order_file").val('').clone(true));
 		
@@ -862,16 +868,87 @@ function showResult_frmUploadOrder(result)
 		//show result
 		$("#divresult_upload_order").html("<font style='font-size:14px; color: #F00; font-weight:bold;'><img src='<?=$CFG->imagedir;?>/No_admittance_sign.png' width='60' border='0'><br>&nbsp;<i class='fa fa-caret-right'></i> [C002] --- Error !! Wrong file type (Must be a file (.xls, .xlsx) only.</font>");
 		
-		<!--Clear value type file-->
+		// <!--Clear value type file-->
 		//$("#order_file").replaceWith($("#order_file").clone());
 		$("#order_file").replaceWith($("#order_file").val('').clone(true));
 		
 		setTimeout(function(){
 			$("#divresult_upload_order").hide("slide", { direction: "right" }, 1000);
-			$("#divFrm_upload_order").show("slide", { direction: "left" }, 400);
-			
+			$("#divFrm_upload_order").show("slide", { direction: "left" }, 400);	
 		}, 4000);
 	}
+}
+
+function openFuncSplitPlan(id){
+	
+	//dialog ctrl
+	swal({
+	  html: true,
+	  title: "<span style='font-size: 25px; font-weight: bold;'>Split Plan Repenishment</span>",
+	  type: 'input',
+	  inputType: "number",
+	  animation: "slide-from-top",
+  	  inputPlaceholder: "กรอกจำนวน Split แผน",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-success",
+	  confirmButtonText: "Confirm",
+	  cancelButtonText: "Cancel",
+	  closeOnConfirm: false,
+	  closeOnCancel: true,
+	},
+	function(inputValue) {
+		if (inputValue === "") {
+    		swal.showInputError(" You need to insert number Split !");
+    		return false
+  		} else if(inputValue != "") {
+		$.ajax({
+		  type: 'POST',
+		  url: '<?=$CFG->src_replenishment;?>/confirm_split_order.php',
+		  data: { 
+					iden_t_repn_id: id,
+					iden_t_split_number: inputValue
+				},
+		success: function(response){			
+			if(response == "not enough"){	
+				swal({
+				  html: true,
+				  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+				  text: "<span style='font-size: 15px; color: #000;'>[D001] --- Split Qty > Plan </span>",
+				  type: "warning",
+				  timer: 3000,
+				  showConfirmButton: false,
+				  allowOutsideClick: false
+				});
+
+				}else{		
+				swal({
+				  html: true,
+				  title: "<span style='font-size: 15px; font-weight: bold;'>Wating !!!</span>",
+				  text: "<span style='font-size: 15px; color: #000;'>Wating for Load new plan....... </span>",
+				  type: "success",
+				  timer: 30000,
+				  showConfirmButton: false,
+				  allowOutsideClick: false
+				});
+					//refresh
+					location.reload();	
+				}						
+			  },
+			error: function(){
+				//dialog ctrl
+				swal({
+				  html: true,
+				  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+				  text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+				  type: "warning",
+				  timer: 3000,
+				  showConfirmButton: false,
+				  allowOutsideClick: false
+				});
+			}
+		});
+		}	  
+	});
 }
 </script>
 </body>

@@ -17,4 +17,5 @@ user_type = '$t_cur_user_type_VMI_GDJ'
 $objQuery_authorized = sqlsrv_query($db_con, $strSQL_authorized);
 $objResult_authorized = sqlsrv_fetch_array($objQuery_authorized, SQLSRV_FETCH_ASSOC);
 //$objResult_authorized['setting_menu']
+
 ?>

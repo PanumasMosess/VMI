@@ -140,6 +140,7 @@ $failed_login_attempt = $objResult_login_attempt['failed_login_attempt'];
 											//session for user management
 											$_SESSION['t_cur_user_code_VMI_GDJ'] = trim($objResult_authen['user_code']);
 											$_SESSION['t_cur_user_type_VMI_GDJ'] = trim($objResult_authen['user_type']);
+											$_SESSION['t_cur_user_session_VMI_GDJ'] = trim($objResult_authen['user_section']);
 											
 											//create session company
 											$_SESSION['ses_company_VMI_GDJ'] = $t_com_code;

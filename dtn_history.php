@@ -43,8 +43,8 @@ require_once("js_css_header.php");
 	<div class="wrapper">
 
 		<?
-	require_once("menu.php");
-  ?>
+		require_once("menu.php");
+		?>
 		<!--------------------------->
 		<!-- body  -->
 		<!--------------------------->
@@ -116,16 +116,16 @@ require_once("js_css_header.php");
 		<!-- /.body -->
 		<!--------------------------->
 		<?
-	require_once("footer.php");
-  ?>
+		require_once("footer.php");
+		?>
 
 		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
 		<div class="control-sidebar-bg"></div>
 	</div>
 	<!-- ./wrapper -->
-	<? 
-require_once("js_css_footer.php"); 
-?>
+	<?
+	require_once("js_css_footer.php");
+	?>
 	<script language="javascript">
 		$(document).ready(function() {
 			//load tags
@@ -148,6 +148,12 @@ require_once("js_css_footer.php");
 		function openRePrintDTNSheet(id) {
 			setTimeout(function() {
 				window.open("<?= $CFG->src_mPDF; ?>/print_dtn_sheet?tag=" + id + "", "_blank");
+			}, 500);
+		}
+
+		function openRePrintDTNSheetShotFrom(id) {
+			setTimeout(function() {
+				window.open("<?= $CFG->src_mPDF; ?>/print_dtn_shotfrom?tag=" + id + "", "_blank");
 			}, 500);
 		}
 
@@ -174,6 +180,7 @@ require_once("js_css_footer.php");
 			var t_dn_h_cus_code = str_split_result[1];
 			var t_dn_h_cus_name = str_split_result[2];
 			var t_ps_t_pj_name = str_split_result[3];
+
 			var t_dn_h_status = str_split_result[4];
 			var t_dn_h_delivery_date = str_split_result[5];
 

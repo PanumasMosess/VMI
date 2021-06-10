@@ -177,7 +177,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['driver_code'].'" type="C39" class="barcode" height="1.5"/></td>
-				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="70px" style="padding: 2px;"/></td>
+				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="70px" style="padding: 2px;"/></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -219,7 +219,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['driver_code'].'" type="C39" class="barcode" height="1.5"/></td>
-				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="70px" style="padding: 2px;"/></td>
+				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="70px" style="padding: 2px;"/></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -261,7 +261,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['driver_code'].'" type="C39" class="barcode" height="1.5"/></td>
-				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="70px" style="padding: 2px;"/></td>
+				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="70px" style="padding: 2px;"/></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -303,7 +303,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  </tr>
 			  <tr>
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['driver_code'].'" type="C39" class="barcode" height="1.5"/></td>
-				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ.png" height="70px" style="padding: 2px;"/></td>
+				<td style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="70px" style="padding: 2px;"/></td>
 			  </tr>
 			</table></td></tr>';
 	}

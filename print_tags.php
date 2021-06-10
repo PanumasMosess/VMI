@@ -4,6 +4,42 @@ require_once("js_css_header.php");
 ?>
 <!DOCTYPE html>
 <html>
+
+<style>
+	/** SPINNER CREATION **/
+	.modal-dialog-load {
+		padding-top: 15%;
+		padding-left: 10%;
+	}
+
+	.loader {
+		position: relative;
+		text-align: center;
+		margin: 15px auto 25px auto;
+		z-index: 9999;
+		display: block;
+		width: 80px;
+		height: 80px;
+		border: 10px solid rgba(0, 0, 0, .3);
+		border-radius: 50%;
+		border-top-color: #000;
+		animation: spin 1s ease-in-out infinite;
+		-webkit-animation: spin 1s ease-in-out infinite;
+	}
+
+	@keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+
+	@-webkit-keyframes spin {
+		to {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+</style>
+
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -118,7 +154,7 @@ require_once("js_css_header.php");
 						<button type="button" class="btn btn-info btn-sm" onclick="_load_tags_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
 					</div>
 					<div style="padding-left: 8px;">
-						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT * ROWS</font>
+						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT TOP (800) * ROWS</font>
 					</div>
 					<!-- /.box-header -->
 					<span id="spn_load_tags_details"></span>
@@ -369,6 +405,12 @@ function gen_tags()
 	
 	//gen token
 	var str_token = tokenGen(30);
+
+	$("#loadding").modal({
+		backdrop: "static", //remove ability to close modal with click
+		keyboard: false, //remove option to close with keyboard
+		show: true //Display loader!
+	});
 	
 	$.ajax({
 	  type: 'POST',
@@ -395,6 +437,8 @@ function gen_tags()
 			
 			//load tags
 			_load_tags_details();
+			$("#loadding").modal("hide"); 
+
 			
 		  },
 		error: function(){
@@ -441,5 +485,28 @@ function _load_tags_details()
 	},300);
 }
 </script>
+<script type="text/javascript">
+inactivityTimeout = false;
+resetTimeout()
+function onUserInactivity() {
+   location.reload();
+}
+function resetTimeout() {
+   clearTimeout(inactivityTimeout)
+   inactivityTimeout = setTimeout(onUserInactivity, 1000 * 50)
+}
+window.onmousemove = resetTimeout
+</script>
 </body>
 </html>
+
+<!-- Model loading -->
+<div class="modal fade" id="loadding" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-load  modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<div class="loader"></div>
+			</div>
+		</div>
+	</div>
+</div>

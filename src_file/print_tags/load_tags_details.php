@@ -66,7 +66,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id;?></td>
 	  <td align="center">
-	  <button type="button" class="btn btn-primary btn-sm" id="<?=var_encode($tags_code);?>" onclick="openRePrintIndividual(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print this Tag ID"><i class="fa fa-print fa-lg"></i></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print this Lot Token" id="<?=var_encode($tags_token);?>" onclick="openRePrintSet(this.id);"><i class="fa fa-print fa-lg"></i></button>
+	  <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($tags_code);?>" onclick="openRePrintIndividual(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Tag ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=var_encode($tags_token);?>" onclick="openRePrintSet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Lot Token</span></button>
 	  </td>
 	  <td style="text-align: center; vertical-align: middle; color: green;"><?=$str_status_rec;?><!--<i class="<?=$str_icon_rec;?>" style="color: green;"></i>--></td>
 	  <td style="color: #000; font-weight: bold;"><?=$tags_code;?></td>

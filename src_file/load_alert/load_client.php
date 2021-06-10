@@ -5,6 +5,8 @@ require_once("../../application.php");
 /*current user ********************************************************************/
 $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
+$t_cur_user_session_VMI_GDJ = isset($_SESSION['t_cur_user_session_VMI_GDJ']) ? $_SESSION['t_cur_user_session_VMI_GDJ'] : '';
+
 
 $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
@@ -64,7 +66,7 @@ if($objResult_sp_dtn['CounterDTN'] == NULL){ $str_sp_c_total_dtn_qty = '0'; } el
 
 
 //get stock replenishment
-$objQuery_sp_stock_repn = sqlsrv_query($db_con, " EXEC sp_db_wms_stock_replenish 'Confirmed' ");
+$objQuery_sp_stock_repn = sqlsrv_query($db_con, " EXEC sp_db_wms_stock_replenish 'Confirmed', '$t_cur_user_session_VMI_GDJ'");
 $objResult_sp_stock_repn = sqlsrv_fetch_array($objQuery_sp_stock_repn, SQLSRV_FETCH_ASSOC);
 
 //check null
@@ -72,7 +74,7 @@ if($objResult_sp_stock_repn['count_pack_qty'] == NULL){ $str_sp_c_total_stock_re
 
 
 //get usage confirm
-$objQuery_sp_usage_conf = sqlsrv_query($db_con, " EXEC sp_db_wms_usage_conf 'USAGE CONFIRM' ");
+$objQuery_sp_usage_conf = sqlsrv_query($db_con, " EXEC sp_db_wms_usage_conf 'USAGE CONFIRM', '$t_cur_user_session_VMI_GDJ'");
 $objResult_sp_usage_conf = sqlsrv_fetch_array($objQuery_sp_usage_conf, SQLSRV_FETCH_ASSOC);
 
 //check null

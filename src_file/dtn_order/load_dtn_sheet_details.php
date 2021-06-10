@@ -44,6 +44,8 @@ SELECT
   on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
   where
   dn_h_status = 'Delivery Transfer Note'
+  and
+  ps_t_pj_name != 'B2C'
   group by
   [dn_h_dtn_code]
       ,[dn_h_cus_code]
@@ -75,7 +77,9 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id_DTNSheet;?></td>
 	  <td align="center">
-	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$dn_h_dtn_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;--><button type="button" class="btn btn-primary btn-sm" id="<?=var_encode($dn_h_dtn_code);?>" onclick="openRePrintDTNSheet(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print this DTN Sheet ID"><i class="fa fa-print fa-lg"></i></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm" data-placement="top" data-toggle="tooltip" data-original-title="View" id="<?=$dn_h_dtn_code;?>#####<?=$dn_h_cus_code;?>#####<?=$dn_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$dn_h_status;?>#####<?=$dn_h_delivery_date;?>" onclick="openFuncDTNSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i></button>
+	  <!--<button type="button" class="btn btn-warning btn-sm" id="<?=$dn_h_dtn_code;?>" onclick="openRefill(this.id)" data-placement="top" data-toggle="tooltip" data-original-title="Refill this Pallet ID"><i class="fa fa-pencil-square-o fa-lg"></i></button>&nbsp;&nbsp;-->
+	  <button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($dn_h_dtn_code);?>" onclick="openRePrintDTNSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this DTN Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm custom_tooltip" id="<?=var_encode($dn_h_dtn_code);?>" onclick="openRePrintDTNSheetShotFrom(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this DTN Sheet ID (Short form)</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$dn_h_dtn_code;?>#####<?=$dn_h_cus_code;?>#####<?=$dn_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$dn_h_status;?>#####<?=$dn_h_delivery_date;?>" onclick="openFuncDTNSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>&nbsp;
+	  <button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?=var_encode($dn_h_dtn_code);?>" onclick="reTurnToConfirmDTN(this.id);"><i class="fa fa-undo fa-lg"></i><span class="custom_tooltiptext">Return to Wait Confirm DTN</span></button>&nbsp;
 	  </td>
 	  <td><?=$dn_h_dtn_code;?></td>
 	  <td><?=$dn_h_cus_code;?></td>

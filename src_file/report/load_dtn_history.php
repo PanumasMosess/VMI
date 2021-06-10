@@ -22,12 +22,8 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 				<th>DTN Sheet ID</th>
 				<th>Customer Code</th>
 				<th>Customer Name</th>
-				<th>Project Name</th>
 				<th style="color: indigo;">Quantity (Pcs.)</th>
 				<th>Status</th>
-				<th>FG Code GDJ</th>
-				<th>SKU Code</th>
-				<th>Part Customer</th>
 				<th>Delivery Date</th>
 			</tr>
 		</thead>
@@ -40,12 +36,7 @@ $strSql = " select
 ,[dn_h_driver_code]
 ,[dn_h_delivery_date]
 ,[dn_h_status]
-,[ps_t_fg_code_gdj]
-,[ps_t_sku_code_abt]
-,[ps_t_part_customer]
-,[ps_t_pj_name]
 ,[dn_h_issue_date]
-,[dn_h_issue_datetime]
 ,sum([tags_packing_std]) as sum_picking_std 
 FROM [tbl_dn_head]
 left join
@@ -62,19 +53,14 @@ tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where dn_h_issue_date between '$date_start'  and  '$date_end'
 group by
- [dn_h_dtn_code]
+[dn_h_dtn_code]
 ,[dn_h_cus_code]
 ,[dn_h_cus_name]
 ,[dn_h_driver_code]
 ,[dn_h_delivery_date]
 ,[dn_h_status]
-,[ps_t_fg_code_gdj]
-,[ps_t_sku_code_abt]
-,[ps_t_part_customer]
-,[ps_t_pj_name]
 ,[dn_h_issue_date]
-,[dn_h_issue_datetime]
-order by [dn_h_issue_datetime] desc ";  
+order by [dn_h_issue_date] desc";  
 $objQuery = sqlsrv_query($db_con, $strSql);
 
 $row_id = 0;
@@ -89,29 +75,20 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
     $dn_h_driver_code = $objResult['dn_h_driver_code'];
     $dn_h_delivery_date = $objResult['dn_h_delivery_date'];
     $dn_h_status = $objResult['dn_h_status'];
-	$ps_t_pj_name = $objResult['ps_t_pj_name'];
-    $ps_t_part_customer = $objResult['ps_t_part_customer'];
     $dn_h_issue_date = $objResult['dn_h_issue_date'];
 	$sum_picking_std = $objResult['sum_picking_std'];
-	$ps_t_fg_code_gdj = $objResult['ps_t_fg_code_gdj'];
-	$ps_t_sku_code_abt = $objResult['ps_t_sku_code_abt'];
-	$ps_t_part_customer = $objResult['ps_t_part_customer'];
 	
 ?>
 			<tr style="font-size: 13px;">
 				<td><?= $row_id; ?></td>
 				<td align="center">
-					<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= var_encode($dn_h_dtn_code); ?>" onclick="openRePrintDTNSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this DTN Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= var_encode($dn_h_dtn_code); ?>" onclick="openRePrintDtn(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print By Pallet</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= $dn_h_dtn_code; ?>#####<?= $dn_h_cus_code; ?>#####<?= $dn_h_cus_name; ?>#####<?= $ps_t_pj_name; ?>#####<?= $dn_h_status; ?>#####<?= $dn_h_delivery_date; ?>" onclick="openFuncDTNSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
+					<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= var_encode($dn_h_dtn_code); ?>" onclick="openRePrintDTNSheet(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this DTN Sheet ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm custom_tooltip" id="<?=var_encode($dn_h_dtn_code);?>" onclick="openRePrintDTNSheetShotFrom(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this DTN Sheet ID (Short form)</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= var_encode($dn_h_dtn_code); ?>" onclick="openRePrintDtn(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print By DTN</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?= $dn_h_dtn_code; ?>#####<?= $dn_h_cus_code; ?>#####<?= $dn_h_cus_name; ?>#####<?= $dn_h_status; ?>#####<?= $dn_h_delivery_date; ?>" onclick="openFuncDTNSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
 				</td>
 				<td><?= $dn_h_dtn_code; ?></td>
 				<td><?= $dn_h_cus_code; ?></td>
 				<td><?= $dn_h_cus_name; ?></td>
-				<td><?= $ps_t_pj_name; ?></td>
 				<td style="color: indigo;"><?= $sum_picking_std; ?></td>
 				<td><?= $dn_h_status; ?></td>
-				<td><?= $ps_t_fg_code_gdj; ?></td>
-				<td><?= $ps_t_sku_code_abt; ?></td>
-				<td><?= $ps_t_part_customer; ?></td>
 				<td><?= $dn_h_delivery_date; ?></td>
 			</tr>
 			<?
@@ -137,7 +114,7 @@ require_once("../../js_css_footer_noConflict.php");
 			columnDefs: [{
 					orderable: true,
 					className: 'reorder',
-					targets: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+					targets: [0, 2, 3, 4, 5, 6, 7]
 				},
 				{
 					orderable: false,
@@ -147,26 +124,26 @@ require_once("../../js_css_footer_noConflict.php");
 			pagingType: "full_numbers",
 			rowCallback: function(row, data, index) {
 				//status
-				if (data[7] == "Received") {
-					$(row).find('td:eq(7)').css('color', 'green'); //green
-				} else if (data[7] == "Picking") {
-					$(row).find('td:eq(7)').css('color', 'gray');
-				} else if (data[7] == "Confrim Order") {
-					$(row).find('td:eq(7)').css('color', 'gray');
-				} else if (data[7] == "Delivery Transfer Note") {
-					$(row).find('td:eq(7)').css('color', 'orange');
-				} else if (data[7] == "Pick To Use") {
-					$(row).find('td:eq(7)').css('color', 'blue');
-				} else if (data[7] == "Terminal 01") {
-					$(row).find('td:eq(7)').css('color', 'limegreen');
-				} else if (data[7] == "Terminal 02") {
-					$(row).find('td:eq(7)').css('color', 'limegreen');
-				} else if (data[7] == "Terminal 03") {
-					$(row).find('td:eq(7)').css('color', 'limegreen');
-				} else if (data[7] == "Terminal 04") {
-					$(row).find('td:eq(7)').css('color', 'limegreen');
-				} else if (data[7] == "Terminal 05") {
-					$(row).find('td:eq(7)').css('color', 'limegreen');
+				if (data[6] == "Received") {
+					$(row).find('td:eq(6)').css('color', 'orange'); //green
+				} else if (data[6] == "Picking") {
+					$(row).find('td:eq(6)').css('color', 'gray');
+				} else if (data[6] == "Confirmed") {
+					$(row).find('td:eq(6)').css('color', 'green');
+				} else if (data[6] == "Delivery Transfer Note") {
+					$(row).find('td:eq(6)').css('color', 'orange');
+				} else if (data[6] == "Pick To Use") {
+					$(row).find('td:eq(6)').css('color', 'blue');
+				} else if (data[6] == "Terminal 01") {
+					$(row).find('td:eq(6)').css('color', 'limegreen');
+				} else if (data[6] == "Terminal 02") {
+					$(row).find('td:eq(6)').css('color', 'limegreen');
+				} else if (data[6] == "Terminal 03") {
+					$(row).find('td:eq(6)').css('color', 'limegreen');
+				} else if (data[6] == "Terminal 04") {
+					$(row).find('td:eq(6)').css('color', 'limegreen');
+				} else if (data[6] == "Terminal 05") {
+					$(row).find('td:eq(6)').css('color', 'limegreen');
 				}
 			},
 		});
@@ -181,7 +158,7 @@ require_once("../../js_css_footer_noConflict.php");
 					modifier: {
 						page: 'all'
 					},
-					columns: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+					columns: [2, 3, 4, 5, 6, 7]
 				}
 			}],
 			dom: {

@@ -286,6 +286,12 @@ class FontVariables
 				"unbatang" => [/* Korean */
 					'R' => "UnBatang_0613.ttf",
 				],
+				"thsarabun" => [
+					'R' => "THSarabunNew.ttf",
+					'I' => "THSarabunNewItalic.ttf",
+					'B' =>  "THSarabunNewBold.ttf",
+					'BI' => "THSarabunNewBoldItalic.ttf",
+				],
 			],
 
 			// Add fonts to this array if they contain characters in the SIP or SMP Unicode planes
@@ -309,7 +315,7 @@ class FontVariables
 				'arial', 'helvetica', 'verdana', 'geneva', 'lucida', 'arialnarrow', 'arialblack',
 				'franklin', 'franklingothicbook', 'tahoma', 'garuda', 'calibri', 'trebuchet', 'lucidagrande', 'microsoftsansserif',
 				'trebuchetms', 'lucidasansunicode', 'franklingothicmedium', 'albertusmedium', 'xbriyaz', 'albasuper', 'quillscript',
-				'humanist777', 'humanist777black', 'humanist777light', 'futura', 'hobo', 'segoeprint'
+				'humanist777', 'humanist777black', 'humanist777light', 'futura', 'hobo', 'segoeprint',
 			],
 
 			'serif_fonts' => ['dejavuserifcondensed', 'serif', 'dejavuserif', 'freeserif', 'liberationserif',
@@ -321,6 +327,7 @@ class FontVariables
 			'mono_fonts' => ['dejavusansmono', 'mono', 'monospace', 'freemono', 'liberationmono', 'courier', 'ocrb', 'ocr-b', 'lucidaconsole',
 				'couriernew', 'monotypecorsiva'
 			],
+
 		];
 	}
 
