@@ -604,6 +604,38 @@ function get_cus_code($db_con,$type_selector,$fg_code_gdj,$fg_code_gdj_desc)
 }
 
 /**********************************************************************************/
+/*Print Tags **********************************************************************/
+function get_customer_code($db_con,$type_selector,$fg_code_gdj,$fg_code_gdj_desc)
+{
+	$strSQL = "
+	SELECT 
+		  [bom_cus_code]	  
+	FROM tbl_tags_running
+	inner join 
+	  tbl_bom_mst
+	  on 
+	  tbl_tags_running.tags_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+	 where tags_fg_code_gdj = '$fg_code_gdj' and tags_fg_code_gdj_desc = '$fg_code_gdj_desc'
+	 group by
+	
+		  [bom_cus_code]
+	";
+	
+	//clear
+	$bom_cus_code = "";
+	
+	$objQuery = sqlsrv_query($db_con, $strSQL);					
+	while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
+	{
+		$bom_cus_code = $objResult["bom_cus_code"];
+	}
+	
+		return $bom_cus_code;
+	
+	sqlsrv_close($db_con);
+}
+
+/**********************************************************************************/
 /*customer from BOM MST ***********************************************************/
 function get_customer($db_con,$type_selector,$fg_code_set_abt,$sku_code_abt,$fg_code_gdj,$pj_name)
 {
@@ -1050,7 +1082,7 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
         $sqlUpdatePicking_tail = " UPDATE tbl_picking_tail SET ps_t_status = 'Confirmed' WHERE ps_t_picking_code = '$dn_h_dtn_code' and ps_t_status = 'Delivery Transfer Note' ";
         $result_sqlUpdatePicking_tail = sqlsrv_query($db_con, $sqlUpdatePicking_tail);
         
-    }	
+        }	
 
 	 //Status for Update
 	 $url_b2c_web = "https://glong-duang-jai.com/wp-json/wc-ast/v3/orders/$b2c_repn_order_ref/shipment-trackings";
@@ -1080,7 +1112,6 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
  
 	 $resp_web = curl_exec($curl_web);
 	 curl_close($curl_web);
-
          
     }
     else

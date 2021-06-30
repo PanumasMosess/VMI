@@ -1,0 +1,8 @@
+[29-Jun-2021 09:08:57 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:08:57 UTC] PHP Stack trace:
+[29-Jun-2021 09:08:57 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\put_away\load_scan_master_tags_details.php:0
+[29-Jun-2021 09:08:57 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\put_away\load_scan_master_tags_details.php:2
+[29-Jun-2021 09:08:57 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:08:57 UTC] PHP Stack trace:
+[29-Jun-2021 09:08:57 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\put_away\load_pallet_details.php:0
+[29-Jun-2021 09:08:57 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\put_away\load_pallet_details.php:2

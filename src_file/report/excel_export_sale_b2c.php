@@ -178,7 +178,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $b2c_sale_time);
 	$objPHPExcel->getActiveSheet()->setCellValue('C' . $i, '0 Min');
 	$objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $b2c_sale_user_id);
-	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'xxxxxxxxxx');
+	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'E05210002A1702');
 	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $b2c_sale_inv_no);
 	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $b2c_sale_excluding_vat);
 	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $b2c_sale_tax);

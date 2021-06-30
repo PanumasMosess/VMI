@@ -71,7 +71,7 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_sale_report, SQLSRV_FET
 	  <td><?=$b2c_sale_time;?></td>
 	  <td>0 Min</td>
 	  <td><?=$b2c_sale_user_id;?></td>
-	  <td>xxxxxxxxxx</td>
+	  <td>E05210002A1702</td>
 	  <td><?=$b2c_sale_inv_no;?></td>
 	  <td><?=$b2c_sale_excluding_vat;?></td>
       <td><?=$b2c_sale_tax;?></td>

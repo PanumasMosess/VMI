@@ -6,7 +6,7 @@
 /*current user ********************************************************************/
 $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
-
+$t_cur_user_session_VMI_GDJ = isset($_SESSION['t_cur_user_session_VMI_GDJ']) ? $_SESSION['t_cur_user_session_VMI_GDJ'] : '';
 
 /*var *****************************************************************************/
 $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
@@ -43,43 +43,85 @@ $buffer_datetime = date("Y-m-d H:i:s");
 		<tbody>
 			<?
 			if($stock_locate == "ALL"){
-				$strSql = " 
-				SELECT       
-				ps_t_tags_code,
-				bom_pj_name,
-				ps_t_fg_code_gdj,
-				bom_fg_desc,
-				ps_t_tags_packing_std,
-				dn_h_status,
-				dn_h_receive_date,
-				receive_status,
-				usage_pick_by,
-				usage_pick_date,
-				usage_pick_time,
-				bom_part_customer
-				
-				FROM tbl_dn_head
-				left join tbl_dn_tail 
-				on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
-				left join tbl_picking_head
-				on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
-				left join tbl_picking_tail
-				on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
-				left join tbl_bom_mst 
-				on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
-				and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
-				and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
-				and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
-				and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
-				and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
-				left join tbl_receive
-				on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
-				left join tbl_usage_conf
-				on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
-				where
-				dn_h_status = 'Confirmed'  and receive_status = 'USAGE CONFIRM' and (usage_pick_date between '$date_start' and '$date_end')
-				order by usage_pick_date desc
-				";	
+				if($t_cur_user_session_VMI_GDJ == "TI" || "GDJ"){
+					$strSql = " 
+					SELECT       
+					ps_t_tags_code,
+					bom_pj_name,
+					ps_t_fg_code_gdj,
+					bom_fg_desc,
+					ps_t_tags_packing_std,
+					dn_h_status,
+					dn_h_receive_date,
+					receive_status,
+					usage_pick_by,
+					usage_pick_date,
+					usage_pick_time,
+					bom_part_customer
+					
+					FROM tbl_dn_head
+					left join tbl_dn_tail 
+					on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+					left join tbl_picking_head
+					on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
+					left join tbl_picking_tail
+					on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+					left join tbl_bom_mst 
+					on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+					and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+					and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+					and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
+					and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
+					and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+					left join tbl_receive
+					on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
+					left join tbl_usage_conf
+					on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
+					where
+					dn_h_status = 'Confirmed'  and receive_status = 'USAGE CONFIRM' and (usage_pick_date between '$date_start' and '$date_end')
+					order by usage_pick_date desc
+					";	
+				}else {
+
+					$strSql = " 
+					SELECT       
+					ps_t_tags_code,
+					bom_pj_name,
+					ps_t_fg_code_gdj,
+					bom_fg_desc,
+					ps_t_tags_packing_std,
+					dn_h_status,
+					dn_h_receive_date,
+					receive_status,
+					usage_pick_by,
+					usage_pick_date,
+					usage_pick_time,
+					bom_part_customer
+					
+					FROM tbl_dn_head
+					left join tbl_dn_tail 
+					on tbl_dn_head.dn_h_dtn_code = tbl_dn_tail.dn_t_dtn_code
+					left join tbl_picking_head
+					on tbl_dn_tail.dn_t_picking_code = tbl_picking_head.ps_h_picking_code
+					left join tbl_picking_tail
+					on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+					left join tbl_bom_mst 
+					on tbl_picking_tail.ps_t_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+					and tbl_picking_tail.ps_t_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+					and tbl_picking_tail.ps_t_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+					and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
+					and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
+					and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
+					left join tbl_receive
+					on tbl_receive.receive_tags_code = tbl_picking_tail.ps_t_tags_code
+					left join tbl_usage_conf
+					on tbl_usage_conf.usage_tags_code = tbl_picking_tail.ps_t_tags_code
+					where
+					(bom_pj_name IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and
+					dn_h_status = 'Confirmed'  and receive_status = 'USAGE CONFIRM' and (usage_pick_date between '$date_start' and '$date_end')
+					order by usage_pick_date desc
+					";	
+				}							
 
 			}else{
 				$strSql = " 

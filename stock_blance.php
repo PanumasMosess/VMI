@@ -43,7 +43,7 @@ require_once("js_css_header.php");
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
-		<?
+<?
 	require_once("menu.php");
   ?>
 		<!--------------------------->

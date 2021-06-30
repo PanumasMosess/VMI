@@ -128,26 +128,26 @@ if (isset($_REQUEST['size']))
 	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
 }
 
-//set var
-$t_qcode = $tag;
-if (isset($t_qcode))
-{ 
+// //set var
+// $t_qcode = $tag;
+// if (isset($t_qcode))
+// { 
 
-	//it's very important!
-	if (trim($t_qcode) == '')
-		die('data cannot be empty! <a href="?">back</a>');
+// 	//it's very important!
+// 	if (trim($t_qcode) == '')
+// 		die('data cannot be empty! <a href="?">back</a>');
 		
-	// user data
-	$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-	QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
+// 	// user data
+// 	$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+// 	QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
 	
-} 
-else 
-{    
-	//default data
-	//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-	QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-}
+// } 
+// else 
+// {    
+// 	//default data
+// 	//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
+// 	QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
+// }
 
 //////////////////////////////////////////////
 /////////////////////mPDF/////////////////////

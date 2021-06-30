@@ -1,0 +1,202 @@
+[29-Jun-2021 09:04:50 UTC] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(C:\WINDOWS\TEMP) failed: No error (0) in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:04:50 UTC] PHP Stack trace:
+[29-Jun-2021 09:04:50 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[29-Jun-2021 09:04:50 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[29-Jun-2021 09:04:50 UTC] PHP   3. session_start() D:\wwwroot\vmi\application.php:2
+[29-Jun-2021 09:08:57 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:08:57 UTC] PHP Stack trace:
+[29-Jun-2021 09:08:57 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\statistics.php:0
+[29-Jun-2021 09:08:57 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\statistics.php:2
+[29-Jun-2021 09:11:00 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:11:00 UTC] PHP Stack trace:
+[29-Jun-2021 09:11:00 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[29-Jun-2021 09:11:00 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[29-Jun-2021 09:11:00 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:11:00 UTC] PHP Stack trace:
+[29-Jun-2021 09:11:00 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[29-Jun-2021 09:11:00 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[29-Jun-2021 09:11:00 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:11:00 UTC] PHP Stack trace:
+[29-Jun-2021 09:11:00 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 09:11:00 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 09:15:34 UTC] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(C:\WINDOWS\TEMP) failed: No error (0) in D:\wwwroot\vmi\application.php on line 2
+[29-Jun-2021 09:15:34 UTC] PHP Stack trace:
+[29-Jun-2021 09:15:34 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[29-Jun-2021 09:15:34 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[29-Jun-2021 09:15:34 UTC] PHP   3. session_start() D:\wwwroot\vmi\application.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:104
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:105
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:106
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:107
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:108
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 21
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:21
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 29
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:29
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 37
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:37
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 45
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:45
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 53
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:53
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 61
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:61
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 70
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:70
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 78
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:78
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 86
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:86
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 106
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP Stack trace:
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[29-Jun-2021 16:42:23 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:106
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:104
+[30-Jun-2021 07:59:04 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 02:08:02 UTC] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(C:\WINDOWS\TEMP) failed: No error (0) in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:08:02 UTC] PHP Stack trace:
+[30-Jun-2021 02:08:02 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 02:08:02 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 02:08:02 UTC] PHP   3. session_start() D:\wwwroot\vmi\application.php:2
+[30-Jun-2021 02:18:19 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:18:19 UTC] PHP Stack trace:
+[30-Jun-2021 02:18:19 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[30-Jun-2021 02:18:19 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[30-Jun-2021 02:18:19 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:18:19 UTC] PHP Stack trace:
+[30-Jun-2021 02:18:19 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[30-Jun-2021 02:18:19 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[30-Jun-2021 02:18:19 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:18:19 UTC] PHP Stack trace:
+[30-Jun-2021 02:18:19 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[30-Jun-2021 02:18:19 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[30-Jun-2021 02:18:19 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:18:19 UTC] PHP Stack trace:
+[30-Jun-2021 02:18:19 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 02:18:19 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 02:18:19 UTC] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 02:18:19 UTC] PHP Stack trace:
+[30-Jun-2021 02:18:19 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[30-Jun-2021 02:18:19 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:104
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:105
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:106
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:107
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_client.php:2
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:108
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:516
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 21
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:21
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 29
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:29
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 37
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:37
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 45
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:45
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 53
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:53
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 61
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:61
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 70
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:70
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 78
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:78
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 86
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:86
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_client.php on line 106
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP Stack trace:
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_client.php:0
+[30-Jun-2021 10:58:49 Asia/Bangkok] PHP   2. sqlsrv_fetch_array() D:\wwwroot\vmi\src_file\load_alert\load_client.php:106
+[30-Jun-2021 04:39:02 UTC] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(C:\WINDOWS\TEMP) failed: No error (0) in D:\wwwroot\vmi\application.php on line 2
+[30-Jun-2021 04:39:02 UTC] PHP Stack trace:
+[30-Jun-2021 04:39:02 UTC] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:0
+[30-Jun-2021 04:39:02 UTC] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_alert_main.php:2
+[30-Jun-2021 04:39:02 UTC] PHP   3. session_start() D:\wwwroot\vmi\application.php:2

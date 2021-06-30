@@ -162,6 +162,11 @@ $html = '
 	vertical-align: top;
 	color: #000000;
 }
+.qrCode {
+	padding: 1.5mm;
+	margin: 0;
+	color: #000000;
+}
 .barcodecell {
 	text-align: center;
 	vertical-align: middle;
@@ -186,28 +191,8 @@ $html .= '
 <tr>
   <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><barcode code="'.$dn_h_dtn_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$dn_h_dtn_code.'</td>	  
-  <td colspan="2" align="right">';
-	//set var
-	$t_qcode = $dn_h_dtn_code;
-	if (isset($t_qcode))
-	{ 
-
-		//it's very important!
-		if (trim($t_qcode) == '')
-			die('data cannot be empty! <a href="?">back</a>');
-			
-		// user data
-		$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-		
-	} 
-	else 
-	{    
-		//default data
-		//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-		QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-	}
-	$html .= '<img style="padding: 0px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+  <td colspan="2" align="right">
+  <barcode code="'.$dn_h_dtn_code.'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/></td>
 </tr>
 <tr>
   <td colspan="8" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  

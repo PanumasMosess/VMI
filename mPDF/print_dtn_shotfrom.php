@@ -169,6 +169,11 @@ $html = '
 	vertical-align: middle;
 	padding: 2;
 }
+.qrCode {
+	padding: 1.5mm;
+	margin: 0;
+	color: #000000;
+}
 </style>
 </head>
 <body>
@@ -188,34 +193,14 @@ $html .= '
 <tr>
   <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><barcode code="'.$dn_h_dtn_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$dn_h_dtn_code.'</td>	  
-  <td colspan="2" align="right">';
-	//set var
-	$t_qcode = $dn_h_dtn_code;
-	if (isset($t_qcode))
-	{ 
-
-		//it's very important!
-		if (trim($t_qcode) == '')
-			die('data cannot be empty! <a href="?">back</a>');
-			
-		// user data
-		$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-		
-	} 
-	else 
-	{    
-		//default data
-		//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-		QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-	}
-	$html .= '<img style="padding: 0px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+  <td colspan="2" align="right">
+  <barcode code="'.$dn_h_dtn_code.'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/></td>
 </tr>
 <tr>
-  <td colspan="8" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  
+  <td colspan="7" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  
 </tr>
 <tr>
-  <td colspan="8" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+  <td colspan="7" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 	<tr>
 	  <td width="50%" style="border-right:solid 1px #000;">
 		&nbsp;<b>Delivery Transfer Note:</b> '.$dn_h_dtn_code.'<br>&nbsp;<b>Driver Name:</b> '.ucfirst($driver_name_en).'
@@ -243,7 +228,6 @@ $html .= '
 <td style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>Customer</b></td>
 <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>FG Code GDJ</b></td>
 <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>FG Desc.</b></td>	
-<td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>SNP</b></td>
 <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>Total Packing</b></td>	  
 <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; background-color: #D3D3D3;"><b>Total QTY.(Pcs.)</b></td>
 <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; background-color: #D3D3D3;"><b>Remark</b></td>
@@ -256,7 +240,6 @@ SELECT
 				[ps_t_fg_code_gdj]
 				,[bom_fg_desc]
 				,ps_t_ref_replenish_code
-				,bom_snp
 				,bom_pj_name
 				,sum([ps_t_tags_packing_std]) as tags_qty
 				,count([ps_t_fg_code_gdj]) as tags_pack
@@ -280,7 +263,6 @@ SELECT
 				[ps_t_fg_code_gdj]
 				,ps_t_ref_replenish_code
 				,[bom_fg_desc]
-				,bom_snp
 				,bom_pj_name
 ";
 
@@ -301,7 +283,6 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	$ps_t_fg_code_gdj = $objResult_DTNSheetDetails['ps_t_fg_code_gdj'];
 	$bom_fg_desc = $objResult_DTNSheetDetails['bom_fg_desc'];
 	$ps_t_ref_replenish_code = $objResult_DTNSheetDetails['ps_t_ref_replenish_code'];
-	$bom_snp = $objResult_DTNSheetDetails['bom_snp'];
 	$bom_pj_name = $objResult_DTNSheetDetails['bom_pj_name'];
 	$tags_qty = $objResult_DTNSheetDetails['tags_qty'];
 	$tags_pack = $objResult_DTNSheetDetails['tags_pack'];
@@ -354,10 +335,10 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	$html .= '<img style="padding: 0px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
 </tr>
 <tr>
-  <td colspan="8" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  
+  <td colspan="7" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  
 </tr>
 <tr>
-  <td colspan="8" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+  <td colspan="7" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 	<tr>
 	  <td width="50%" style="border-right:solid 1px #000;">
 		&nbsp;<b>Delivery Transfer Note:</b> '.$dn_h_dtn_code.'<br>&nbsp;<b>Driver Name:</b> '.ucfirst($driver_name_en).'
@@ -377,17 +358,16 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 </table></td>	  
 </tr>
 <tr>
-  <td colspan="8" style="font-size: 5pt;">&nbsp;</td>	  
+  <td colspan="7" style="font-size: 5pt;">&nbsp;</td>	  
 </tr>
 		<tr>
 		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>No.</b></td>
 		  <td style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>Customer</b></td>
 		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>FG Code GDJ</b></td>
 		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>FG Desc.</b></td>	
-		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>SNP</b></td>
 		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; background-color: #D3D3D3;"><b>Total Packing</b></td>	  
 		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; background-color: #D3D3D3;"><b>Total QTY.(Pcs.)</b></td>
-		  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; background-color: #D3D3D3;"><b>Remark</b></td>
+		  <td rowspan="3" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; background-color: #D3D3D3;"><b>Remark</b></td>
 		</tr>
 		<tr>
 		  <td style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:dotted 1px #000; background-color: #D3D3D3;"><b>Refill Order No.</b></td>
@@ -399,16 +379,15 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	  <td height="25px" style="font-size: 8pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000;">'.$bom_pj_name.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_fg_code_gdj.'</td>
 	  <td rowspan="2" style="font-weight:900; font-family: thsarabun; font-size: 10pt; text-align: center;  '.$str_css_bottom.' border-top:solid 1px #000;">'.$bom_fg_desc.'</td>
-	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000;  border-top:solid 1px #000;">'.$bom_snp.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000;  border-top:solid 1px #000;">'.$tags_pack.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000;  border-top:solid 1px #000;">'.$tags_qty.'</td>
-	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000; border-right:solid 1px #000; border-top:solid 1px #000;"></td>
+	  <td rowspan="3" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000; border-right:solid 1px #000; border-top:solid 1px #000;"></td>
 	</tr>
 	<tr>
 	  <td height="25px" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:dotted 1px #000;">'.$ps_t_ref_replenish_code.'</td>
 	</tr>
 	<tr>
-  		<td colspan="8" style="font-size: 0.5pt;">&nbsp;</td>	  
+  		<td colspan="7" style="font-size: 0.5pt;">&nbsp;</td>	  
 	</tr>
 	';
 }
@@ -423,10 +402,10 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	  <td style="font-size: 9pt; text-align: center; border-top:dotted 1px #000; border-bottom:solid 1px #000;"><b>('.$sum_packing_std.' Pack)</b></td>
 	</tr>
 	<tr>
-	  <td colspan="8" style="font-size: 5pt;">&nbsp;</td>	  
+	  <td colspan="7" style="font-size: 5pt;">&nbsp;</td>	  
 	</tr>
 	<tr>
-	  <td colspan="8" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+	  <td colspan="7" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 		<tr>
 		  <td width="50%" style="border-right:solid 1px #000;">
 			<br>&nbsp;Shipper (Driver):______________________________________

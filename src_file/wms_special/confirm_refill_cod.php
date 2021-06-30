@@ -429,90 +429,114 @@ else
         $bom_snp = $Obj_Result_Part_Repen['bom_snp'];
         $bom_packing = $Obj_Result_Part_Repen['bom_packing'];
 
-        $Sql_VMI_Stock = "SELECT T1.bom_fg_code_gdj,T1.bom_fg_code_set_abt,
-        REPLACE(T1.bom_fg_sku_code_abt, ' ', '') AS bom_fg_sku_code_abt,
-        CASE WHEN (T3.receive_status = '$Project_Name') THEN ISNULL(SUM(T2.tags_packing_std), 0) 
-        ELSE 0 END AS Stocm_VMI
-        FROM tbl_bom_mst T1
-        LEFT JOIN tbl_tags_running T2 ON T1.bom_fg_code_gdj = T2.tags_fg_code_gdj                 
-        LEFT JOIN tbl_receive T3 ON T2.tags_code = T3.receive_tags_code
-        WHERE  T1.bom_part_customer = '$part_customer' 
-        AND T1.bom_pj_name = '$Project_Name' AND T3.receive_status = '$Project_Name' 
-        AND T1.bom_status = 'Active' AND T1.bom_ship_type = '$ship_type' 
-        AND T1.bom_snp = '$bom_snp' 
-        AND T1.bom_fg_code_gdj = '$part_FG_GDJ'
-        AND T1.bom_fg_sku_code_abt = '$sku_code_abt'
-        GROUP BY T1.bom_fg_sku_code_abt,T1.bom_fg_code_gdj,T1.bom_fg_code_set_abt,T3.receive_status";
-        //echo $Sql_VMI_Stock;exit();
-        $objQuery_VMI_Stock = sqlsrv_query($db_con, $Sql_VMI_Stock);        
-        while($objResult_VMI_Stock = sqlsrv_fetch_array($objQuery_VMI_Stock, SQLSRV_FETCH_ASSOC))
-        {
-            $Stock_VMI = $objResult_VMI_Stock["Stocm_VMI"];
-        }
+        $sql_Check_Status_Repen = "SELECT repn_conf_status 
+        FROM tbl_replenishment
+        WHERE repn_fg_code_gdj = '$part_FG_GDJ' AND repn_sku_code_abt = '$sku_code_abt'
+        AND repn_part_customer = '$part_customer' AND repn_conf_status IS NULL";
 
-        $Sql_Bom_Min_Max = "SELECT bom_vmi_min,bom_vmi_max
-        FROM tbl_bom_mst
-        WHERE bom_fg_code_set_abt = '$fg_code_set_abt'
-        AND bom_fg_sku_code_abt = '$sku_code_abt'
-        AND bom_fg_code_gdj = '$part_FG_GDJ'
-        AND bom_pj_name = '$Project_Name'
-        AND bom_ship_type = '$ship_type'
-        AND bom_part_customer = '$part_customer'";
-        $objQuery_Bom_Min_Max = sqlsrv_query($db_con, $Sql_Bom_Min_Max);         
-        while($objResult_Bom_Min_Max = sqlsrv_fetch_array($objQuery_Bom_Min_Max, SQLSRV_FETCH_ASSOC))
+        $query_Check_Status_Repen = sqlsrv_query($db_con, $sql_Check_Status_Repen);
+        if($query_Check_Status_Repen === false) 
         {
-            $Bom_Min = $objResult_Bom_Min_Max["bom_vmi_min"];
-            $Bom_Max = $objResult_Bom_Min_Max["bom_vmi_max"]; 
-        }
-        if ($Stock_VMI <= $Bom_Min)
-        {
-            $Format_Date = str_replace('-', '/', $buffer_date);
-            $Delivery_Date = date('Y-m-d',strtotime($Format_Date . "+5 days"));
-
-            $Qty_Repen = ($Bom_Max - $Stock_VMI);
-            $sql_Insert_Auto_Min = "INSERT INTO tbl_replenishment
-               (
-                repn_fg_code_set_abt
-                ,repn_sku_code_abt
-                ,repn_fg_code_gdj
-                ,repn_pj_name
-                ,repn_ship_type
-                ,repn_part_customer
-                ,repn_snp
-                ,repn_qty
-                ,repn_unit_type
-                ,repn_terminal_name
-                ,repn_order_type
-                ,repn_by
-                ,repn_date
-                ,repn_time
-                ,repn_datetime
-                ,repn_delivery_date
-               )
-                VALUES
-               (
-                '$fg_code_set_abt'
-                ,'$sku_code_abt'
-                ,'$part_FG_GDJ'
-                ,'$Project_Name'
-                ,'$ship_type'
-                ,'$part_customer'
-                ,'$bom_snp'
-                ,'$Qty_Repen'
-                ,'Component'
-                ,'$Project_Name'
-                ,'VMI Order'
-                ,'$Project_Name'
-                ,'$buffer_date'
-                ,'$buffer_time'
-                ,'$buffer_datetime'
-                ,'$Delivery_Date'
-               )";
-            $Result_Insert_Auto_Min = sqlsrv_query($db_con, $sql_Insert_Auto_Min);
+            http_response_code(200);
+            echo json_encode(array("tStatus" => "0","tStatus_Text" => "Error SP","tError_Focus" => ""));
+            die(print_r(sqlsrv_errors(), true));
         }
         else
         {
-              
+          $num_row_Check_Status_Repen = sqlsrv_num_rows($query_Check_Status_Repen);
+          if ($num_row_Check_Status_Repen = 0)
+          {
+            $Sql_VMI_Stock = "SELECT T1.bom_fg_code_gdj,T1.bom_fg_code_set_abt,
+            REPLACE(T1.bom_fg_sku_code_abt, ' ', '') AS bom_fg_sku_code_abt,
+            CASE WHEN (T3.receive_status = '$iden_pj_name') THEN ISNULL(SUM(T2.tags_packing_std), 0) 
+            ELSE 0 END AS Stocm_VMI
+            FROM tbl_bom_mst T1
+            LEFT JOIN tbl_tags_running T2 ON T1.bom_fg_code_gdj = T2.tags_fg_code_gdj                 
+            LEFT JOIN tbl_receive T3 ON T2.tags_code = T3.receive_tags_code
+            WHERE  T1.bom_part_customer = '$part_customer' 
+            AND T1.bom_pj_name = '$iden_pj_name' AND T3.receive_status = '$iden_pj_name' 
+            AND T1.bom_status = 'Active' AND T1.bom_ship_type = '$ship_type' 
+            AND T1.bom_snp = '$bom_snp' 
+            AND T1.bom_fg_code_gdj = '$part_FG_GDJ'
+            AND T1.bom_fg_sku_code_abt = '$sku_code_abt'
+            GROUP BY T1.bom_fg_sku_code_abt,T1.bom_fg_code_gdj,T1.bom_fg_code_set_abt,T3.receive_status";
+    
+            //echo $Sql_VMI_Stock;exit();
+            $objQuery_VMI_Stock = sqlsrv_query($db_con, $Sql_VMI_Stock);        
+            while($objResult_VMI_Stock = sqlsrv_fetch_array($objQuery_VMI_Stock, SQLSRV_FETCH_ASSOC))
+            {
+                $Stock_VMI = $objResult_VMI_Stock["Stocm_VMI"];
+            }
+    
+            $Sql_Bom_Min_Max = "SELECT bom_vmi_min,bom_vmi_max
+            FROM tbl_bom_mst
+            WHERE bom_fg_code_set_abt = '$fg_code_set_abt'
+            AND bom_fg_sku_code_abt = '$sku_code_abt'
+            AND bom_fg_code_gdj = '$part_FG_GDJ'
+            AND bom_pj_name = '$iden_pj_name'
+            AND bom_ship_type = '$ship_type'
+            AND bom_part_customer = '$part_customer'";
+            $objQuery_Bom_Min_Max = sqlsrv_query($db_con, $Sql_Bom_Min_Max);         
+            while($objResult_Bom_Min_Max = sqlsrv_fetch_array($objQuery_Bom_Min_Max, SQLSRV_FETCH_ASSOC))
+            {
+                $Bom_Min = $objResult_Bom_Min_Max["bom_vmi_min"];
+                $Bom_Max = $objResult_Bom_Min_Max["bom_vmi_max"]; 
+            }
+            if ($Stock_VMI <= $Bom_Min)
+            {
+                $Format_Date = str_replace('-', '/', $buffer_date);
+                $Delivery_Date = date('Y-m-d',strtotime($Format_Date . "+5 days"));
+    
+                $Qty_Repen = ($Bom_Max - $Stock_VMI);
+                $sql_Insert_Auto_Min = "INSERT INTO tbl_replenishment
+                   (
+                    repn_fg_code_set_abt
+                    ,repn_sku_code_abt
+                    ,repn_fg_code_gdj
+                    ,repn_pj_name
+                    ,repn_ship_type
+                    ,repn_part_customer
+                    ,repn_snp
+                    ,repn_qty
+                    ,repn_unit_type
+                    ,repn_terminal_name
+                    ,repn_order_type
+                    ,repn_by
+                    ,repn_date
+                    ,repn_time
+                    ,repn_datetime
+                    ,repn_delivery_date
+                   )
+                    VALUES
+                   (
+                    '$fg_code_set_abt'
+                    ,'$sku_code_abt'
+                    ,'$part_FG_GDJ'
+                    ,'$iden_pj_name'
+                    ,'$ship_type'
+                    ,'$part_customer'
+                    ,'$bom_snp'
+                    ,'$Qty_Repen'
+                    ,'Component'
+                    ,'$iden_pj_name'
+                    ,'VMI Order'
+                    ,'$iden_pj_name'
+                    ,'$buffer_date'
+                    ,'$buffer_time'
+                    ,'$buffer_datetime'
+                    ,'$Delivery_Date'
+                   )";
+                $Result_Insert_Auto_Min = sqlsrv_query($db_con, $sql_Insert_Auto_Min);
+            }
+            else
+            {
+                  
+            }
+          }
+          else
+          {
+
+          }
         }
     }
 }

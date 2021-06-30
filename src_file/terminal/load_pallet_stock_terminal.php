@@ -6,7 +6,7 @@
 /*current user ********************************************************************/
 $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
-
+$t_cur_user_session_VMI_GDJ = isset($_SESSION['t_cur_user_session_VMI_GDJ']) ? $_SESSION['t_cur_user_session_VMI_GDJ'] : '';
 
 /*var *****************************************************************************/
 $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
@@ -41,39 +41,76 @@ $buffer_datetime = date("Y-m-d H:i:s");
 		<tbody>
 			<?
 if($stock_locate  == "ALL"){
-	$strSql = " 
-	SELECT
-		tags_code,
-		tags_fg_code_gdj,
-		ps_t_tags_packing_std,
-		ps_t_part_customer,
-		receive_status,
-		receive_date,
-		tags_fg_code_gdj_desc,
-		conf_qc_tags_code,
-		dn_h_status,
-		dn_h_receive_date,
-		ps_t_pj_name,
-		dn_t_dtn_code
+	if($t_cur_user_session_VMI_GDJ == "IT" || "GDJ"){
+		$strSql = " 
+		SELECT
+			tags_code,
+			tags_fg_code_gdj,
+			ps_t_tags_packing_std,
+			ps_t_part_customer,
+			receive_status,
+			receive_date,
+			tags_fg_code_gdj_desc,
+			conf_qc_tags_code,
+			dn_h_status,
+			dn_h_receive_date,
+			ps_t_pj_name,
+			dn_t_dtn_code
+				
+			FROM tbl_receive
+			left join tbl_tags_running
+			on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+			left join tbl_picking_tail
+			on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
+			left join tbl_usage_conf_qc
+			on tbl_usage_conf_qc.conf_qc_tags_code = tbl_receive.receive_tags_code
+			left join tbl_picking_head
+			on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+			left join tbl_dn_tail 
+			on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
+			left join tbl_dn_head
+			on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 			
-		FROM tbl_receive
-		left join tbl_tags_running
-		on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
-		left join tbl_picking_tail
-		on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
-		left join tbl_usage_conf_qc
-		on tbl_usage_conf_qc.conf_qc_tags_code = tbl_receive.receive_tags_code
-		left join tbl_picking_head
-		on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
-		left join tbl_dn_tail 
-		on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
-		left join tbl_dn_head
-		on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
-		
-		where (receive_status != 'Received' and receive_status != 'Picking' and
-		receive_status != 'Delivery Transfer Note') and (dn_h_receive_date between '$date_start' and '$date_end')  
-		order by dn_h_receive_date desc   
-			";
+			where (receive_status != 'Received' and receive_status != 'Picking' and
+			receive_status != 'Delivery Transfer Note') and (dn_h_receive_date between '$date_start' and '$date_end')  
+			order by dn_h_receive_date desc   
+				";
+	} else {
+
+		$strSql = " 
+		SELECT
+			tags_code,
+			tags_fg_code_gdj,
+			ps_t_tags_packing_std,
+			ps_t_part_customer,
+			receive_status,
+			receive_date,
+			tags_fg_code_gdj_desc,
+			conf_qc_tags_code,
+			dn_h_status,
+			dn_h_receive_date,
+			ps_t_pj_name,
+			dn_t_dtn_code
+				
+			FROM tbl_receive
+			left join tbl_tags_running
+			on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+			left join tbl_picking_tail
+			on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
+			left join tbl_usage_conf_qc
+			on tbl_usage_conf_qc.conf_qc_tags_code = tbl_receive.receive_tags_code
+			left join tbl_picking_head
+			on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+			left join tbl_dn_tail 
+			on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
+			left join tbl_dn_head
+			on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
+			
+			where (receive_status IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and (dn_h_receive_date between '$date_start' and '$date_end')  
+			order by dn_h_receive_date desc   
+				";
+	}
+
 }else{
 	$strSql = " 
 	SELECT

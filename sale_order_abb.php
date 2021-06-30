@@ -53,9 +53,9 @@ require_once("js_css_header.php");
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1><i class="fa fa-caret-right"></i>&nbsp;Report B2C Order By Date for ABB</h1>
+      <h1><i class="fa fa-caret-right"></i>&nbsp;Report B2C Order By Date for ACC</h1>
       <ol class="breadcrumb">
-        <li><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-home"></i>Home</a></li><li class="active">Report B2C Order By Date for ABB</li>
+        <li><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-home"></i>Home</a></li><li class="active">Report B2C Order By Date for ACC</li>
       </ol>
     </section>
 	
@@ -94,7 +94,7 @@ require_once("js_css_header.php");
 					</div>
                     </div>
 					<div style="padding-left: 8px;">
-						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT TOP 1000 ROWS</font>
+						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT ACC DATA BY DATE</font>
 					</div>
 					<!-- /.box-header -->
 					<span id="spn_load_dtn_sheet_details"></span>

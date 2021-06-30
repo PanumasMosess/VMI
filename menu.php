@@ -289,17 +289,18 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_history"){ echo "active"; }; ?>"><a href="<?=$CFG->wwwroot;?>/dtn_history"><i class="fa fa-file"></i> <span>DTN History</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "b2c_status"){ echo "active"; }; ?>"><a href="<?=$CFG->wwwroot;?>/b2c_status"><i class="fa fa-file"></i> <span>DTN B2C Status</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )== "sale_order_history" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_history"><i class="fa fa-file-text-o"></i> <span>Sale Order </span></a></li>
-			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )== "sale_order_abb" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_abb"><i class="fa fa-file-text-o"></i> <span>Sale Order for ABB </span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )== "sale_order_abb" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_abb"><i class="fa fa-file-text-o"></i> <span>Sale Order for ACC </span></a></li>
 		  </ul>
 		</li>
 		
-		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "customer_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "driver_mst"){ echo "active"; } ?>">
+		<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "customer_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "driver_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "user_mst"){ echo "active"; } ?>">
 		  <a href="#">
 			<i class="fa fa-database"></i> <span>Master Data</span>
 			<i class="fa fa-angle-left pull-right"></i>
 		  </a>
 		  <ul class="treeview-menu">
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "bom_mst"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/bom_mst"><i class="fa fa-database"></i> <span>BOM</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "user_mst"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/user_mst"><i class="fa fa-database"></i> <span>User Manament</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "customer_mst"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/customer_mst"><i class="fa fa-database"></i> <span>Customer</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "driver_mst"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/driver_mst"><i class="fa fa-database"></i> <span>Driver</span></a></li>
 		  </ul>
@@ -402,7 +403,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				</a>
 				<ul class="treeview-menu">
 				<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="sale_order_history" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_history"><i class="fa fa-file-text-o"></i> <span>Sale Order </span></a></li>
-				<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="sale_order_abb" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_abb"><i class="fa fa-file-text-o"></i> <span>Sale Order for ABB </span></a></li>
+				<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="sale_order_abb" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/sale_order_abb"><i class="fa fa-file-text-o"></i> <span>Sale Order for ACC </span></a></li>
 				</ul>
 			</li>
 

@@ -172,7 +172,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $b2c_sale_inv_no);
 	$objPHPExcel->getActiveSheet()->setCellValue('C' . $i, date( "d/m/y", strtotime($b2c_sale_date)));
 	$objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $b2c_sale_branch);
-	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'xxxxxxxxxx');
+	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'E05210002A1702');
 	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $b2c_sale_transport_fee);
 	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $b2c_sale_discount_amount);
 	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $repn_sku_code_abt);
@@ -191,7 +191,7 @@ $objPHPExcel->getActiveSheet()->setTitle('1');
 $objPHPExcel->setActiveSheetIndex(0);
 // Redirect output to a client’s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="Upload ABB ('.$buffer_datetime.').xls"');
+header('Content-Disposition: attachment;filename="Upload ACC ('.$buffer_datetime.').xls"');
 header('Cache-Control: max-age=0');
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
