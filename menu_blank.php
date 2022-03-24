@@ -41,7 +41,7 @@ $lang_th_title = isset($_GET['lang_th_title']) ? $_GET['lang_th_title'] : '';
 			  <li class="dropdown messages-menu">
 				  <!--<div id="translators"><div id="google_translate_element"></div></div>-->
 				  <div style="float: right; padding: 5px;  color: #FFF;">
-					<img src="<?=$CFG->logodir;?>/GDJ.png" height="40px" style="background-color: #; border: 1px solid #DDD; border-radius: 4px; padding: 2px;"/>
+					<img src="<?=$CFG->logodir;?>/dscm.jpg" height="40px" style="background-color: #; border: 1px solid #DDD; border-radius: 4px; padding: 2px;"/><img src="<?=$CFG->logodir;?>/GDJ.png" height="40px" style="background-color: #; border: 1px solid #DDD; border-radius: 4px; padding: 2px;"/>
 				  </div>
 			  </li>
 			</ul>

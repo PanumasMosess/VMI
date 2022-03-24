@@ -41,7 +41,7 @@ require_once("js_css_header.php");
 							</div>
 							<div style="padding-left: 8px;">
 								<i class="fa fa-filter" style="color: #00F;"></i>
-								<font style="color: #00F;">SQL >_ SELECT Date - 7 Days</font>
+								<font style="color: #00F;">SQL >_ SELECT * ROWS | ดูย้อนหลัง 10 วัน</font>
 							</div>
 							<!-- /.box-header -->
 							<!-- <span id="spn_load_tags_details"></span> -->
@@ -55,11 +55,12 @@ require_once("js_css_header.php");
 											<th>Tags ID</th>
 											<th>FG Code GDJ</th>
 											<th>Description</th>
-											<th>Customer Code</th>
+											<th>Project Name</th>
 											<th>Production Plan Qty.</th>
 											<th style="color: indigo;">Packing STD Qty.(Pcs.)</th>
 											<th>Total Tags Qty</th>
 											<th>Lot Token</th>
+											<th>Trading From</th>
 											<th>Issue By</th>
 											<th>Issue Datetime</th>
 										</tr>
@@ -172,7 +173,7 @@ require_once("js_css_header.php");
                             data: 'tags_fg_code_gdj_desc'
                         },
 						{
-                            data: 'customer_code'
+                            data: 'tags_project_name'
                         },
                         {
                             data: 'tags_prod_plan'
@@ -185,6 +186,9 @@ require_once("js_css_header.php");
                         },
 						{
                             data: 'tags_token'
+                        },
+                        {
+                            data: 'tags_trading_from'
                         },
                         {
                             data: 'tags_issue_by'

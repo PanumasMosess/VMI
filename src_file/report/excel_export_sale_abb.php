@@ -83,26 +83,33 @@ $styleArray = array(
 
 
 //Set BG
-$objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFFFFF');
+$objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFFFFF');
 
 	
 // Set fonts
-$objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
-$objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getFont()->setSize(10);
+$objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
+$objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getFont()->setSize(10);
 
 $objPHPExcel->getActiveSheet()->setCellValue('A1', "Row_Number*");
 $objPHPExcel->getActiveSheet()->setCellValue('B1', "Receipt_Number*");
-$objPHPExcel->getActiveSheet()->setCellValue('C1', "Receipt_Date_dd/mm/yy*");
-$objPHPExcel->getActiveSheet()->setCellValue('D1', "Branch*");
-$objPHPExcel->getActiveSheet()->setCellValue('E1', "POS_ID*");
-$objPHPExcel->getActiveSheet()->setCellValue('F1', "Transport_Fee*");
-$objPHPExcel->getActiveSheet()->setCellValue('G1', "Discount_Amount*");
-$objPHPExcel->getActiveSheet()->setCellValue('H1', "Item_Code*");
-$objPHPExcel->getActiveSheet()->setCellValue('I1', "Item_Description*");
-$objPHPExcel->getActiveSheet()->setCellValue('J1', "Qty*");
-$objPHPExcel->getActiveSheet()->setCellValue('K1', "Unit_Price*");
+$objPHPExcel->getActiveSheet()->setCellValue('C1', "Order ID*");
+$objPHPExcel->getActiveSheet()->setCellValue('D1', "Receipt_Date_dd/mm/yy*");
+$objPHPExcel->getActiveSheet()->setCellValue('E1', "Branch*");
+$objPHPExcel->getActiveSheet()->setCellValue('F1', "POS_ID*");
+$objPHPExcel->getActiveSheet()->setCellValue('G1', "Transport_Fee*");
+$objPHPExcel->getActiveSheet()->setCellValue('H1', "Discount_Amount*");
+$objPHPExcel->getActiveSheet()->setCellValue('I1', "Tax Invoice*");
+$objPHPExcel->getActiveSheet()->setCellValue('J1', "Item_Code*");
+$objPHPExcel->getActiveSheet()->setCellValue('K1', "Item_Description*");
+$objPHPExcel->getActiveSheet()->setCellValue('L1', "Qty*");
+$objPHPExcel->getActiveSheet()->setCellValue('M1', "Invoice Address*");
+$objPHPExcel->getActiveSheet()->setCellValue('N1', "Post Code*");
+$objPHPExcel->getActiveSheet()->setCellValue('O1', "Contract Name*");
+$objPHPExcel->getActiveSheet()->setCellValue('P1', "Tel*");
+$objPHPExcel->getActiveSheet()->setCellValue('Q1', "Case");
+$objPHPExcel->getActiveSheet()->setCellValue('R1', "Unit_Price*");
 
 //get data
 $strSql_d = " 
@@ -122,6 +129,12 @@ SELECT [b2c_sale_date]
 	  ,[bom_price_sale_per_pcs]
       ,[b2c_sale_transport_fee]
       ,[b2c_sale_discount_amount]
+      ,[b2c_tax_inv]
+      ,[b2c_inv_address]
+      ,[b2c_zipcode]
+      ,b2c_contact_name
+      ,[b2c_tel]
+      ,[b2c_case]
   FROM [tbl_b2c_sale] 
   left join tbl_b2c_detail
   on tbl_b2c_sale.b2c_sale_order_id = tbl_b2c_detail.b2c_repn_order_ref
@@ -129,7 +142,7 @@ SELECT [b2c_sale_date]
   on tbl_b2c_detail.b2c_repn_order_ref = tbl_replenishment.repn_order_ref
   left join tbl_bom_mst
   on tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
-  where  (b2c_sale_date between '$start_' and '$end_')
+  where  (b2c_sale_date between '$start_' and '$end_')  and  bom_status = 'Active'  order by  [b2c_order_date]  asc
 ";
 
 $i = 1;
@@ -157,28 +170,59 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
     $bom_price_sale_per_pcs = $objResult_d['bom_price_sale_per_pcs'];
     $b2c_sale_transport_fee = $objResult_d['b2c_sale_transport_fee'];
     $b2c_sale_discount_amount = $objResult_d['b2c_sale_discount_amount'];
+    $b2c_tax_inv = $objResult_d['b2c_tax_inv'];
+    $b2c_inv_address = $objResult_d['b2c_inv_address'];
+    $b2c_zipcode = $objResult_d['b2c_zipcode'];
+    $b2c_contact_name = $objResult_d['b2c_contact_name'];
+    $b2c_tel = $objResult_d['b2c_tel'];
+    $b2c_case = $objResult_d['b2c_case'];
 
     if($b2c_sale_branch == null){
         $b2c_sale_branch = "0";
     }
-	
+
+    if($b2c_tax_inv == null){
+		$b2c_tax_inv  = '-';
+        $b2c_inv_address = '-';
+    	$b2c_zipcode = '-';
+   	 	$b2c_contact_name = '-';
+    	$b2c_tel = '-';
+    }
+
+    if($b2c_inv_address == null){
+		$b2c_inv_address  = '-';
+    }
+    if($b2c_case == null){
+		$b2c_case  = 'Normal';
+        $b2c_inv_address = '-';
+    	$b2c_zipcode = '-';
+   	 	$b2c_contact_name = '-';
+    	$b2c_tel = '-';
+    }
 	
 	//Set main
-	$objPHPExcel->getActiveSheet()->getStyle('A' .($i). ':'.'K'.($i))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	$objPHPExcel->getActiveSheet()->getStyle('A' .($i). ':'.'R'.($i))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 	
 		
 	//data
 	$objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $row_id_report);
 	$objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $b2c_sale_inv_no);
-	$objPHPExcel->getActiveSheet()->setCellValue('C' . $i, date( "d/m/y", strtotime($b2c_sale_date)));
-	$objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $b2c_sale_branch);
-	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, 'E05210002A1702');
-	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $b2c_sale_transport_fee);
-	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $b2c_sale_discount_amount);
-	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $repn_sku_code_abt);
-    $objPHPExcel->getActiveSheet()->setCellValue('I' . $i, $bom_fg_desc);
-    $objPHPExcel->getActiveSheet()->setCellValue('J' . $i, $repn_qty);
-    $objPHPExcel->getActiveSheet()->setCellValue('K' . $i, $bom_price_sale_per_pcs);
+    $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $b2c_sale_order_id);
+	$objPHPExcel->getActiveSheet()->setCellValue('D' . $i, date( "d/m/y", strtotime($b2c_sale_date)));
+	$objPHPExcel->getActiveSheet()->setCellValue('E' . $i, $b2c_sale_branch);
+	$objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $b2c_sale_pos_no);
+	$objPHPExcel->getActiveSheet()->setCellValue('G' . $i, $b2c_sale_transport_fee);
+	$objPHPExcel->getActiveSheet()->setCellValue('H' . $i, $b2c_sale_discount_amount);
+    $objPHPExcel->getActiveSheet()->setCellValueExplicit('I' . $i, $b2c_tax_inv,PHPExcel_Cell_DataType::TYPE_STRING);
+	$objPHPExcel->getActiveSheet()->setCellValue('J' . $i, $repn_sku_code_abt);
+    $objPHPExcel->getActiveSheet()->setCellValue('K' . $i, $bom_fg_desc);
+    $objPHPExcel->getActiveSheet()->setCellValue('L' . $i, $repn_qty);
+    $objPHPExcel->getActiveSheet()->setCellValue('M' . $i, $b2c_inv_address);
+    $objPHPExcel->getActiveSheet()->setCellValue('N' . $i, $b2c_zipcode);
+    $objPHPExcel->getActiveSheet()->setCellValue('O' . $i, $b2c_contact_name);
+    $objPHPExcel->getActiveSheet()->setCellValueExplicit('P' . $i, $b2c_tel,PHPExcel_Cell_DataType::TYPE_STRING);
+    $objPHPExcel->getActiveSheet()->setCellValue('Q' . $i, $b2c_case);
+    $objPHPExcel->getActiveSheet()->setCellValue('R' . $i, $b2c_sale_including_vat);
 
 }
 	

@@ -76,7 +76,7 @@ require_once("js_css_header.php");
 										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_project()">
 											<?
 											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
-												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name";
 											?>
 											<option value="ALL" selected="selected">All Project</option>
 											<?
@@ -369,6 +369,20 @@ require_once("js_css_footer.php");
 
 			// Just submit
 			mapForm.submit();
+		}
+
+		function _print_stock_by_tags(id){
+			
+			//split id
+			var str_split = id;
+			var str_split_result = str_split.split("#####");
+
+			var _project = str_split_result[0];
+			var t_min = str_split_result[1];
+			var t_max = str_split_result[2];
+
+			window.open("<?=$CFG->src_mPDF;?>/print_all_tags_on_stock?project="+ _project +"&min="+ t_min +"&max=" + t_max + "", "_blank");
+
 		}
 	</script>
 </body>

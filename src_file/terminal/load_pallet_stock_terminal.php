@@ -12,6 +12,7 @@ $t_cur_user_session_VMI_GDJ = isset($_SESSION['t_cur_user_session_VMI_GDJ']) ? $
 $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
 $date_start = isset($_POST['date_start_']) ? $_POST['date_start_'] : '';
 $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
+// $cus_code = isset($_POST['cus_code']) ? $_POST['cus_code'] : '';
 
 $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
@@ -21,7 +22,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 	<table id="tbl_inventory_terminal" class="table table-bordered table-hover table-striped nowrap">
 		<thead>
 			<tr style="font-size: 18px;">
-				<th colspan="11" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Stock Replnishment</b>&nbsp;<b class="btn" id="excel_export"></b></th> 
+				<th colspan="12" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Stock Replnishment</b>&nbsp;<b class="btn" id="excel_export"></b> &nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_component_by_project();"><i class="fa fa-bar-chart fa-lg"></i> Export Component By Project</button></th> 
 				<!-- &nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button>-->
 			</tr>
 			<tr style="font-size: 13px;">
@@ -36,12 +37,13 @@ $buffer_datetime = date("Y-m-d H:i:s");
 				<th>Status</th>
 				<th>Project Name</th>
 				<th>Confirmed Date</th>
+				<th>Confirmed Time</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?
 if($stock_locate  == "ALL"){
-	if($t_cur_user_session_VMI_GDJ == "IT" || "GDJ"){
+	if($t_cur_user_session_VMI_GDJ == "IT" || $t_cur_user_session_VMI_GDJ == "GDJ"){
 		$strSql = " 
 		SELECT
 			tags_code,
@@ -50,6 +52,7 @@ if($stock_locate  == "ALL"){
 			ps_t_part_customer,
 			receive_status,
 			receive_date,
+			dn_h_receive_time,
 			tags_fg_code_gdj_desc,
 			conf_qc_tags_code,
 			dn_h_status,
@@ -85,6 +88,7 @@ if($stock_locate  == "ALL"){
 			ps_t_part_customer,
 			receive_status,
 			receive_date,
+			dn_h_receive_time,
 			tags_fg_code_gdj_desc,
 			conf_qc_tags_code,
 			dn_h_status,
@@ -106,7 +110,7 @@ if($stock_locate  == "ALL"){
 			left join tbl_dn_head
 			on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 			
-			where (receive_status IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and (dn_h_receive_date between '$date_start' and '$date_end')  
+			where (ps_t_pj_name IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and (dn_h_receive_date between '$date_start' and '$date_end')  
 			order by dn_h_receive_date desc   
 				";
 	}
@@ -120,6 +124,7 @@ if($stock_locate  == "ALL"){
 	ps_t_part_customer,
 	receive_status,
 	receive_date,
+	dn_h_receive_time,
 	tags_fg_code_gdj_desc,
 	conf_qc_tags_code,
 	dn_h_status,
@@ -141,7 +146,7 @@ if($stock_locate  == "ALL"){
 	left join tbl_dn_head
 	on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 	
-	where receive_status = '$stock_locate' and (dn_h_receive_date between '$date_start' and '$date_end') 
+	where ps_t_pj_name = '$stock_locate' and (dn_h_receive_date between '$date_start' and '$date_end') 
 	order by dn_h_receive_date desc   
 	";
 }
@@ -162,6 +167,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$tags_fg_code_gdj_desc = $objResult['tags_fg_code_gdj_desc'];
 	$receive_status = $objResult['receive_status'];
 	$confirm_date = $objResult['dn_h_receive_date'];
+	$confirm_time = $objResult['dn_h_receive_time'];
 	$ps_t_tags_packing_std = $objResult['ps_t_tags_packing_std'];
 	$ps_t_pj_name = $objResult['ps_t_pj_name'];
 	$ps_t_part_customer = $objResult['ps_t_part_customer'];
@@ -233,6 +239,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 				<?
 				}
 				?>
+				<td><?= $confirm_time; ?></td>
 			</tr>
 			<?
 }
@@ -312,7 +319,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
                     modifier: {
                         page: 'all'
                     },
-                    columns: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    columns: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                 }
             }],
             dom: {

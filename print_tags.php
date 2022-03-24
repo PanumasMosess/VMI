@@ -72,19 +72,60 @@ require_once("js_css_header.php");
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>FG Code GDJ:<span id="spn_load_fg_code_gdj_packing_desc"></span><span id="spn_load_fg_code_gdj_packing_qty"></span></label>
-                                    <select id="sel_fg_code_gdj" name="sel_fg_code_gdj" class="form-control input-sm select2" style="width: 100%;" onchange="func_load_packing_qty(this.value)">
-                                        <option selected="selected" value="">Choose</option>
+                                    <label>Trading From:</span></label>
+                                    <select id="sel_trading_from" name="sel_trading_from" class="form-control input-sm select2" style="width: 100%;" ">
+                                        <option selected=" selected" value="">Choose</option>
                                         <?
-                                        $strSQL_fg_code_gdj = " SELECT bom_fg_code_gdj FROM tbl_bom_mst where bom_status = 'Active' group by bom_fg_code_gdj ";
-                                        $objQuery_fg_code_gdj = sqlsrv_query($db_con, $strSQL_fg_code_gdj) or die("Error Query [" . $strSQL_fg_code_gdj . "]");
-                                        while ($objResult_fg_code_gdj = sqlsrv_fetch_array($objQuery_fg_code_gdj, SQLSRV_FETCH_ASSOC)) {
+                                        $strSQL_trading = " SELECT [supp_code],[supp_name] FROM tbl_fulfillment_supplier where supp_status = 'Active' group by [supp_code],[supp_name] order by supp_code asc";
+                                        $objQuery_trading = sqlsrv_query($db_con, $strSQL_trading) or die("Error Query [" . $strSQL_trading . "]");
+                                        while ($objResult_trading = sqlsrv_fetch_array($objQuery_trading, SQLSRV_FETCH_ASSOC)) {
                                         ?>
-                                            <option value="<?= $objResult_fg_code_gdj["bom_fg_code_gdj"]; ?>"><?= $objResult_fg_code_gdj["bom_fg_code_gdj"]; ?></option>
+                                            <option value="<?= $objResult_trading["supp_code"]; ?>"><?= $objResult_trading["supp_code"]; ?> - <?= $objResult_trading["supp_name"]; ?></option>
                                         <?
                                         }
                                         ?>
                                     </select>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Project Name:</span></label>
+                                    <select id="sel_project_name" name="sel_project_name" class="form-control input-sm select2" style="width: 100%;" ">
+                                        <option selected=" selected" value="">Choose</option>
+                                        <?
+                                        $strSQL_pj_code = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name order by bom_pj_name asc";
+                                        $objQuery_pj_code = sqlsrv_query($db_con, $strSQL_pj_code) or die("Error Query [" . $strSQL_cus_code . "]");
+                                        while ($objResult_pj_code = sqlsrv_fetch_array($objQuery_pj_code, SQLSRV_FETCH_ASSOC)) {
+                                        ?>
+                                            <option value="<?= $objResult_pj_code["bom_pj_name"]; ?>"><?= $objResult_pj_code["bom_pj_name"]; ?></option>
+                                        <?
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>FG Code:</span><span id="spn_load_fg_code_gdj_packing_desc"></span><span id="spn_load_fg_code_gdj_packing_qty"></span></label>
+                                    <select id="sel_fg_code" name="sel_fg_code" class="form-control input-sm select2" style="width: 100%;" onchange="func_load_packing_qty()">
+                                        <option selected="selected" value="">Choose</option>
+                                    </select>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Production Plan Qty.:</label>
+                                    <input type="text" id="txt_prod_plan" name="txt_prod_plan" class="form-control input-sm" maxlength="5" placeholder="Enter Production Plan Qty.">
                                 </div>
                                 <!-- /.form-group -->
                             </div>
@@ -99,13 +140,14 @@ require_once("js_css_header.php");
                             </div>
                             <!-- /.col -->
                         </div>
+
                         <!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Production Plan Qty.:</label>
-                                    <input type="text" id="txt_prod_plan" name="txt_prod_plan" class="form-control input-sm" maxlength="5" placeholder="Enter Production Plan Qty.">
+                                    <label>Total Tags Qty.:</label>
+                                    <input type="text" id="txt_tags_total" name="txt_tags_total" class="form-control input-sm" placeholder="Auto Calculate Tags Qty." disabled>
                                 </div>
                                 <!-- /.form-group -->
                             </div>
@@ -120,19 +162,6 @@ require_once("js_css_header.php");
                             </div>
                             <!-- /.col -->
                         </div>
-                        <!-- /.col -->
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Total Tags Qty.:</label>
-                                    <input type="text" id="txt_tags_total" name="txt_tags_total" class="form-control input-sm" placeholder="Auto Calculate Tags Qty." disabled>
-                                </div>
-                                <!-- /.form-group -->
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
 
                     </div>
                     <!-- /.box-body -->
@@ -155,7 +184,7 @@ require_once("js_css_header.php");
                             </div>
                             <div style="padding-left: 8px;">
                                 <i class="fa fa-filter" style="color: #00F;"></i>
-                                <font style="color: #00F;">SQL >_ SELECT TOP (800) * ROWS</font>
+                                <font style="color: #00F;">SQL >_ SELECT * ROWS | Today</font>
                             </div>
                             <!-- /.box-header -->
                             <!-- <span id="spn_load_tags_details"></span> -->
@@ -169,16 +198,17 @@ require_once("js_css_header.php");
                                             <th>Tags ID</th>
                                             <th>FG Code GDJ</th>
                                             <th>Description</th>
-                                            <th>Customer Code</th>
+                                            <th>Project Name</th>
                                             <th>Production Plan Qty.</th>
                                             <th style="color: indigo;">Packing STD Qty.(Pcs.)</th>
                                             <th>Total Tags Qty</th>
                                             <th>Lot Token</th>
+                                            <th>Trading From</th>
                                             <th>Issue By</th>
                                             <th>Issue Datetime</th>
                                         </tr>
                                     </thead>
-                                    <tbody  style="font-size: 13px;">
+                                    <tbody style="font-size: 13px;">
                                     </tbody>
                                 </table>
                             </div>
@@ -209,7 +239,7 @@ require_once("js_css_header.php");
     ?>
     <script language="javascript">
         $(document).ready(function() {
-         
+
             //valid number only
             $("#txt_prod_plan,#txt_packing_std").keyup(function(e) {
                 if (/\D/g.test(this.value)) {
@@ -226,9 +256,9 @@ require_once("js_css_header.php");
             $(".select2").select2();
 
             //load tags
-          _load_tags_details();
-            
-     
+            _load_tags_details();
+
+
         });
 
         //valid number only onkeypress
@@ -243,12 +273,21 @@ require_once("js_css_header.php");
             return true;
         }
 
-        function func_load_packing_qty(id) {
+        function func_load_packing_qty() {
+
+            //clear 
+            $('#txt_fg_code_gdj_desc').val('');
+            $('#txt_packing_std').val('');
+
+            var fgVal = $('#sel_fg_code').val();
+            var projectVal = $('#sel_project_name').val();
             //Load data
             setTimeout(function() {
                 //$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
+
                 $("#spn_load_fg_code_gdj_packing_desc").load("<?= $CFG->src_print_tags; ?>/fg_code_gdj_desc.php", {
-                    fg_code_gdj: id
+                    fg_code_gdj: fgVal,
+                    project_name: projectVal,
                 });
             }, 500);
 
@@ -256,7 +295,8 @@ require_once("js_css_header.php");
             setTimeout(function() {
                 //$("#spn_load_fg_code_gdj_packing_qty").html(""); //clear span
                 $("#spn_load_fg_code_gdj_packing_qty").load("<?= $CFG->src_print_tags; ?>/fg_code_gdj_packing_qty.php", {
-                    fg_code_gdj: id
+                    fg_code_gdj: fgVal,
+                    project_name: projectVal,
                 });
             }, 500);
 
@@ -274,7 +314,43 @@ require_once("js_css_header.php");
 
         function gen_tags() {
             //check validate 
-            if ($("#sel_fg_code_gdj").val() == "") {
+            if ($("#sel_trading_from").val() == "") {
+                //dialog ctrl
+                swal({
+                    html: true,
+                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                    text: "<span style='font-size: 15px; color: #000;'>[C001] --- Select Trading From</span>",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+
+                //hide
+                setTimeout(function() {
+                    $('#sel_trading_from').select2('open');
+                }, 3000);
+
+                return false;
+            } else if ($("#sel_project_name").val() == "") {
+                //dialog ctrl
+                swal({
+                    html: true,
+                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                    text: "<span style='font-size: 15px; color: #000;'>[C001] --- Select Project Name</span>",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+
+                //hide
+                setTimeout(function() {
+                    $('#sel_project_name').select2('open');
+                }, 3000);
+
+                return false;
+            } else if ($("#sel_fg_code").val() == "") {
                 //dialog ctrl
                 swal({
                     html: true,
@@ -288,7 +364,7 @@ require_once("js_css_header.php");
 
                 //hide
                 setTimeout(function() {
-                    $('#sel_fg_code_gdj').select2('open');
+                    $('#sel_fg_code').select2('open');
                 }, 3000);
 
                 return false;
@@ -375,12 +451,15 @@ require_once("js_css_header.php");
                 show: true //Display loader!
             });
 
+
             $.ajax({
                 type: 'POST',
                 url: '<?= $CFG->src_print_tags; ?>/generate_tags.php',
                 data: {
-                    iden_sel_fg_code_gdj: $("#sel_fg_code_gdj").val(),
+                    iden_sel_trading_from: $("#sel_trading_from").val(),
+                    iden_sel_fg_code_gdj: $("#sel_fg_code").val(),
                     iden_txt_fg_code_gdj_desc: $("#txt_fg_code_gdj_desc").val(),
+                    iden_sel_project_name: $('#sel_project_name').val(),
                     iden_txt_prod_plan: $("#txt_prod_plan").val(),
                     iden_txt_packing_std: $("#txt_packing_std").val(),
                     iden_txt_tags_total: $("#txt_tags_total").val(),
@@ -391,8 +470,11 @@ require_once("js_css_header.php");
                     //print tags send token encode
                     window.open("<?= $CFG->src_mPDF; ?>/print_tags?token=" + response + "", "_blank");
 
+                    window.open("<?= $CFG->src_mPDF; ?>/print_tag_lot?token=" + response + "", "_blank");
+
                     //clear
-                    $('#sel_fg_code_gdj').val(null).trigger('change');
+                    $('#sel_fg_code').val(null).trigger('change');
+                    $('#sel_project_name').val(null).trigger('change');
                     $("#txt_fg_code_gdj_desc").val('');
                     $("#txt_prod_plan").val('');
                     $("#txt_packing_std").val('');
@@ -437,6 +519,10 @@ require_once("js_css_header.php");
             window.open("<?= $CFG->src_mPDF; ?>/print_tags?token=" + id + "", "_blank");
         }
 
+        function openRePrintLot(id) {
+            window.open("<?= $CFG->src_mPDF; ?>/print_tag_lot?token=" + id + "", "_blank");
+        }
+
         function _load_tags_details() {
             //Load data
             // setTimeout(function() {
@@ -446,7 +532,7 @@ require_once("js_css_header.php");
             $.ajax({
                 url: "<?= $CFG->src_print_tags; ?>/load_tags_details.php",
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     var result = JSON.parse(data);
                     callinTable(result);
                 }
@@ -483,19 +569,19 @@ require_once("js_css_header.php");
                         {
                             "data": null,
                             render: function(data, type, row) {
-                                return "<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["tags_endcode"] + "' onclick='openRePrintIndividual(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Tag ID</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["tags_token_endcode"] + "' onclick='openRePrintSet(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Lot Token</span></button>"
+                                return "<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["tags_endcode"] + "' onclick='openRePrintIndividual(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Tag ID</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["tags_token_endcode"] + "' onclick='openRePrintSet(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Lot Token</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-success btn-sm custom_tooltip' id='" + data["tags_token_endcode"] + "' onclick='openRePrintLot(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print Tag Lot Token</span></button>"
                             },
                             "targets": -1
                         },
                         {
                             "data": null,
                             render: function(data, type, row) {
-                                if(data["receive_status"] != null){
+                                if (data["receive_status"] != null) {
                                     return "<div style='text-align: center; vertical-align: middle; color: green;'>Received</div>"
-                                }else{
+                                } else {
                                     return " "
                                 }
-                               
+
                             },
                             "targets": -1
                         },
@@ -509,7 +595,7 @@ require_once("js_css_header.php");
                             data: 'tags_fg_code_gdj_desc'
                         },
                         {
-                            data: 'customer_code',                 
+                            data: 'tags_project_name',
                         },
                         {
                             data: 'tags_prod_plan'
@@ -524,6 +610,9 @@ require_once("js_css_header.php");
                             data: 'tags_token'
                         },
                         {
+                            data: 'tags_trading_from'
+                        },
+                        {
                             data: 'tags_issue_by'
                         },
                         {
@@ -534,6 +623,112 @@ require_once("js_css_header.php");
 
             }
         }
+
+
+
+        var fgObject = $('#sel_fg_code');
+        var projectObject = $('#sel_project_name');
+        // var abtObject = $('#sel_abt_code');
+        // var componentObject = $('#sel_com_code');
+        // var shipTypeObject = $('#sel_ship_code');
+        // var partCusObject = $('#sel_part_cus');
+
+        // on change project 
+        projectObject.on('change', function() {
+            var projectId = $('#sel_project_name').val();
+
+            fgObject.html('<option value="">Choose</option>');
+
+            $.get("<?= $CFG->src_print_tags; ?>/get_fg_code.php?projectId=" + escape(projectId) + "", function(data) {
+                var result = JSON.parse(data);
+                if (Object.keys(result[0]).length == 2) {
+                    $.each(result, function(index, item) {
+                        if (item.ft2_value == null) {
+                            fgObject.append($('<option disabled></option>').val(item.bom_fg_code_gdj).html(item.bom_fg_code_gdj));
+                        } else {
+                            fgObject.append($('<option></option>').val(item.bom_fg_code_gdj).html(item.bom_fg_code_gdj));
+                        }
+                    });
+                } else {
+                    $.each(result, function(index, item) {
+                        fgObject.append($('<option></option>').val(item.bom_fg_code_gdj).html(item.bom_fg_code_gdj));
+                    });
+                }
+            });
+        });
+
+        // // on change ABT code 
+        // fgObject.on('change', function() {
+        //     var abtId = $('#sel_fg_code').val();
+        //     var projectSend = $('#sel_project_name').val();
+
+        //     componentObject.html('<option value="">Choose</option>');
+        //     abtObject.html('<option value="">Choose</option>');
+        //     shipTypeObject.html('<option value="">Choose</option>');
+        //     partCusObject.html('<option value="">Choose</option>');
+
+        //     $.get("<?= $CFG->src_print_tags; ?>/get_abt_code.php?abtId=" + escape(abtId) + "&projectSend=" + escape(projectSend) + "", function(data) {
+        //         var result = JSON.parse(data);
+        //         $.each(result, function(index, item) {
+        //             abtObject.append(
+        //                 $('<option></option>').val(item.bom_fg_code_set_abt).html(item.bom_fg_code_set_abt)
+        //             );
+        //         });
+        //     });
+        // });
+
+        // // on change component code 
+        // abtObject.on('change', function() {
+        //     var componenttId = $('#sel_abt_code').val();
+
+        //     componentObject.html('<option value="">Choose</option>');
+        //     shipTypeObject.html('<option value="">Choose</option>');
+        //     partCusObject.html('<option value="">Choose</option>');
+
+        //     $.get("<?= $CFG->src_print_tags; ?>/get_component_abt.php?componenttId=" + escape(componenttId) + "", function(data) {
+        //         var result = JSON.parse(data);
+        //         $.each(result, function(index, item) {
+        //             componentObject.append(
+        //                 $('<option></option>').val(item.bom_fg_sku_code_abt).html(item.bom_fg_sku_code_abt)
+        //             );
+        //         });
+        //     });
+        // });
+
+        // // on change shipType code 
+        // componentObject.on('change', function() {
+        //     var shipId = $('#sel_com_code').val();
+
+        //     shipTypeObject.html('<option value="">Choose</option>');
+        //     partCusObject.html('<option value="">Choose</option>');
+
+        //     $.get("<?= $CFG->src_print_tags; ?>/get_ship_type.php?shipId=" + escape(shipId) + "", function(data) {
+        //         var result = JSON.parse(data);
+        //         $.each(result, function(index, item) {
+        //             shipTypeObject.append(
+        //                 $('<option></option>').val(item.bom_ship_type).html(item.bom_ship_type)
+        //             );
+        //         });
+        //     });
+        // });
+
+        // // on change partCustomer code 
+        // shipTypeObject.on('change', function() {
+        //     var partCusId = $('#sel_com_code').val();
+        //     var projectSend2 = $('#sel_project_name').val();
+        //     var fgSend = $('#sel_fg_code').val();
+
+        //     partCusObject.html('<option value="">Choose</option>');
+
+        //     $.get("<?= $CFG->src_print_tags; ?>/get_part_customer.php?partCusId=" + escape(partCusId) + "&projectSend=" + escape(projectSend2) + "&fgSend=" + escape(fgSend) + "", function(data) {
+        //         var result = JSON.parse(data);
+        //         $.each(result, function(index, item) {
+        //             partCusObject.append(
+        //                 $('<option></option>').val(item.bom_part_customer).html(item.bom_part_customer)
+        //             );
+        //         });
+        //     });
+        // });
     </script>
 </body>
 

@@ -14,6 +14,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 	  <th style="text-align: center;">Actions/Details</th>
 	  <th>Pallet ID</th>
 	  <th>FG Code GDJ</th>
+	  <th>Project Name</th>
 	  <th>Location</th>
 	  <th style="color: indigo;">Quantity (Pcs.)</th>
 	  <th>Status</th>
@@ -26,6 +27,7 @@ $strSql = "
 SELECT 
 	receive_pallet_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -40,6 +42,7 @@ receive_date = '$buffer_date'
 group by
 	receive_pallet_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -57,6 +60,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 
 	$receive_pallet_code = $objResult['receive_pallet_code'];
 	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
+	$tags_project_name = $objResult['tags_project_name'];
 	$receive_location = $objResult['receive_location'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
@@ -69,6 +73,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  </td>
 	  <td><?=$receive_pallet_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$receive_location;?></td>
 	  <td style="color: indigo;"><?=$tags_packing_std;?></td>
 	  <td style="color: green;"><?=$receive_status;?></td>
@@ -106,7 +111,7 @@ $(document).ready(function()
 	$('#tbl_wms_stock').DataTable( {
         rowReorder: true,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

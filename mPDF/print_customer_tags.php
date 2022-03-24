@@ -11,37 +11,6 @@ $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSI
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
 
 //////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
-
-//////////////////////////////////////////////
 /////////////////////mPDF/////////////////////
 //////////////////////////////////////////////
 // Require composer autoload
@@ -102,6 +71,11 @@ $html = '
 	vertical-align: middle;
 	padding: 2;
 }
+.qrCode {
+	padding: 1.5mm;
+	margin: 0;
+	color: #000000;
+}
 </style>
 </head>
 <body>
@@ -145,28 +119,8 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 	$html .= '<tr><td width="49%"><table width="100%" cellpadding="0" cellspacing="0">
 			  <tr>
 				<td colspan="3" align="center" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><b>Customer Identification Card</b></td>
-				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;">';
-				//set var
-				$t_qcode = $rs['cus_code'];
-				if (isset($t_qcode))
-				{ 
-
-					//it's very important!
-					if (trim($t_qcode) == '')
-						die('data cannot be empty! <a href="?">back</a>');
-						
-					// user data
-					$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-					QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-					
-				} 
-				else 
-				{    
-					//default data
-					//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-					QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-				}
-				$html .= '<img style="padding: 2px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;"><barcode code="'.$rs['cus_code'].'" class="qrCode" type="QR" size="0.3" error="M" disableborder = "1"/>
+				</td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project Name:</font> <br>&nbsp;<b>'.$rs['cus_with_bom_pj_name'].'</b></td>
@@ -187,28 +141,8 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 	$html .= '<td width="49%"><table width="100%" cellpadding="0" cellspacing="0">
 			  <tr>
 				<td colspan="3" align="center" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><b>Customer Identification Card</b></td>
-				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;">';
-				//set var
-				$t_qcode = $rs['cus_code'];
-				if (isset($t_qcode))
-				{ 
-
-					//it's very important!
-					if (trim($t_qcode) == '')
-						die('data cannot be empty! <a href="?">back</a>');
-						
-					// user data
-					$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-					QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-					
-				} 
-				else 
-				{    
-					//default data
-					//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-					QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-				}
-				$html .= '<img style="padding: 2px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;"><barcode code="'.$rs['cus_code'].'" class="qrCode" type="QR" size="0.3" error="M" disableborder = "1"/>
+				</td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project Name:</font> <br>&nbsp;<b>'.$rs['cus_with_bom_pj_name'].'</b></td>
@@ -229,28 +163,8 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 	$html .= '<td width="49%"><table width="100%" cellpadding="0" cellspacing="0">
 			  <tr>
 				<td colspan="3" align="center" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><b>Customer Identification Card</b></td>
-				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;">';
-				//set var
-				$t_qcode = $rs['cus_code'];
-				if (isset($t_qcode))
-				{ 
-
-					//it's very important!
-					if (trim($t_qcode) == '')
-						die('data cannot be empty! <a href="?">back</a>');
-						
-					// user data
-					$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-					QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-					
-				} 
-				else 
-				{    
-					//default data
-					//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-					QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-				}
-				$html .= '<img style="padding: 2px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;"><barcode code="'.$rs['cus_code'].'" class="qrCode" type="QR" size="0.3" error="M" disableborder = "1"/>
+				</td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project Name:</font> <br>&nbsp;<b>'.$rs['cus_with_bom_pj_name'].'</b></td>
@@ -271,28 +185,8 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 	$html .= '<td width="49%"><table width="100%" cellpadding="0" cellspacing="0">
 			  <tr>
 				<td colspan="3" align="center" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><b>Customer Identification Card</b></td>
-				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;">';
-				//set var
-				$t_qcode = $rs['cus_code'];
-				if (isset($t_qcode))
-				{ 
-
-					//it's very important!
-					if (trim($t_qcode) == '')
-						die('data cannot be empty! <a href="?">back</a>');
-						
-					// user data
-					$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-					QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-					
-				} 
-				else 
-				{    
-					//default data
-					//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-					QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-				}
-				$html .= '<img style="padding: 2px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+				<td rowspan="2" style="text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;"><barcode code="'.$rs['cus_code'].'" class="qrCode" type="QR" size="0.3" error="M" disableborder = "1"/>
+				</td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project Name:</font> <br>&nbsp;<b>'.$rs['cus_with_bom_pj_name'].'</b></td>

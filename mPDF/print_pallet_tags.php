@@ -97,57 +97,6 @@ $date_ = date("d/m/Y", strtotime($receive_date));
 $qty_ = $tags_packing_std;
 
 $simbol = "'";
-//////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
-
-// //set var
-// $t_qcode = $tag;
-// if (isset($t_qcode))
-// { 
-
-// 	//it's very important!
-// 	if (trim($t_qcode) == '')
-// 		die('data cannot be empty! <a href="?">back</a>');
-		
-// 	// user data
-// 	$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-// 	QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-	
-// } 
-// else 
-// {    
-// 	//default data
-// 	//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-// 	QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-// }
 
 //////////////////////////////////////////////
 /////////////////////mPDF/////////////////////
@@ -182,8 +131,8 @@ $mpdf = new \Mpdf\Mpdf([
 $mpdf->SetProtection(array('print'));
 $mpdf->SetTitle("Print Pallet Tag");
 $mpdf->SetAuthor("Albatross Logistics Co.,Ltd.");
-$mpdf->SetWatermarkText("VMI Pallet Tag");
-$mpdf->showWatermarkText = false;
+$mpdf->SetWatermarkText("VMI PALLET TAGS");
+$mpdf->showWatermarkText = true;
 $mpdf->watermark_font = 'DejaVuSansCondensed';
 $mpdf->watermarkTextAlpha = 0.1;
 $mpdf->SetDisplayMode('fullpage');
@@ -218,7 +167,7 @@ $html = '
     <htmlpageheader name="MyHeader">
         <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;">
             <tr>
-                <td width="33%"><span style="font-weight: bold; font-style: italic;">VMI Pallet Tag</span></td>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;">VMI PALLET TAGS</span></td>
                 <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
                 <td width="33%" style="text-align: right; ">Printed: {DATE j-m-Y}</td>
 			</tr>		

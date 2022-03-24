@@ -13,11 +13,11 @@ $buffer_datetime = date("Y-m-d H:i:s");
 //gen DTN code DTNymd0001 / DTN2008280001  13 digit
 ///////////////////Get DTN no.///////////////////
 $strSql_get_DTNCode = " 
-SELECT 
+SELECT TOP(1)
   SUBSTRING(dn_dtn_code,0,4) as substr_dtn
   ,SUBSTRING(dn_dtn_code,4,6) as substr_ymd 
   ,SUBSTRING(dn_dtn_code,10,4) as substr_run_digit
-  FROM tbl_dn_running order by dn_id asc
+  FROM tbl_dn_running order by dn_id desc
 ";
 $objQuery_get_DTNCode = sqlsrv_query($db_con, $strSql_get_DTNCode, $params, $options);
 $num_row_get_DTNCode = sqlsrv_num_rows($objQuery_get_DTNCode);

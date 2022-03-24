@@ -7,7 +7,7 @@ require_once("../../application.php");
 /*current user ********************************************************************/
 $t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 $t_cur_user_type_VMI_GDJ = isset($_SESSION['t_cur_user_type_VMI_GDJ']) ? $_SESSION['t_cur_user_type_VMI_GDJ'] : '';
-
+$t_cur_user_session_VMI_GDJ = isset($_SESSION['t_cur_user_session_VMI_GDJ']) ? $_SESSION['t_cur_user_session_VMI_GDJ'] : '';
 
 /*var *****************************************************************************/
 $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
@@ -116,6 +116,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
                         on tbl_usage_conf.usage_tags_code = tbl_tags_running.tags_code
                         where
                         dn_h_status = 'Confirmed'  and dn_h_receive_date < '$date_start' 
+                        and (receive_status IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name))
                         group by 
                         ps_t_fg_code_set_abt,
                         ps_t_fg_code_gdj,
@@ -174,6 +175,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
                         where
                         dn_h_status = 'Confirmed' 
                         and (dn_h_receive_date between '$date_start' and '$date_end') 
+                        and (receive_status IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name))
                         group by 
                         ps_t_fg_code_set_abt,
                         ps_t_fg_code_gdj,

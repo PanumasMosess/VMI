@@ -45,37 +45,6 @@ while($objResult_PickingHead = sqlsrv_fetch_array($objQuery_PickingHead, SQLSRV_
 }
 
 //////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
-
-//////////////////////////////////////////////
 /////////////////////mPDF/////////////////////
 //////////////////////////////////////////////
 // Require composer autoload
@@ -223,7 +192,7 @@ $strSql_PickingSheetDetails = "
   and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
   and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
   where
-  [ps_t_picking_code] = '$tag'
+  [ps_t_picking_code] = '$tag' and bom_status = 'Active' 
 ";
 
 $objQuery_PickingSheetDetails = sqlsrv_query($db_con, $strSql_PickingSheetDetails, $params, $options);
@@ -233,7 +202,7 @@ $row_id_PickingSheetDetails = 0;
 $sum_packing_std = 0;
 
 $page = 1;
-$perpage = 16;
+$perpage = 15;
 while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheetDetails, SQLSRV_FETCH_ASSOC))
 {
 	$row_id_PickingSheetDetails++;
@@ -258,7 +227,7 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	
 	//check bottom 10 sheet
 	// || $row_id_PickingSheetDetails == $num_row_PickingSheetDetails
-	if($row_id_PickingSheetDetails == 16 || $row_id_PickingSheetDetails == 32 || $row_id_PickingSheetDetails == 48 || $row_id_PickingSheetDetails == 64 || $row_id_PickingSheetDetails == 80 || $row_id_PickingSheetDetails == 96 || $row_id_PickingSheetDetails == 112 || $row_id_PickingSheetDetails == 128 || $row_id_PickingSheetDetails == 144 || $row_id_PickingSheetDetails == 160)
+	if($row_id_PickingSheetDetails == 15 || $row_id_PickingSheetDetails == 30 || $row_id_PickingSheetDetails == 45 || $row_id_PickingSheetDetails == 60 || $row_id_PickingSheetDetails == 75 || $row_id_PickingSheetDetails == 90 || $row_id_PickingSheetDetails == 105 || $row_id_PickingSheetDetails == 120 || $row_id_PickingSheetDetails == 135 || $row_id_PickingSheetDetails == 150)
 	{
 		$str_css_bottom = " border-bottom:solid 1px #000; ";
 	}
@@ -273,28 +242,8 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 		<tr>
   <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>PICKING SHEET</b></font><br><barcode code="'.$head_picking_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$head_picking_code.'</td>	  
-  <td colspan="2" align="right">';
-	//set var
-	$t_qcode = $head_picking_code;
-	if (isset($t_qcode))
-	{ 
-
-		//it's very important!
-		if (trim($t_qcode) == '')
-			die('data cannot be empty! <a href="?">back</a>');
-			
-		// user data
-		$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-		
-	} 
-	else 
-	{    
-		//default data
-		//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-		QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-	}
-	$html .= '<img style="padding: 0px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+  <td colspan="2" align="right">
+	<barcode code="'.$head_picking_code.'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/></td>
 </tr>
 <tr>
   <td colspan="4" align="left" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Picking Sheet:</b> '.$head_picking_code.'<br>&nbsp;<b>Issue Date:</b> '.$head_issue_datetime.'</td>
@@ -335,7 +284,7 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	  <td height="25px" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-right:solid 1px #000; border-top:dotted 1px #000;">'.$ps_t_ref_replenish_code.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$ps_t_order_type.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$ps_t_tags_code.'</td>
-	  <td style="font-weight:900; font-family: thsarabun; font-size: 12pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$bom_fg_desc.'</td>
+	  <td style="font-weight:900; font-family: thsarabun; font-size: 9pt; text-align: center; border-right:solid 1px #000; '.$str_css_bottom.' border-top:dotted 1px #000;">'.$bom_fg_desc.'</td>
 	  <td style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-top:dotted 1px #000;">(1 Pack)</td>
 	</tr>
 	';

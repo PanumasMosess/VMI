@@ -11,6 +11,8 @@ $stock_locate = isset($_POST['sel_fj_name']) ? $_POST['sel_fj_name'] : '';
 $date_start = isset($_POST['date_start_']) ? $_POST['date_start_'] : '';
 $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 
+$id_ = $stock_locate."#####".$date_start."#####".$date_end;
+
 $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
 $buffer_datetime = date("Y-m-d H:i:s");
@@ -20,7 +22,8 @@ $buffer_datetime = date("Y-m-d H:i:s");
 		<thead>
 			<tr style="font-size: 18px;">
 				<th colspan="11" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Stock Blance</b>&nbsp;<b class="btn" id="excel_export"></b>
-					<!-- &nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button></th> -->
+				
+				&nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" id="<?=$id_;?>" onclick="_print_stock_by_tags(this.id);"><i class="fa fa-indent fa-lg"></i> Print Tags Stock</button></th>
 			</tr>
 			<tr style="font-size: 13px;">
 				<th style="width: 30px;">No.</th>
@@ -40,7 +43,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 			<?
 if($stock_locate == "ALL"){
 
-	if($t_cur_user_session_VMI_GDJ == "IT" || "GDJ"){
+	if($t_cur_user_session_VMI_GDJ == "IT" || $t_cur_user_session_VMI_GDJ == "GDJ"){
 		$strSql = "
 		SELECT	
 	tags_code,

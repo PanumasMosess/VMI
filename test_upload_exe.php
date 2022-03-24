@@ -13,6 +13,7 @@ error_reporting(0);
 ini_set('MAX_EXECUTION_TIME', '-1');
 ini_set('memory_limit', '-1');
 
+
 /**********************************************************************************/
 /*current user ********************************************************************/
 $t_cur_user_code_ELT = isset($_SESSION['t_cur_user_code_ELT']) ? $_SESSION['t_cur_user_code_ELT'] : '';
@@ -36,7 +37,7 @@ if($fileupload)
 	if(($lastname == "xls") || ($lastname == "xlsx"))
 	{
 		//Rename , copy text file
-		$buffer_file_name = "emp tracking".".".$lastname;
+		$buffer_file_name = "tagsUpdate".".".$lastname;
 		copy($fileupload,"upload_master_file/".$buffer_file_name);
 
 		////PHPExcel////
@@ -98,11 +99,52 @@ if($fileupload)
 			$i++;
 			
 			//delete
-			$strSQL_del = " delete tbl_tags_running WHERE tags_code = '".trim($result["usage_tags_code"])."' ";
-			$objQuery_del = sqlsrv_query($db_con, $strSQL_del);
+			// $strSQL_del = " delete tbl_tags_running WHERE tags_code = '".trim($result["usage_tags_code"])."' ";
+			// $objQuery_del = sqlsrv_query($db_con, $strSQL_del);
 			
-			$strSQL_del1 = " delete tbl_receive WHERE receive_tags_code = '".trim($result["usage_tags_code"])."' ";
-			$objQuery_del1 = sqlsrv_query($db_con, $strSQL_del1);
+			$strSQL_del1 = "INSERT INTO [db_hrms].[dbo].[tbl_user]
+			(
+			 [user_code]
+			,[user_pass_md5]
+			,[user_name_th]
+			,[user_name_en]
+			,[user_company]
+			,[user_section]
+			,[user_email]
+			,[user_tel]
+			,[user_type]
+			,[user_level]
+			,[user_enable]
+			,[user_force_pass_chg]
+			,[user_kb_upload]
+			,[user_issue_by]
+			,[user_issue_date]
+			,[user_issue_time]
+			,[user_issue_datetime]
+			)
+	  VALUES
+			(
+			 '".trim($result["user_code"])."'
+			,'".trim($result["user_pass_md5"])."'
+			,'".trim($result["user_name_th"])."'
+			,'".trim($result["user_name_en"])."'
+			,'".trim($result["user_company"])."'
+			,'".trim($result["user_section"])."'
+			,'".trim($result["user_email"])."'
+			,'".trim($result["user_tel"])."'
+			,'".trim($result["user_type"])."'
+			,'".trim($result["user_level"])."'
+			,'".trim($result["user_enable"])."'
+			,'".trim($result["user_force_pass_chg"])."'
+			,'".trim($result["user_kb_upload"])."'
+			,'".trim($result["user_issue_by"])."'
+			,'$buffer_date'
+			,'$buffer_time'
+			,'$buffer_datetime'
+			)";
+			$objQuery_del1 = sqlsrv_query($db_con_hr, $strSQL_del1);
+
+
 		}
 		
 		echo $i;

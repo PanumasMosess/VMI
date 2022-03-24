@@ -709,14 +709,14 @@ function confirmDTN()
 function openRePrintDTNSheet(id)
 {
 	setTimeout(function(){
-		window.open("<?=$CFG->src_mPDF;?>/print_dtn_sheet?tag="+ id +"","_blank");
+		window.open("<?=$CFG->src_mPDF;?>/print_dtn_sheet_b2c?tag="+ id +"","_blank");
 	},500);
 }
 
 function openRePrintDTNSheetShotFrom(id)
 {
 	setTimeout(function(){
-		window.open("<?=$CFG->src_mPDF;?>/print_dtn_shotfrom?tag="+ id +"","_blank");
+		window.open("<?=$CFG->src_mPDF;?>/print_dtn_shotfrom_b2c?tag="+ id +"","_blank");
 	},500);
 }
 

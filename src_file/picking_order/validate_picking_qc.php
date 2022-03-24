@@ -64,6 +64,7 @@ $strSql_chk_picking_no = "
   [ps_t_status] = 'Picking'
   and 
   [ps_h_qc] is NULL
+  and bom_status = 'Active'
   ";
 $objQuery_chk_picking_no = sqlsrv_query($db_con, $strSql_chk_picking_no, $params, $options);
 $num_row_chk_picking_no = sqlsrv_num_rows($objQuery_chk_picking_no);

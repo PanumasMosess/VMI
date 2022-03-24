@@ -52,6 +52,7 @@ while($objResult_data_picking_tail = sqlsrv_fetch_array($objQuery_data_picking_t
 //check first row
 if($tmp_sel == 1)
 {
+
 	///////////////////insert picking header///////////////////
 	$strSql_insert_picking_header = " 
 		INSERT INTO [dbo].[tbl_picking_head]
@@ -79,6 +80,91 @@ if($tmp_sel == 1)
 	";
 	$objQuery_insert_picking_header = sqlsrv_query($db_con, $strSql_insert_picking_header);
 }
+
+if($objQuery_insert_picking_header)
+{
+	// $str_total_qty_c = 0;
+	// while($str_total_qty_c <= $repn_qty){
+	// $strSql_picking_order_details = " 
+	// 	select top $iden_hdn_str_conv_pack 
+	// 		  [receive_tags_code]
+	// 	      ,[receive_pallet_code]
+	// 	      ,[receive_location]
+	// 	      ,[tags_fg_code_gdj]
+	// 	      ,[tags_fg_code_gdj_desc]
+	// 		  ,[repn_fg_code_set_abt]
+	// 	      ,[repn_sku_code_abt]
+	// 	      ,[repn_pj_name]
+	// 		  ,[tags_packing_std]
+	// 		  ,[receive_date]
+	// 		  from tbl_replenishment 
+	// 	left join tbl_bom_mst 
+	// 	on tbl_replenishment.repn_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
+	// 	and tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+	// 	and tbl_replenishment.repn_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
+	// 	and tbl_replenishment.repn_pj_name = tbl_bom_mst.bom_pj_name
+	// 	and tbl_replenishment.repn_ship_type = tbl_bom_mst.bom_ship_type
+	// 	and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
+	// 	left join tbl_tags_running
+	// 	on tbl_bom_mst.bom_fg_code_gdj = tbl_tags_running.tags_fg_code_gdj
+	// 	left join tbl_receive
+	// 	on tbl_tags_running.tags_code = tbl_receive.receive_tags_code
+	// 	where
+	// 	repn_conf_status = 'Confirmed'
+	// 	and
+	// 	receive_status = 'Received'
+	// 	and
+	// 	repn_fg_code_set_abt = '$iden_hdn_repn_fg_code_set_abt'
+	// 	and
+	// 	repn_sku_code_abt = '$iden_hdn_repn_sku_code_abt'
+	// 	and
+	// 	bom_fg_code_gdj = '$iden_hdn_bom_fg_code_gdj'
+	// 	and
+	// 	bom_pj_name = '$iden_hdn_bom_pj_name'
+	// 	and
+	// 	bom_ship_type = '$iden_hdn_bom_ship_type'
+	// 	and
+	// 	bom_part_customer = '$iden_hdn_bom_part_customer'
+	// 	group by
+	// 	 [receive_tags_code]
+	// 	      ,[receive_pallet_code]
+	// 	      ,[receive_location]
+	// 	      ,[tags_fg_code_gdj]
+	// 	      ,[tags_fg_code_gdj_desc]
+	// 		  ,[repn_fg_code_set_abt]
+	// 	      ,[repn_sku_code_abt]
+	// 	      ,[repn_pj_name]
+	// 		  ,[tags_packing_std]
+	// 		  ,[receive_date]
+	// 	order by 
+	// 	receive_date asc
+	// 	,SUBSTRING(receive_pallet_code,3,10) asc
+	// 	,receive_tags_code asc
+	// 	";
+
+	// $objQuery_picking_order_details = sqlsrv_query($db_con, $strSql_picking_order_details, $params, $options);
+	// $num_row_picking_order_details = sqlsrv_num_rows($objQuery_picking_order_details);
+
+	// while($objResult_picking_order_details_c = sqlsrv_fetch_array($objQuery_picking_order_details, SQLSRV_FETCH_ASSOC))
+	// {
+		
+		
+	// 	$tags_packing_std_c = $objResult_picking_order_details_c['tags_packing_std'];
+		
+	// 	//sum total qty
+	// 	$str_total_qty_c = $str_total_qty_c + $tags_packing_std_c;		
+	// }
+
+	// if($str_total_qty_c < $repn_qty){
+
+	// 	$iden_hdn_str_conv_pack++;
+
+	// }	
+
+	// }
+
+}
+
 	
 ///////////////////insert picking tail///////////////////
 //read pallet on inventory

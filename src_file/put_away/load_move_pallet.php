@@ -12,20 +12,21 @@ $buffer_time = date("H:i:s"); //24H
 $buffer_datetime = date("Y-m-d H:i:s");
 ?>	
 <div class="box-header with-border">
-	<div class="col-md-6"><i class="fa fa-qrcode"></i> Scan Pallet ID.: <input type="text" id="txt_move_scn_pallet_id" name="txt_move_scn_pallet_id" onKeyPress="if (event.keyCode==13){ return _onScan_PalletID(); }" class="form-control input-sm" placeholder="Scan Pallet ID." autocomplete="off" autocorrect="off"  spellcheck="false"></div>
-	<div class="col-md-6"><i class="fa fa-qrcode"></i> Scan Location (Destination): <input type="text" id="txt_move_scn_pallet_location" name="txt_move_scn_pallet_location" onKeyPress="if (event.keyCode==13){ return _onScan_PalletID_newLocation(); }" class="form-control input-sm" placeholder="Scan Location (Destination)" autocomplete="off" autocorrect="off"  spellcheck="false"></div>
+	<div class="col-md-6"><i class="fa fa-qrcode"></i> Scan Pallet ID.: <font style="color: red; font-size:12px;">* สแกน Pallet ID ที่ต้องการย้าย</font><input type="text" id="txt_move_scn_pallet_id" name="txt_move_scn_pallet_id" onKeyPress="if (event.keyCode==13){ return _onScan_PalletID(); }" class="form-control input-sm" placeholder="Scan Pallet ID." autocomplete="off" autocorrect="off"  spellcheck="false"></div>
+	<div class="col-md-6"><i class="fa fa-qrcode"></i> Scan Location (Destination): <font style="color: red; font-size:12px;">* สแกน Location ที่จะย้ายไป</font> <input type="text" id="txt_move_scn_pallet_location" name="txt_move_scn_pallet_location" onKeyPress="if (event.keyCode==13){ return _onScan_PalletID_newLocation(); }" class="form-control input-sm" placeholder="Scan Location (Destination)" autocomplete="off" autocorrect="off"  spellcheck="false"></div>
 </div>
 <div class="box-body table-responsive padding">
   <table id="tbl_move_pallet" class="table table-bordered table-hover table-striped nowrap">
 	<thead>
 	<tr style="font-size: 18px;">
-		<th colspan="8" class="bg-yellow"><b><font style="color: #FFF;"><i class="fa fa-location-arrow fa-lg"></i> Move Pallet (Move Location to Location)</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_remove_pre_move_pallet();"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
+		<th colspan="9" class="bg-yellow"><b><font style="color: #FFF;"><i class="fa fa-arrows"></i> Move Pallet </font><font style="color: #FFF; font-size:12px">( ย้ายโลเคชั่นทั้งพาเลท สามารถย้ายได้ครั้งละหลายพาเลท )</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_remove_pre_move_pallet();"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
 	</tr>
 	<tr style="font-size: 13px;">
 	  <th style="width: 30px;">No.</th>
 	  <th style="text-align: center;">Actions/Details</th>
 	  <th>Pallet ID</th>
 	  <th>FG Code GDJ</th>
+	  <th>Project</th>
 	  <th>Location</th>
 	  <th style="color: indigo;">Quantity (Pcs.)</th>
 	  <th>Status</th>
@@ -38,6 +39,7 @@ $strSql = "
 SELECT 
 	receive_pallet_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -54,6 +56,7 @@ receive_pallet_code IN (select pl_move_pallet_code from tbl_internal_move_pallet
 group by
 	receive_pallet_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -71,6 +74,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 
 	$receive_pallet_code = $objResult['receive_pallet_code'];
 	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
+	$tags_project_name = $objResult['tags_project_name'];
 	$receive_location = $objResult['receive_location'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
@@ -86,6 +90,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  </td>
 	  <td style="color: #000; font-weight: bold;"><?=$receive_pallet_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$receive_location;?></td>
 	  <td style="color: indigo;"><?=number_format($tags_packing_std);?></td>
 	  <td style="color: green;"><?=$receive_status;?></td>
@@ -125,7 +130,7 @@ $(document).ready(function()
 		"aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
 		"iDisplayLength": -1,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

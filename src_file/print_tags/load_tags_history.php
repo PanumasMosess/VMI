@@ -10,7 +10,6 @@ $str_icon_rec = "";
 $str_status_rec = "";
 
 $json = array();
-
 while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 {
     $row_id++;
@@ -24,8 +23,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	{
 		$str_status_rec = "";
 	}
-
-
+	
     $inround__ = array(
       "no" => $row_id,
       "tags_code" => $objResult['tags_code'],
@@ -35,6 +33,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
       "tags_packing_std" => $objResult['tags_packing_std'],
       "tags_total_qty" => $objResult['tags_total_qty'],
       "tags_token" => $objResult['tags_token'],
+	  "tags_trading_from" => $objResult['tags_trading_from'],
       "tags_code_endcode" => var_encode($objResult['tags_code']),
       "tags_token_endcode" => var_encode($objResult['tags_token']),
       "tags_issue_by" => $objResult['tags_issue_by'],
@@ -42,7 +41,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
       "tags_issue_time" => $objResult['tags_issue_time'],
       "tags_issue_datetime" => $objResult['tags_issue_datetime'],
       "receive_status" =>  $str_status_rec,
-      "customer_code"  =>  get_customer_code($db_con,'print_tags',$objResult['tags_fg_code_gdj'],$objResult['tags_fg_code_gdj_desc'])
+      "tags_project_name"  =>  $objResult['tags_project_name']
 
     );
     array_push($json, $inround__);

@@ -10,7 +10,7 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
     <table id="tbl_history_paicking" class="table table-bordered table-hover table-striped nowrap">
         <thead>
             <tr style="font-size: 13px;">
-                <th colspan="10" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp; Put-Away(Receive) History</b>&nbsp;<b class="btn" id="excel_export"></b></th>
+                <th colspan="12" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp; Put-Away(Receive) History</b>&nbsp;<b class="btn" id="excel_export"></b></th>
                 <!-- &nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button>-->
             </tr>
             <tr style="font-size: 13px;">
@@ -23,7 +23,9 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
                     <th>Location</th>
                     <th style="color: indigo;">Quantity (Pcs.)</th>
                     <th>Status</th>
+                    <th>Trading From</th>
                     <th>Receive Date</th>
+                    <th>Receive Time</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +38,8 @@ receive_pallet_code
 ,receive_location
 ,receive_status
 ,receive_date
+,receive_time
+,[tags_trading_from]
 ,sum(tags_packing_std) as sum_pkg_std
 FROM tbl_pallet_running
 left join tbl_receive
@@ -51,7 +55,9 @@ receive_pallet_code
 ,receive_location
 ,receive_status
 ,receive_date
+,receive_time
 ,tags_packing_std 
+,[tags_trading_from]
 order by 
 receive_pallet_code desc "; 
 
@@ -69,7 +75,9 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$receive_location = $objResult['receive_location'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
+    $receive_time = $objResult['receive_time'];
 	$tags_packing_std = $objResult['sum_pkg_std'];
+    $tags_trading_from = $objResult['tags_trading_from'];
     $receive_tags_code = $objResult['receive_tags_code'];
 	
 ?>
@@ -86,7 +94,9 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
                 <td><?= $receive_location; ?></td>
                 <td style="color: indigo;"><?= number_format($tags_packing_std); ?></td>
                 <td style="color: green;"><?= $receive_status; ?></td>
+                <td ><?= $tags_trading_from; ?></td>
                 <td><?= $receive_date; ?></td>
+                <td><?= date('H:i:s',strtotime($receive_time)); ?></td>
             </tr>
             <?
 }
@@ -133,7 +143,7 @@ require_once("../../js_css_footer_noConflict.php");
                     modifier: {
                         page: 'all'
                     },
-                    columns: [2, 3, 4, 5, 6, 7, 8, 9]
+                    columns: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                 }
             }],
             dom: {

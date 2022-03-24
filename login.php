@@ -120,7 +120,7 @@ $(function () {
 </script>
 
 <script language="javascript">
-<!--Onload this page-->
+// <!--Onload this page-->
 $(document).ready(function() 
 {
 	//clear
@@ -159,7 +159,7 @@ $(document).ready(function()
 	
 });
 	
-<!--check form login-->
+// <!--check form login-->
 function fnchecklogin()
 {
 	if(document.loginForm.user_login.value == "")
@@ -216,4 +216,4 @@ function fnchecklogin()
 </script>
 
 </body>
-</html>
+</html> 

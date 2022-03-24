@@ -4,7 +4,7 @@ require_once("../../application.php");
 
 $buffer_date = date("Y-m-d");
 
-$strSql = " select * from tbl_bom_mst order by bom_issue_datetime desc ";
+$strSql = " select * from tbl_bom_mst where bom_status = 'Active' order by bom_issue_datetime desc ";
 $objQuery = sqlsrv_query($db_con, $strSql);
 
 $row_id = 0;

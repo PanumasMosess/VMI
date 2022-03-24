@@ -43,8 +43,8 @@ require_once("js_css_header.php");
 	<div class="wrapper">
 
 		<?
-	require_once("menu.php");
-  ?>
+		require_once("menu.php");
+		?>
 		<!--------------------------->
 		<!-- body  -->
 		<!--------------------------->
@@ -156,16 +156,16 @@ require_once("js_css_header.php");
 		<!-- /.body -->
 		<!--------------------------->
 		<?
-	require_once("footer.php");
-  ?>
+		require_once("footer.php");
+		?>
 
 		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
 		<div class="control-sidebar-bg"></div>
 	</div>
 	<!-- ./wrapper -->
-	<? 
-require_once("js_css_footer.php"); 
-?>
+	<?
+	require_once("js_css_footer.php");
+	?>
 	<script language="javascript">
 		$(document).ready(function() {
 			//clear
@@ -315,6 +315,7 @@ require_once("js_css_footer.php");
 				$("#spn_load_waiting_conf_picking").load("<?= $CFG->src_picking_order; ?>/load_waiting_conf_picking.php");
 			}, 300);
 		}
+
 
 		//check all
 		function toggle_chk_picking(source) {
@@ -519,7 +520,7 @@ require_once("js_css_footer.php");
 			}, 500);
 		}
 
-		function openRePrintTagWithOrderNum(id){
+		function openRePrintTagWithOrderNum(id) {
 			window.open("<?= $CFG->src_mPDF; ?>/print_all_tags_on_picking_sheet_order_num?picking_sheet_no=" + id + "", "_blank");
 		}
 
@@ -682,6 +683,7 @@ require_once("js_css_footer.php");
 						if (isConfirm) {
 
 							$.ajax({
+								async: true,
 								type: 'POST',
 								url: '<?= $CFG->src_picking_order; ?>/conf_split_tags.php',
 								data: {
@@ -689,7 +691,7 @@ require_once("js_css_footer.php");
 									iden_t_split_qty: $("#hdn_split_tags_qty").val()
 								},
 								success: function(response) {
-
+									//console.log(response);
 									//print tags
 									openRePrintIndividual(response);
 
@@ -719,7 +721,13 @@ require_once("js_css_footer.php");
 		}
 
 		function openRePrintIndividual(id) {
-			window.open("<?= $CFG->src_mPDF; ?>/print_tags?tag=" + id + "", "_blank");
+				//split id
+			var str_split = id;
+			var str_split_result = str_split.split("dubble");
+
+			for(i=0;i<str_split_result.length;i++){
+				window.open("<?= $CFG->src_mPDF; ?>/print_tags?tag=" + str_split_result[i] + "","_blank");
+			}		
 		}
 
 		function openFuncReturnSplitTags(id) {
@@ -760,7 +768,6 @@ require_once("js_css_footer.php");
 								iden_t_repn_id: t_repn_id
 							},
 							success: function(response) {
-
 								//print tags
 								openRePrintIndividual(response);
 

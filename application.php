@@ -27,10 +27,22 @@ $CFG->dbhostPing = "27.254.122.55";
 $CFG->dbname = "VMI_test";
 $CFG->dbuser = "Allvmi";
 $CFG->dbpass = "brewrL5iRebi4+Ewre0r";
+
+$CFG->dbhost_hr = "203.150.199.177, 1433";
+$CFG->dbhostPing_hr = "203.150.199.177";
+$CFG->dbname_hr = "db_hrms";
+$CFG->dbuser_hr = "kbdb";
+$CFG->dbpass_hr = "rJmBXTW2";
+
+$CFG->dbhost_run = "27.254.122.55, 49894";
+$CFG->dbhostPing_run = "27.254.122.55";
+$CFG->dbname_run = "ABT_RUN";
+$CFG->dbuser_run = "pasnumass";
+$CFG->dbpass_run = "Juck4064";
 /**********************************************************************************/
 /*config path file ****************************************************************/
 $CFG->path_host = "http://localhost/";
-// $CFG->path_host = "https://lac-apps.albatrossthai.com/";
+//$CFG->path_host = "https://lac-apps.albatrossthai.com/";
 $CFG->wwwroot_other = "/vmi"; //case check any location
 $CFG->wwwroot = "/vmi";
 
@@ -72,6 +84,10 @@ $CFG->src_customer = "$CFG->wwwroot/src_file/customer";
 $CFG->src_driver = "$CFG->wwwroot/src_file/driver";
 $CFG->src_load_alert = "$CFG->wwwroot/src_file/load_alert";
 $CFG->src_wms_special = "$CFG->wwwroot/src_file/wms_special";
+$CFG->src_wms_usage_conf = "$CFG->wwwroot/src_file/wms_usage_confirm";
+$CFG->src_fg_ft2 = "$CFG->wwwroot/src_file/fg_ft2";
+$CFG->src_daily_plan = "$CFG->wwwroot/src_file/daily_plan";
+$CFG->src_prod_board = "$CFG->wwwroot/src_file/prod_board";
 
 /**********************************************************************************/
 /*standard libraries **************************************************************/
@@ -111,4 +127,14 @@ $CFG->from_mail = get_smtp_mail_config($db_con,"SmtpFormTitle","Active",$ses_com
 /*pattern / shuffle password ******************************************************/
 $CFG->pass_shuffle = "123456789";
 $CFG->pass_shuffle_digit = "6";
+
+//Link Production
+// $CFG->api_aut_link  = "https://scgyamato.flare.works/api/authentication"; 
+// $CFG->api_call  = "https://scgyamato.flare.works/api/orderwithouttrackingnumber";
+// $CFG->api_history  = "https://scgyamato.flare.works/api/getHistoricalStatusByorder";
+
+//Link Test
+$CFG->api_aut_link  = "https://scgyamatodev.flare.works/api/authentication"; 
+$CFG->api_call  = "https://scgyamatodev.flare.works/api/orderwithouttrackingnumber";
+$CFG->api_history  = "https://scgyamatodev.flare.works/api/getHistoricalStatusByorder";
 ?>

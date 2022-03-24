@@ -72,7 +72,7 @@ require_once("js_css_header.php");
 		  <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label><img src="<?=$CFG->iconsdir;?>/Ecommerce-Barcode-Scanner-icon.png" height="16px"> Master Tags:<span id="spn_load_pallet_no"></span></label>
+                <label><img src="<?=$CFG->iconsdir;?>/Ecommerce-Barcode-Scanner-icon.png" height="16px"> Tags Lot:<span id="spn_load_pallet_no"></span></label>
                 <input type="text" id="txt_scan_master_tags" name="txt_scan_master_tags" onKeyPress="if (event.keyCode==13){ return _onScan_barcode(); }" class="form-control input-sm" placeholder="Scan Master Tags" disabled>
               </div>
               <!-- /.form-group -->

@@ -84,6 +84,8 @@ $strSql_PickingQCSheetDetails = "
   [ps_t_picking_code] = '$t_txt_scn_picking_id'
   and 
   [ps_h_qc] is NULL
+  and bom_status = 'Active'
+  order by pick_pre_qc_tags_code asc
 ";
 
 $objQuery_PickingQCSheetDetails = sqlsrv_query($db_con, $strSql_PickingQCSheetDetails, $params, $options);

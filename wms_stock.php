@@ -3,7 +3,7 @@ require_once("application.php");
 require_once("get_authorized.php");
 require_once("js_css_header.php");
 
-$str_usr_allow = array('chitnarong','nuchanart','marisa');
+$str_usr_allow = array('chitnarong','marisa','panumas', 'pattra', 'GDJ00202', 'Rangsima');
 
 //check user
 $str_chk_usr = $objResult_authorized['user_code'];
@@ -39,12 +39,12 @@ $str_chkAllowUser = strpos_var($str_chk_usr, $array); // will return true
 			<div class="col-xs-12">
 				<div class="box box-success">
 					<div class="box-header with-border">
-					  <h3 class="box-title"><i class="fa fa-cubes"></i> Pallet Tags List</h3>
+					  <h3 class="box-title"><i class="fa fa-cubes"></i> Function List</h3>
 					</div>
 					<!-- /.box-header -->
 					
 					<div class="box-header">
-						<button type="button" class="btn btn-primary btn-sm" onclick="_load_wms_stock();"><i class="fa fa-bar-chart fa-lg"></i> WMS Stock</button>&nbsp;<button type="button" class="btn btn-success btn-sm" onclick="_load_put_away_tags_on_pallet();"><i class="fa fa-plus fa-lg"></i> Put-Away Tags On Pallet</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="_load_move_pallet();"><i class="fa fa-location-arrow fa-lg"></i> Move Pallet</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="_load_move_tags();"><i class="fa fa-location-arrow fa-lg"></i> Move Tags</button><? if($str_chkAllowUser == true){ ?>&nbsp;<button type="button" class="btn btn-default btn-sm bg-maroon" onclick="_load_adjust_inventory();"><i class="fa fa-compress fa-lg"></i> Adjust Inventory</button><? } ?><!--&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="_load_del_tags_on_pallet();"><i class="fa fa-trash fa-lg"></i> Delete Tags ID on Pellet</button>-->&nbsp;/&nbsp;<button type="button" class="btn btn-info btn-sm" onclick="_load_pallet_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
+						<button type="button" class="btn btn-primary btn-sm" onclick="_load_wms_stock();"><i class="fa fa-bar-chart fa-lg"></i> WMS Stock</button>&nbsp;<button type="button" class="btn btn-success btn-sm" onclick="_load_put_away_tags_on_pallet();"><i class="fa fa-plus fa-lg"></i> Put-Away Tags On Pallet</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="_load_move_pallet();"><i class="fa fa-arrows"></i> Move Pallet</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="_load_move_tags();"><i class="fa fa-arrows"></i> Move Tags</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="_load_move_project();"><i class="fa fa-arrows"></i> Move Project</button><? if($str_chkAllowUser == true){ ?>&nbsp;<button type="button" class="btn btn-default btn-sm bg-maroon" onclick="_load_adjust_inventory();"><i class="fa fa-compress fa-lg"></i> Adjust Inventory</button><? } ?><!--&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="_load_del_tags_on_pallet();"><i class="fa fa-trash fa-lg"></i> Delete Tags ID on Pellet</button>-->&nbsp;/&nbsp;<button type="button" class="btn btn-info btn-sm" onclick="_load_pallet_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
 					</div>
 					<div style="padding-left: 8px;">
 						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT * ROWS</font>
@@ -187,6 +187,15 @@ function _load_move_tags()
 	setTimeout(function(){
 		//$("#spn_load_data_main").html(""); //clear span
 		$("#spn_load_data_main").load("<?=$CFG->src_put_away;?>/load_move_tags.php");
+	},300);
+}
+
+function _load_move_project()
+{
+	//Load data
+	setTimeout(function(){
+		//$("#spn_load_data_main").html(""); //clear span
+		$("#spn_load_data_main").load("<?=$CFG->src_put_away;?>/load_move_project.php");
 	},300);
 }
 
@@ -521,6 +530,312 @@ function _remove_pre_move_pallet()
 			}
 		  }
 		});
+	}
+}
+
+function _onScan_TagsID_MoveProject()
+{
+	if($("#txt_move_pj_scn_tag_id").val() != "")
+	{
+		if(isEnglishchar($("#txt_move_pj_scn_tag_id").val())==false)
+		{
+			//dialog ctrl
+			swal({
+			  html: true,
+			  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+			  text: "<span style='font-size: 15px; color: #000;'>[C001] --- Please change to english language.</span>",
+			  type: "warning",
+			  timer: 2000,
+			  showConfirmButton: false,
+			  allowOutsideClick: false
+			});
+			
+			//hide
+			setTimeout(function(){
+				$("#txt_move_pj_scn_tag_id").val('');
+				$("#txt_move_pj_scn_tag_id").focus();
+			}, 2500);
+			
+			return false;
+		}
+		else
+		{
+			//insert to temp pre-receive
+			$.ajax({
+			  type: 'POST',
+			  url: '<?=$CFG->src_put_away;?>/insert_pre_move_project.php',
+			  data: { 
+						iden_txt_move_pj_scn_tag_id: $("#txt_move_pj_scn_tag_id").val()
+					},
+					success: function(response){
+					
+					//check alert
+					if(response == "duplicate")
+					{
+						//dialog ctrl
+						swal({
+						  html: true,
+						  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+						  text: "<span style='font-size: 15px; color: #000;'>[C003] --- Tags ID: <b>"+ $("#txt_move_pj_scn_tag_id").val() +"</b> is already exists !</span>",
+						  type: "warning",
+						  timer: 3000,
+						  showConfirmButton: false,
+						  allowOutsideClick: false
+						});
+						
+						//clear step
+						setTimeout(function(){
+							$("#txt_move_pj_scn_tag_id").val('');
+							$("#txt_move_pj_scn_tag_id").focus();
+						}, 500);
+					}
+					else if(response == "not match")
+					{
+						//dialog ctrl
+						swal({
+						  html: true,
+						  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+						  text: "<span style='font-size: 15px; color: #000;'>[C003] --- Tags ID: <b>"+ $("#txt_move_pj_scn_tag_id").val() +"</b> pattern not match ! <br> This Tags ID is not data available in Master Tags ?</span>",
+						  type: "error",
+						  timer: 3000,
+						  showConfirmButton: false,
+						  allowOutsideClick: false
+						});
+						
+						//clear step
+						setTimeout(function(){
+							$("#txt_move_pj_scn_tag_id").val('');
+							$("#txt_move_pj_scn_tag_id").focus();
+						}, 500);
+					}
+					else
+					{	
+						//clear step
+						setTimeout(function(){
+							$("#txt_move_pj_scn_tag_id").val('');
+							$("#txt_move_pj_scn_tag_id").focus();
+						}, 500);
+				
+						//refresh
+						_load_move_project();
+					}
+					
+				  },
+				error: function(){
+					//dialog ctrl
+					swal({
+					  html: true,
+					  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+					  text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+					  type: "warning",
+					  timer: 3000,
+					  showConfirmButton: false,
+					  allowOutsideClick: false
+					});
+				}
+			});
+		}
+	}
+}
+
+function _remove_pre_move_project()
+{
+	//check No data available in table
+	if($("#hdn_row_move_pj").val() == 0)
+	{
+		//dialog ctrl
+		swal({
+		  html: true,
+		  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+		  text: "<span style='font-size: 15px; color: #000;'>[I004] --- No data available in table !!!</span>",
+		  type: "error",
+		  timer: 2500,
+		  showConfirmButton: false,
+		  allowOutsideClick: false
+		});
+	}
+	else
+	{
+		swal({
+		  html: true,
+		  title: "<span style='font-size: 17px;'>[C003] --- Do you want to delete all item in table ?</span>",
+		  text: "<span style='font-size: 15px;'>You can scan Tags ID. again !</span>",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		},
+		function(isConfirm) {
+		  if (isConfirm) {
+			
+			var cbChecked = $("input[name='_pj_chk_pre_tags[]']").length;
+			
+			//conf del
+			var tmp = 0;
+			$("input[name='_pj_chk_pre_tags[]']").each(function ()
+			{
+				//count for alert not select item
+				tmp = tmp + 1;
+				
+				var iden_hdn_pj_pre_tags_id = "#hdn_pj_pre_tags_id"+$(this).val();
+				var iden_hdn_pj_pre_tags_id = $(iden_hdn_pj_pre_tags_id).val();
+				
+				//remove
+				$.ajax({
+				  type: 'POST',
+				  url: '<?=$CFG->src_put_away;?>/remove_pre_move_project.php',
+				  data: { 
+							iden_hdn_pj_pre_tags_id: iden_hdn_pj_pre_tags_id
+						},
+						success: function(response){
+						//
+					  },
+					error: function(){
+						//dialog ctrl
+						swal({
+						  html: true,
+						  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+						  text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+						  type: "warning",
+						  timer: 3000,
+						  showConfirmButton: false,
+						  allowOutsideClick: false
+						});
+					}
+				});
+			});
+			
+			////select at least 1 item
+			if(tmp == 0)
+			{
+				//dialog ctrl
+				$("#modal-default").modal("show");
+				$("#al_results").html("[C001] --- Please select at least 1 item !!!");
+				
+				//hide
+				setTimeout(function(){
+					$("#modal-default").modal("hide");
+				}, 3000);
+			}
+			else
+			{
+				//refresh
+				if(cbChecked == tmp)
+				{
+					_load_move_project();
+				}
+			}
+		  }
+		});
+	}
+}
+
+function _conf_move_pj()
+{
+	//check No data available in table
+	if($("#hdn_row_move_pj").val() == 0)
+	{
+		//dialog ctrl
+		swal({
+		  html: true,
+		  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+		  text: "<span style='font-size: 15px; color: #000;'>[I004] --- No data available in table !!!</span>",
+		  type: "error",
+		  timer: 2500,
+		  showConfirmButton: false,
+		  allowOutsideClick: false
+		});
+	}
+	else
+	{
+		if($("#sel_project_name").val() == "")
+		{
+			//dialog ctrl
+			swal({
+			  html: true,
+			  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+			  text: "<span style='font-size: 15px; color: #000;'>[C001] --- Please select Project</span>",
+			  type: "warning",
+			  timer: 2000,
+			  showConfirmButton: false,
+			  allowOutsideClick: false
+			});
+			
+			//hide
+			setTimeout(function(){
+				$("#sel_project_name").val('');
+				$("#sel_project_name").focus();
+			}, 2500);
+			
+			return false;
+		}
+		else
+		{
+			//alert
+			swal({
+			  html: true,
+			  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+			  text: "<span style='font-size: 15px; color: #000;'>Confirm move to Project: <b>"+ $("#sel_project_name").val() +"</b> </span>",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonClass: "btn-info",
+			  confirmButtonText: "Yes",
+			  cancelButtonText: "No",
+			  closeOnConfirm: true,
+			  closeOnCancel: true
+			},
+			function(isConfirm) {
+			  if (isConfirm) {
+				
+				var cbChecked = $("input[name='_pj_chk_pre_tags[]']").length;
+				
+				//conf del
+				var tmp = 0;
+				$("input[name='_pj_chk_pre_tags[]']").each(function ()
+				{
+					//count for alert not select item
+					tmp = tmp + 1;
+					
+					var iden_hdn_pj_pre_tags_id = "#hdn_pj_pre_tags_id"+$(this).val();
+					var iden_hdn_pj_pre_tags_id = $(iden_hdn_pj_pre_tags_id).val();
+					
+					//remove
+					$.ajax({
+					  type: 'POST',
+					  url: '<?=$CFG->src_put_away;?>/update_move_project.php',
+					  data: { 
+								iden_hdn_pj_pre_tags_id: iden_hdn_pj_pre_tags_id
+								,iden_sel_project_name: $("#sel_project_name").val()
+							},
+							success: function(response){
+							//
+						  },
+						error: function(){
+							//dialog ctrl
+							swal({
+							  html: true,
+							  title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+							  text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+							  type: "warning",
+							  timer: 3000,
+							  showConfirmButton: false,
+							  allowOutsideClick: false
+							});
+						}
+					});
+				});
+				
+				//refresh
+				if(cbChecked == tmp)
+				{							
+					//refresh
+					_load_move_project();
+				}
+				
+			  }
+			});
+		}
 	}
 }
 
@@ -1495,6 +1810,12 @@ function _export_stock_by_tags()
 {
 	//href
 	window.open('<?=$CFG->src_put_away;?>/excel_stock_by_tags','_blank');
+}
+
+function _export_stock_by_FgCode()
+{
+	//href
+	window.open('<?=$CFG->src_put_away;?>/excel_stock_by_FgCode','_blank');
 }
 </script>
 </body>

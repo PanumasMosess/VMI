@@ -13,8 +13,9 @@ $buffer_datetime = date("Y-m-d H:i:s");
 /**********************************************************************************/
 /*var *****************************************************************************/
 $fg_code_gdj = isset($_POST['fg_code_gdj']) ? $_POST['fg_code_gdj'] : '';
+$project_name = isset($_POST['project_name']) ? $_POST['project_name'] : '';
 
-$strSql = " SELECT bom_fg_desc FROM tbl_bom_mst where bom_fg_code_gdj = '$fg_code_gdj' and bom_status = 'Active' group by bom_fg_desc ";
+$strSql = " SELECT bom_fg_desc FROM tbl_bom_mst where  bom_fg_code_gdj = '$fg_code_gdj' and bom_pj_name = '$project_name'  and bom_status = 'Active' group by bom_fg_desc ";
 $objQuery = sqlsrv_query($db_con, $strSql);
 //$num_row = sqlsrv_has_rows($objQuery);
 

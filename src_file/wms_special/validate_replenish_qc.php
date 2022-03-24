@@ -73,6 +73,7 @@ and
 [ps_t_tags_code] = '$iden_txt_qc_scn_tag_id'
 and
 [dn_h_status] = 'Delivery Transfer Note'
+and bom_status = 'Active'
   ";
 $objQuery_chk_dtn_no = sqlsrv_query($db_con, $strSql_chk_dtn_no, $params, $options);
 $num_row_chk_dtn_no = sqlsrv_num_rows($objQuery_chk_dtn_no);

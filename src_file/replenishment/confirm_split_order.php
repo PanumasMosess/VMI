@@ -76,19 +76,21 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	{
 		$new_qty = $repn_qty - $iden_t_split_number;
 
+		$string_ref_split =  $repn_order_ref."(From Split)";
+
 		//update old replenishment
 		$sqlUpdateOld = " UPDATE tbl_replenishment
 		SET [repn_qty] = '$new_qty'
 	   	,[repn_by] = '".$t_cur_user_code_VMI_GDJ."'
-	   	,[repn_date] = '$buffer_date'
-	   	,[repn_time] = '$buffer_time'
-	   	,[repn_datetime] = '$buffer_datetime'
+		,[repn_date] = '$buffer_date'
+		,[repn_time] = '$buffer_time'
+		,[repn_datetime] = '$buffer_datetime'
   		WHERE repn_id = '$iden_t_repn_id'
   		";
 
  		$result_sqlUpdateOld = sqlsrv_query($db_con, $sqlUpdateOld);
 
-		if($result_sqlUpdateOld ){
+		if($result_sqlUpdateOld){
 			$strSQL_insert = "
 						INSERT INTO [dbo].[tbl_replenishment]
 							   (
@@ -111,7 +113,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 							   )
 						 VALUES
 							   (
-							   '$repn_order_ref'
+							    '$string_ref_split'
 							   ,'$repn_fg_code_set_abt'
 							   ,'$repn_sku_code_abt'
 							   ,'$bom_fg_code_gdj'
@@ -124,9 +126,9 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 							   ,'$repn_order_type'
 							   ,'$repn_delivery_date'
 							   ,'".$t_cur_user_code_VMI_GDJ."'
-							   ,'$buffer_date'
-							   ,'$buffer_time'
-							   ,'$buffer_datetime'
+							   ,'$repn_date'
+							   ,'$repn_time'
+							   ,'$repn_datetime'
 							   )
 						";
 						$objQuery_insert = sqlsrv_query($db_con, $strSQL_insert);

@@ -18,13 +18,14 @@ $buffer_datetime = date("Y-m-d H:i:s");
   <table id="tbl_adj_stock" class="table table-bordered table-hover table-striped nowrap">
 	<thead>
 	<tr style="font-size: 18px;">
-		<th colspan="8" class="bg-maroon"><b><font style="color: #FFF;"><i class="fa fa-compress fa-lg"></i> Delete Tags / Delete Stock (* Status = Received only)</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_confirm_adjust_stock();"><i class="fa fa-check-circle-o fa-lg"></i> Confirm Adjust Inventory</button>&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_remove_adjust_stock()"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
+		<th colspan="9" class="bg-maroon"><b><font style="color: #FFF;"><i class="fa fa-compress fa-lg"></i> Delete Tags / Delete Stock (* Status = Received only)</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_confirm_adjust_stock();"><i class="fa fa-check-circle-o fa-lg"></i> Confirm Adjust Inventory</button>&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_remove_adjust_stock()"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
 	</tr>
 	<tr style="font-size: 13px;">
 	  <th style="width: 30px;">No.</th>
 	  <th>Tags ID</th>
 	  <th>Pallet ID</th>
 	  <th>FG Code GDJ</th>
+	  <th>Project</th>
 	  <th>Location</th>
 	  <th style="color: indigo;">Quantity (Pcs.)</th>
 	  <th>Status</th>
@@ -38,6 +39,7 @@ SELECT
 	receive_tags_code
 	,receive_pallet_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -66,6 +68,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$receive_tags_code = $objResult['receive_tags_code'];
 	$receive_pallet_code = $objResult['receive_pallet_code'];
 	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
+	$tags_project_name = $objResult['tags_project_name'];
 	$receive_location = $objResult['receive_location'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
@@ -79,6 +82,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  <td style="color: #000; font-weight: bold;"><?=$receive_tags_code;?></td>
 	  <td><?=$receive_pallet_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$receive_location;?></td>
 	  <td style="color: indigo;"><?=number_format($tags_packing_std);?></td>
 	  <td style="color: green;"><?=$receive_status;?></td>
@@ -112,13 +116,13 @@ $(document).ready(function()
       'autoWidth'   : false
     });*/
 	
-	<!--datatable search paging-->
+	// <!--datatable search paging-->
 	$('#tbl_adj_stock').DataTable( {
         rowReorder: true,
 		"aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
 		"iDisplayLength": -1,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5,6,7 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5,6,7,8 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

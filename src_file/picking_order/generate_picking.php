@@ -13,11 +13,11 @@ $buffer_datetime = date("Y-m-d H:i:s");
 //gen picking code PSymd0001 / PS2008230001  12 digit
 ///////////////////Get picking no.///////////////////
 $strSql_get_pickCode = " 
-SELECT 
+SELECT TOP(1)
   SUBSTRING(picking_code,0,3) as substr_ps
   ,SUBSTRING(picking_code,3,6) as substr_ymd 
   ,SUBSTRING(picking_code,9,4) as substr_run_digit
-  FROM tbl_picking_running order by picking_id asc
+  FROM tbl_picking_running order by picking_id desc
 ";
 $objQuery_get_pickCode = sqlsrv_query($db_con, $strSql_get_pickCode, $params, $options);
 $num_row_get_pickCode = sqlsrv_num_rows($objQuery_get_pickCode);

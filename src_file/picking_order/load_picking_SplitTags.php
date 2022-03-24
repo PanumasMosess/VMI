@@ -67,6 +67,8 @@ and
 bom_ship_type = '$t_ship_type'
 and
 bom_part_customer = '$t_part_customer'
+and 
+bom_status = 'Active'
 group by
  [receive_tags_code]
       ,[receive_pallet_code]
@@ -164,6 +166,8 @@ and
 bom_ship_type = '$t_ship_type'
 and
 bom_part_customer = '$t_part_customer'
+and
+bom_status = 'Active'
 group by
  [receive_tags_code]
       ,[receive_pallet_code]
@@ -242,6 +246,7 @@ $str_split_tags = $str_total_qty - $t_repn_qty;
 <input type="hidden" name="hdn_row_split_tags" id="hdn_row_split_tags" value="<?=$row_id_split_tags;?>" />
 <input type="hidden" name="hdn_t_repn_id" id="hdn_t_repn_id" value="<?=$t_repn_id;?>" />
 <input type="hidden" name="hdn_split_tags_qty" id="hdn_split_tags_qty" value="<?=$str_split_tags;?>" />
+
 
 <?
 require_once("../../js_css_footer_noConflict.php");

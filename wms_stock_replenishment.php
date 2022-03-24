@@ -852,7 +852,7 @@ require_once("js_css_footer.php");
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" onclick="loadPage()"  aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h1 class="modal-title">Delivery Transfer Note Detalis</h1>
+                <h4 class="modal-title">Delivery Transfer Note Detalis</h4>
             </div>
             <div class="modal-body">
                 <div class="row">

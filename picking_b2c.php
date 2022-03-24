@@ -515,7 +515,7 @@ require_once("js_css_footer.php");
 
 		function openRePrintPickingSheet(id) {
 			setTimeout(function() {
-				window.open("<?= $CFG->src_mPDF; ?>/print_picking_sheet?tag=" + id + "", "_blank");
+				window.open("<?= $CFG->src_mPDF; ?>/print_picking_sheet_b2c?tag=" + id + "", "_blank");
 			}, 500);
 		}
 

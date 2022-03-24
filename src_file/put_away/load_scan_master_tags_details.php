@@ -13,7 +13,7 @@ require_once("../../js_css_header.php");
 	  <th>Tags ID</th>
 	  <th>FG Code GDJ</th>
 	  <th>Description</th>
-	  <th>Customer Code</th>
+	  <th>Project Name</th>
 	  <th>Packing STD Qty.(Pcs.)</th>
 	</tr>
 	</thead>
@@ -40,6 +40,7 @@ while($objResult_pre_scan_tags = sqlsrv_fetch_array($objQuery_pre_scan_tags, SQL
 	$tags_code = $objResult_pre_scan_tags['tags_code'];
 	$tags_fg_code_gdj = $objResult_pre_scan_tags['tags_fg_code_gdj'];
 	$tags_fg_code_gdj_desc = $objResult_pre_scan_tags['tags_fg_code_gdj_desc'];
+	$tags_project_name = $objResult_pre_scan_tags['tags_project_name'];
 	$tags_prod_plan = $objResult_pre_scan_tags['tags_prod_plan'];
 	$tags_packing_std = $objResult_pre_scan_tags['tags_packing_std'];
 	$tags_total_qty = $objResult_pre_scan_tags['tags_total_qty'];
@@ -56,12 +57,12 @@ while($objResult_pre_scan_tags = sqlsrv_fetch_array($objQuery_pre_scan_tags, SQL
 	  <input type="hidden" name="hdn_pre_receive_id<?=$row_id_pre_scan_tags;?>" id="hdn_pre_receive_id<?=$row_id_pre_scan_tags;?>" value="<?=$objResult_pre_scan_tags['pre_receive_id'];?>"/>
 	  </td>
 	  <td align="center">
-	  <button type="button" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-original-title="Delete this Tag ID" id="<?=$pre_receive_id;?>#####<?=$tags_code;?>" onclick="delTagsCode(this.id);"><i class="fa fa-trash-o fa-lg"></i></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm" id="<?=var_encode($tags_code);?>" onclick="openRePrintIndividual(this.id);" data-placement="top" data-toggle="tooltip" data-original-title="Re-Print this Tag ID"><i class="fa fa-print fa-lg"></i></button>
+	  <button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?=$pre_receive_id;?>#####<?=$tags_code;?>" onclick="delTagsCode(this.id);"><i class="fa fa-trash-o fa-lg"></i><span class="custom_tooltiptext">Delete this Tag ID</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?=var_encode($tags_code);?>" onclick="openRePrintIndividual(this.id);"><i class="fa fa-print fa-lg"></i><span class="custom_tooltiptext">Re-Print this Tag ID</span></button>
 	  </td>
 	  <td><?=$tags_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
 	  <td><?=$tags_fg_code_gdj_desc;?></td>
-	  <td><?=get_cus_code($db_con,'print_tags',$tags_fg_code_gdj,$tags_fg_code_gdj_desc);?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$tags_packing_std;?></td>
 	</tr>
 <?

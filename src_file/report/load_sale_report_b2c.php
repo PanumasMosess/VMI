@@ -18,7 +18,7 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 	  <th>Time</th>
 	  <th>ID</th>
 	  <th>POS ID</th>
-	  <th>INV. No</th>
+	  <th>Full INV. No</th>
 	  <th>Exclude VAT</th>
 	  <th>VAT.</th>
       <th>Include VAT</th>

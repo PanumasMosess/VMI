@@ -28,6 +28,7 @@ $t_receive_date = isset($_POST['t_receive_date']) ? $_POST['t_receive_date'] : '
 		<th>Pallet ID</th>
 		<th>Tags ID</th>
 		<th>FG Code GDJ</th>
+		<th>Project</th>
 		<th>Location</th>
 		<th style="color: indigo;">Quantity (Pcs.)</th>
 	  </tr>
@@ -39,6 +40,7 @@ SELECT
 	receive_pallet_code
 	,receive_tags_code
 	,tags_fg_code_gdj
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -70,6 +72,7 @@ while($objResult_picking_order_details = sqlsrv_fetch_array($objQuery_picking_or
 	$receive_pallet_code = $objResult_picking_order_details['receive_pallet_code'];
 	$receive_tags_code = $objResult_picking_order_details['receive_tags_code'];
 	$tags_fg_code_gdj = $objResult_picking_order_details['tags_fg_code_gdj'];
+	$tags_project_name = $objResult_picking_order_details['tags_project_name'];
 	$receive_location = $objResult_picking_order_details['receive_location'];
 	$tags_packing_std = $objResult_picking_order_details['tags_packing_std'];
 ?>
@@ -78,6 +81,7 @@ while($objResult_picking_order_details = sqlsrv_fetch_array($objQuery_picking_or
 	  <td><?=$receive_pallet_code;?></td>
 	  <td><?=$receive_tags_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$receive_location;?></td>
 	  <td style="color: indigo;"><?=$tags_packing_std;?></td>
 	</tr>
@@ -104,7 +108,7 @@ $(document).ready(function()
 		"aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
 		"iDisplayLength": 25,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5,6 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

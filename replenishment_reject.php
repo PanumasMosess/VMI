@@ -96,7 +96,7 @@ require_once("js_css_header.php");
                     ,[repn_conf_remark]                  
                     ,[repn_conf_by]
                     ,[repn_conf_datetime]
-                FROM [VMI_test].[dbo].[tbl_replenishment] where repn_conf_status = 'Rejected' 
+                FROM [tbl_replenishment] where repn_conf_status = 'Rejected' 
                 ORDER BY repn_datetime desc
                 ";
 					

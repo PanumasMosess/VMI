@@ -76,37 +76,6 @@ while($objResult_DTNHead = sqlsrv_fetch_array($objQuery_DTNHead, SQLSRV_FETCH_AS
 }
 
 //////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
-
-//////////////////////////////////////////////
 /////////////////////mPDF/////////////////////
 //////////////////////////////////////////////
 // Require composer autoload
@@ -271,7 +240,7 @@ and tbl_picking_tail.ps_t_pj_name = tbl_bom_mst.bom_pj_name
 and tbl_picking_tail.ps_t_ship_type = tbl_bom_mst.bom_ship_type
 and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
 where
-[dn_t_dtn_code] = '$tag'
+[dn_t_dtn_code] = '$tag' and bom_status = 'Active'
 ";
 
 $objQuery_DTNSheetDetails = sqlsrv_query($db_con, $strSql_DTNSheetDetails, $params, $options);
@@ -323,28 +292,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 		<tr>
   <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
   <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><barcode code="'.$dn_h_dtn_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$dn_h_dtn_code.'</td>	  
-  <td colspan="2" align="right">';
-	//set var
-	$t_qcode = $dn_h_dtn_code;
-	if (isset($t_qcode))
-	{ 
-
-		//it's very important!
-		if (trim($t_qcode) == '')
-			die('data cannot be empty! <a href="?">back</a>');
-			
-		// user data
-		$filename = $PNG_TEMP_DIR.'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-		
-	} 
-	else 
-	{    
-		//default data
-		//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-		QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-	}
-	$html .= '<img style="padding: 0px;" align="center" width="80px" src="'.$PNG_WEB_DIR.basename($filename).'"></td>
+  <td colspan="2" align="right"><barcode code="'.$dn_h_dtn_code.'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/></td>
 </tr>
 <tr>
   <td colspan="8" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> '.$dn_h_cus_name.'<br>&nbsp;<b>Address:</b> '.$dn_h_cus_address.'</td>	  

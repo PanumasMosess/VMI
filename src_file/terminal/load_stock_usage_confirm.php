@@ -43,7 +43,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 		<tbody>
 			<?
 			if($stock_locate == "ALL"){
-				if($t_cur_user_session_VMI_GDJ == "TI" || "GDJ"){
+				if($t_cur_user_session_VMI_GDJ == "TI" || $t_cur_user_session_VMI_GDJ == "GDJ"){
 					$strSql = " 
 					SELECT       
 					ps_t_tags_code,

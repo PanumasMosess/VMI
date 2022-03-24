@@ -88,7 +88,9 @@ else
 
 	if($result_sqlUpdate)
 	{
-		
+		$str_total_qty_c = 0;
+		while($str_total_qty_c < $iden_hdn_repn_qty){
+
 		//check tags
 		$strSql_picking_order_details_check = " 
 		select top $iden_t_fifo_picking_pack 
@@ -132,6 +134,8 @@ else
 		bom_ship_type = '$index_bom_ship_type'
 		and
 		bom_part_customer = '$index_bom_part_customer'
+		and
+		bom_status = 'Active'
 		group by
 		 [receive_tags_code]
 			  ,[receive_pallet_code]
@@ -152,7 +156,7 @@ else
 		$objQuery_picking_order_details_c = sqlsrv_query($db_con, $strSql_picking_order_details_check, $params, $options);
 		$num_row_picking_order_details_c = sqlsrv_num_rows($objQuery_picking_order_details_c);
 		
-		$str_total_qty_c = 0;
+		
 		while($objResult_picking_order_details_c = sqlsrv_fetch_array($objQuery_picking_order_details_c, SQLSRV_FETCH_ASSOC))
 		{
 			
@@ -167,8 +171,8 @@ else
 			$iden_t_fifo_picking_pack++;
 		}
 
-
-		
+	}
+	
 			//reserve tags
 			$strSql_picking_order_details = " 
 			select top $iden_t_fifo_picking_pack 
@@ -212,6 +216,8 @@ else
 			bom_ship_type = '$index_bom_ship_type'
 			and
 			bom_part_customer = '$index_bom_part_customer'
+			and
+			bom_status = 'Active'
 			group by
 			 [receive_tags_code]
 				  ,[receive_pallet_code]

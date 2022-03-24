@@ -12,7 +12,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 
 ////tags 9 digit (000000001)////
 ///////////////////Get pallet no.///////////////////
-$strSql_get_tags = " SELECT SUBSTRING(pallet_code,3,10) as substr_pallet_code FROM tbl_pallet_running order by pallet_id asc ";
+$strSql_get_tags = " SELECT TOP(1) SUBSTRING(pallet_code,3,10) as substr_pallet_code FROM tbl_pallet_running order by pallet_id DESC ";
 $objQuery_get_tags = sqlsrv_query($db_con, $strSql_get_tags, $params, $options);
 $num_row_get_tags = sqlsrv_num_rows($objQuery_get_tags);
 

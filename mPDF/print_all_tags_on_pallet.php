@@ -18,37 +18,6 @@ $tag = isset($_REQUEST['tag']) ? $_REQUEST['tag'] : '';
 $tag = var_decode($tag);
 
 //////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
-
-//////////////////////////////////////////////
 /////////////////////mPDF/////////////////////
 //////////////////////////////////////////////
 // Require composer autoload
@@ -136,6 +105,7 @@ $i=1;
 $q=" SELECT [tags_code]
       ,[tags_fg_code_gdj]
       ,[tags_fg_code_gdj_desc]
+	  ,[tags_project_name]
       ,[tags_prod_plan]
       ,[tags_packing_std]
       ,[tags_total_qty]
@@ -150,6 +120,7 @@ on tbl_tags_running.tags_code = tbl_receive.receive_tags_code
  [tags_code]
       ,[tags_fg_code_gdj]
       ,[tags_fg_code_gdj_desc]
+	  ,[tags_project_name]
       ,[tags_prod_plan]
       ,[tags_packing_std]
       ,[tags_total_qty]
@@ -179,11 +150,12 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="border-top:solid 1px #000;border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 9pt;font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
+				<td colspan="4" style=" border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt;">Description:</font> <br>&nbsp;<font style="font-size: 13pt; font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customer Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
+				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customers&nbsp;Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
+				<td colspan="1" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_project_name'].'</b></font></td>
+				<td colspan="1" style="border-bottom:solid 1px #000; border-right:solid 1px #000; ">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
@@ -209,12 +181,13 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="border-top:solid 1px #000;border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 9pt;font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
+				<td colspan="4" style=" border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 13pt; font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customer Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
-			  </tr>
+			  	<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customers&nbsp;Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_project_name'].'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-right:solid 1px #000; ">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
+			 </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
 				<td rowspan="2" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;"><img src="../logo_company/GDJ2.png" height="50px" style="padding: 2px;"/></td>
@@ -232,18 +205,19 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 			  <tr>
 				<td colspan="3" align="center" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000;"><b>FG TAG</b></td>
 				<td rowspan="2" style="text-align: center; border-top:solid 1px #000;  border-left:solid 1px #000; border-right:solid 1px #000;">
-				<barcode code="'.$rs['tags_code'].'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/>
+				<barcode code="'.$rs['tags_code'].'"  class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/>
 				</td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 9pt;font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
+				<td colspan="4" style=" border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 13pt; font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customer Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
+			  	<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customers&nbsp;Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_project_name'].'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-right:solid 1px #000; ">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>
@@ -266,14 +240,15 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				</td>
 			  </tr>
 			  <tr>
-				<td colspan="3" style=" border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
+				<td colspan="3" style="border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>FG Code GDJ:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_fg_code_gdj'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 9pt;font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
+				<td colspan="4" style=" border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Description:</font> <br>&nbsp;<font style="font-size: 13pt; font-family: thsarabun;"><b>'.$rs['tags_fg_code_gdj_desc'].'</b></font></td>
 			  </tr>
 			  <tr>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customer Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
-				<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
+			  	<td colspan="2" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Customers&nbsp;Code:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$str_cus_code.'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Project:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_project_name'].'</b></font></td>
+			  	<td colspan="1" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Quantity:</font> <br><font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_packing_std'].'</b></font></td>
 			  </tr>
 			  <tr>
 				<td colspan="3" style="border-bottom:solid 1px #000; border-left:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Tag ID:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_code'].'</b></font></td>

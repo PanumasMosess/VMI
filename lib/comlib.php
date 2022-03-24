@@ -22,6 +22,26 @@ if($db_con === false)
     die( print_r( sqlsrv_errors(), true));
 }
 
+//set var to array (var must be string type)
+$connectionInfo_run = array("Database"=>"$CFG->dbname_run", "UID"=>"$CFG->dbuser_run", "PWD"=>"$CFG->dbpass_run", "MultipleActiveResultSets"=>true, 'ReturnDatesAsStrings'=>true, "CharacterSet" =>'UTF-8' );
+$db_con_run = sqlsrv_connect($CFG->dbhost_run, $connectionInfo_run);
+
+if($db_con_run === false)
+{
+	echo "Connection could not be established. <br/>";
+    die( print_r( sqlsrv_errors(), true));
+}
+
+//set var to array (var must be string type)
+$connectionInfo_hr = array("Database"=>"$CFG->dbname_hr", "UID"=>"$CFG->dbuser_hr", "PWD"=>"$CFG->dbpass_hr", "MultipleActiveResultSets"=>true, 'ReturnDatesAsStrings'=>true, "CharacterSet" =>'UTF-8' );
+$db_con_hr = sqlsrv_connect($CFG->dbhost_hr, $connectionInfo_hr);
+
+if($db_con_hr === false)
+{
+	echo "Connection could not be established. <br/>";
+    die( print_r( sqlsrv_errors(), true));
+}
+
 /**********************************************************************************/
 /*convert lang for support phpexcel fully *****************************************/
 //tis620_to_utf8
@@ -573,7 +593,10 @@ function get_cus_code($db_con,$type_selector,$fg_code_gdj,$fg_code_gdj_desc)
 	  tbl_bom_mst
 	  on 
 	  tbl_tags_running.tags_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
-	 where tags_fg_code_gdj = '$fg_code_gdj' and tags_fg_code_gdj_desc = '$fg_code_gdj_desc'
+	 where 
+	 tags_fg_code_gdj = '$fg_code_gdj' 
+	 and tags_fg_code_gdj_desc = '$fg_code_gdj_desc'
+	 and bom_status = 'Active'
 	 group by
 	 [tags_code]
 		  ,[tags_fg_code_gdj]
@@ -615,7 +638,10 @@ function get_customer_code($db_con,$type_selector,$fg_code_gdj,$fg_code_gdj_desc
 	  tbl_bom_mst
 	  on 
 	  tbl_tags_running.tags_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
-	 where tags_fg_code_gdj = '$fg_code_gdj' and tags_fg_code_gdj_desc = '$fg_code_gdj_desc'
+	 where 
+	 tags_fg_code_gdj = '$fg_code_gdj' 
+	 and tags_fg_code_gdj_desc = '$fg_code_gdj_desc'
+	 and bom_status = 'Active'
 	 group by
 	
 		  [bom_cus_code]
@@ -646,12 +672,10 @@ function get_customer($db_con,$type_selector,$fg_code_set_abt,$sku_code_abt,$fg_
 	FROM tbl_bom_mst
 	where
 	bom_fg_code_set_abt = '$fg_code_set_abt'
-	and
-    bom_fg_sku_code_abt = '$sku_code_abt'
-	and
-    bom_fg_code_gdj = '$fg_code_gdj'
-	and
-	bom_pj_name = '$pj_name'
+	and bom_fg_sku_code_abt = '$sku_code_abt'
+	and bom_fg_code_gdj = '$fg_code_gdj'
+	and bom_pj_name = '$pj_name'
+	and bom_status = 'Active'
 	";
 	
 	//clear
@@ -695,6 +719,8 @@ function get_stock_each_fg_gdj($db_con,$fg_code_set_abt,$sku_code_abt,$fg_code_g
 		receive_repn_id is NULL
 		and
 		tags_fg_code_gdj = '$fg_code_gdj'
+		and 
+		tags_project_name = '$pj_name'
 	";
 	$objQuery = sqlsrv_query($db_con, $strSQL);
 	//clear
@@ -777,6 +803,7 @@ function auto_adjQty_pcs_to_packing($db_con,$fg_code_set_abt,$sku_code_abt,$fg_c
 			and bom_pj_name = '$pj_name'
 			and bom_ship_type = '$ship_type'
 			and bom_part_customer = '$part_customer'
+			and bom_status = 'Active'
 	";
 	$objQuery = sqlsrv_query($db_con, $strSQL);
 	//clear
@@ -805,7 +832,7 @@ function auto_adjQty_pcs_to_packing($db_con,$fg_code_set_abt,$sku_code_abt,$fg_c
 /*query get project name **********************************************************/
 function _get_all_project_name($db_con)
 {
-	$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name order by bom_pj_name asc ";
+	$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name order by bom_pj_name asc ";
 	$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
 	//clear
 	$str_all_pj = '';
@@ -827,11 +854,11 @@ function _get_all_project_name_customer($db_con, $section)
 {			
 	
 	if($section == "IT"){
-		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name order by bom_pj_name asc ";
+		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name order by bom_pj_name asc ";
 	}
 	else 
 	{     	
-		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$section' group by bom_pj_name";
+		$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$section' and bom_status = 'Active' group by bom_pj_name";
 	}
 	
 
@@ -854,7 +881,7 @@ function _get_all_project_name_customer($db_con, $section)
 /*query get each project name **********************************************************/
 function _get_each_project_name($db_con,$pj_name)
 {
-	$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_pj_name = '$pj_name' group by bom_pj_name ";
+	$strSQL = " SELECT bom_pj_name FROM tbl_bom_mst where bom_pj_name = '$pj_name' and bom_status = 'Active' group by bom_pj_name ";
 	$objQuery = sqlsrv_query($db_con, $strSQL) or die ("Error Query [".$strSQL."]");
 	//clear
 	$str_all_pj = '';
@@ -1067,7 +1094,9 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
     $data_arr_status = json_decode($resp_status, true);
     curl_close($curl_status);
 
-	$stats_b2c = $data_arr_status['parcel_data'][$b2c_track_num]['tracking_data'][0]['status_code'];
+	$total = 0;
+	
+	$stats_b2c = $data_arr_status['parcel_data'][$b2c_track_num]['tracking_data'][$total]['status_name'];
 		
 	$sqlUpdateStatusB2c = " UPDATE tbl_b2c_detail SET b2c_status = '$stats_b2c' WHERE b2c_dtn = '$dn_h_dtn_code'";
 	$result_sqlUpdateStatusB2c = sqlsrv_query($db_con, $sqlUpdateStatusB2c);
@@ -1082,7 +1111,7 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
         $sqlUpdatePicking_tail = " UPDATE tbl_picking_tail SET ps_t_status = 'Confirmed' WHERE ps_t_picking_code = '$dn_h_dtn_code' and ps_t_status = 'Delivery Transfer Note' ";
         $result_sqlUpdatePicking_tail = sqlsrv_query($db_con, $sqlUpdatePicking_tail);
         
-        }	
+    }	
 
 	 //Status for Update
 	 $url_b2c_web = "https://glong-duang-jai.com/wp-json/wc-ast/v3/orders/$b2c_repn_order_ref/shipment-trackings";

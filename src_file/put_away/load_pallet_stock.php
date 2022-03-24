@@ -15,18 +15,20 @@ $buffer_datetime = date("Y-m-d H:i:s");
   <table id="tbl_inventory" class="table table-bordered table-hover table-striped nowrap">
 	<thead>
 	<tr style="font-size: 18px;">
-		<th colspan="9" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i> WMS Stock</b>&nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_pallet()"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Pallet</button>&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button></th>
+		<th colspan="11" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i> WMS Stock</b>&nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_pallet()"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Pallet</button>&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button>&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_FgCode();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by FG Code</button></th>
 	</tr>
 	<tr style="font-size: 13px;">
 	  <th style="width: 30px;">No.</th>
 	  <th style="text-align: center;">Actions/Details</th>
 	  <th>Pallet ID</th>
 	  <th>FG Code GDJ</th>
+	  <th>Project</th>
 	  <th>FG Code GDJ Desc.</th>
 	  <th>Location</th>
 	  <th style="color: indigo;">Quantity (Pcs.)</th>
 	  <th>Status</th>
 	  <th>Receive Date</th>
+	  <th>Stock Aging (Day)</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -36,6 +38,7 @@ SELECT
 	receive_pallet_code
 	,tags_fg_code_gdj
 	,tags_fg_code_gdj_desc
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -45,10 +48,13 @@ left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
 receive_status = 'Received'
+and
+receive_repn_id is NULL
 group by
 	receive_pallet_code
 	,tags_fg_code_gdj
 	,tags_fg_code_gdj_desc
+	,tags_project_name
 	,receive_location
 	,receive_status
 	,receive_date
@@ -67,10 +73,16 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$receive_pallet_code = $objResult['receive_pallet_code'];
 	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
 	$tags_fg_code_gdj_desc = $objResult['tags_fg_code_gdj_desc'];
+	$tags_project_name = $objResult['tags_project_name'];
 	$receive_location = $objResult['receive_location'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
 	$tags_packing_std = $objResult['sum_pkg_std'];
+
+	$date_receive=date_create($receive_date);
+	$date_now=date_create($buffer_date);
+	$diff=date_diff($date_receive,$date_now);
+
 ?>
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id;?></td>
@@ -79,11 +91,13 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	  </td>
 	  <td><?=$receive_pallet_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=$tags_fg_code_gdj_desc;?></td>
 	  <td><?=$receive_location;?></td>
 	  <td style="color: indigo;"><?=number_format($tags_packing_std);?></td>
 	  <td style="color: green;"><?=$receive_status;?></td>
 	  <td><?=$receive_date;?></td>
+	  <td style="color: indigo;"><?=$diff->format("%a");?></td>
 	</tr>
 <?
 }
@@ -113,11 +127,11 @@ $(document).ready(function()
       'autoWidth'   : false
     });*/
 	
-	<!--datatable search paging-->
+	// <!--datatable search paging-->
 	$('#tbl_inventory').DataTable( {
         rowReorder: true,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8,9,10 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

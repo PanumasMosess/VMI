@@ -73,74 +73,20 @@ while($objResult_DTNHead = sqlsrv_fetch_array($objQuery_DTNHead, SQLSRV_FETCH_AS
 	$driver_truck_tail_no = $objResult_DTNHead['driver_truck_tail_no'];
 	$driver_truck_type = $objResult_DTNHead['driver_truck_type'];
 }
-
-//////////////////////////////////////////////
-////////////////////qrcode////////////////////
-//////////////////////////////////////////////
-//set it to writable location, a place for temp generated PNG files
-$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'wms_special/QRCode_File_temp'.DIRECTORY_SEPARATOR;
-
-//html PNG location prefix
-$PNG_WEB_DIR = 'QRCode_File_temp/';
-
-include "../../PHPQRcode/qrlib.php";
-
-//ofcourse we need rights to create temp dir
-if (!file_exists($PNG_TEMP_DIR))
-	mkdir($PNG_TEMP_DIR);
-
-$filename = $PNG_TEMP_DIR.'QRCode_temp.png';
-
-//processing form input
-//remember to sanitize user input in real-life solution !!!
-$errorCorrectionLevel = 'L';
-if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-{
-	$errorCorrectionLevel = $_REQUEST['level'];    
-}
-
-$matrixPointSize = 8;
-if (isset($_REQUEST['size']))
-{
-	$matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-}
 ?>
 <html>
+</style>
 <body>
-<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0">
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 <tr>
   <td colspan="2" align="left" ><img src="../../vmi/logo_company/GDJ_png.png" style="width: 80px; padding: 0px;" /></td>
-  <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><img src="../../vmi/PHPQRcode/barcode.php?barcode=<?php echo $dn_h_dtn_code.'&width=550&height=70';?>" alt="" align="bottom" /><br><?=$dn_h_dtn_code;?></td>	  
-  <td colspan="2" align="right">
-	<?
-	//set var
-	$t_qcode = $dn_h_dtn_code;
-	if (isset($t_qcode))
-	{ 
-
-		//it's very important!
-		if (trim($t_qcode) == '')
-			die('data cannot be empty! <a href="?">back</a>');
-			
-		// user data
-		$filename = 'QRCode_temp'.md5($t_qcode.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-		QRcode::png($t_qcode, $filename, $errorCorrectionLevel, 8, 2);
-		
-	} 
-	else 
-	{    
-		//default data
-		//echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>'; 
-		QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, 8, 2);    
-	}
-	?><img style="padding: 0px;" align="center" width="80px" src="../vmi/src_file/wms_special/QRCode_File_temp/<?=$filename?>">
-	</td>
+  <td colspan="4" align="center"><font style="font-size: 15pt;"><b>Delivery Transfer Note</b></font><br><?=$dn_h_dtn_code;?></td>	  
 </tr>
 <tr>
   <td colspan="8" style="font-size: 10pt; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<b>Customer:</b> <?=$dn_h_cus_name;?><br>&nbsp;<b>Address:</b> <?=$dn_h_cus_address;?></td>	  
 </tr>
 <tr>
-  <td colspan="8" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+  <td colspan="8" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000;">
 	<tr>
 	  <td width="50%" style="border-right:solid 1px #000;">
 		&nbsp;<b>Delivery Transfer Note:</b> <?=$dn_h_dtn_code;?><br>&nbsp;<b>Driver Name:</b> <?=ucfirst($driver_name_en);?>
@@ -282,7 +228,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	  <td colspan="8" style="font-size: 5pt;">&nbsp;</td>	  
 	</tr>
 	<tr>
-	  <td colspan="8" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+	  <td colspan="8" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000;">
 		<tr>
 		  <td align="center" width="50%" style="border-right:solid 1px #000;">
 			<br><img src="<?=$dn_h_driver_sign;?>" style="width: 50%"/><br><b>Shipper (Driver)</b>

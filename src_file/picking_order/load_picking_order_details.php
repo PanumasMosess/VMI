@@ -68,6 +68,8 @@ and
 bom_ship_type = '$t_ship_type'
 and
 bom_part_customer = '$t_part_customer'
+and
+bom_status = 'Active'
 group by
  [receive_tags_code]
       ,[receive_pallet_code]
@@ -163,6 +165,8 @@ and
 bom_ship_type = '$t_ship_type'
 and
 bom_part_customer = '$t_part_customer'
+and
+bom_status = 'Active'
 group by
  [receive_tags_code]
       ,[receive_pallet_code]

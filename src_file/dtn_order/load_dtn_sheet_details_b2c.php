@@ -9,25 +9,30 @@ require_once("../../js_css_header.php");
 	  <th style="width: 30px;">No.</th>
 	  <th style="text-align: center;">Actions/Details</th>
 	  <th>DTN Sheet ID</th>
+	  <th>Tracking Number</th>
 	  <th>Customer Code</th>
 	  <th>Customer Name</th>
 	  <th>Project Name</th>
 	  <th style="color: indigo;">Quantity (Pcs.)</th>
 	  <th>Status</th>
 	  <th>Delivery Date</th>
+	  <th>Tax Invoice</th>
 	</tr>
 	</thead>
 	<tbody>
 <?
 $strSql_DTNSheet = " 
 SELECT 
-	[dn_h_dtn_code]
+	   [dn_h_dtn_code]
       ,[dn_h_cus_code]
       ,[dn_h_cus_name]
 	  ,[dn_h_driver_code]
       ,[dn_h_delivery_date]
 	  ,[dn_h_status]
 	  ,[ps_t_pj_name]
+	  ,b2c_track_num
+	  ,b2c_tax_inv
+	  ,[b2c_status]
 	  ,sum([tags_packing_std]) as sum_picking_std 
   FROM [tbl_dn_head]
   left join
@@ -42,8 +47,13 @@ SELECT
   left join
   tbl_tags_running
   on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
+  left join 
+  tbl_b2c_detail
+  on tbl_dn_head.dn_h_dtn_code = tbl_b2c_detail.b2c_dtn
   where
   dn_h_status = 'Delivery Transfer Note'
+  and
+  b2c_status != 'จัดส่งสินค้าเรียบร้อย'
   and
   ps_t_pj_name = 'B2C'
   group by
@@ -54,6 +64,9 @@ SELECT
       ,[dn_h_delivery_date]
 	  ,[dn_h_status]
 	  ,[ps_t_pj_name]
+	  ,b2c_tax_inv
+	  ,b2c_track_num
+	  ,[b2c_status]
 order by 
 dn_h_dtn_code desc
 ";
@@ -70,9 +83,19 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
 	$dn_h_cus_code = $objResult_DTNSheet['dn_h_cus_code'];
 	$dn_h_cus_name = $objResult_DTNSheet['dn_h_cus_name'];
 	$ps_t_pj_name = $objResult_DTNSheet['ps_t_pj_name'];
-	$dn_h_status = $objResult_DTNSheet['dn_h_status'];
+	$b2c_status = $objResult_DTNSheet['b2c_status'];
 	$sum_picking_std = $objResult_DTNSheet['sum_picking_std'];
 	$dn_h_delivery_date = $objResult_DTNSheet['dn_h_delivery_date'];
+	$b2c_track_num = $objResult_DTNSheet['b2c_track_num'];  
+	$b2c_tax_inv = $objResult_DTNSheet['b2c_tax_inv'];
+
+	if($b2c_track_num == null ){
+		$b2c_track_num = '';
+	}
+
+	if($b2c_tax_inv == null){
+		$b2c_tax_inv = '-';
+	}
 ?>
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id_DTNSheet;?></td>
@@ -83,12 +106,14 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
 	  <button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$dn_h_dtn_code;?>#####<?=$dn_h_cus_code;?>#####<?=$dn_h_cus_name;?>#####<?=$ps_t_pj_name;?>#####<?=$dn_h_status;?>#####<?=$dn_h_delivery_date;?>" onclick="openFuncDTNSheetDetails(this.id);"><i class="fa fa-search fa-lg"></i><span class="custom_tooltiptext">View</span></button>
 	  </td>
 	  <td><?=$dn_h_dtn_code;?></td>
+	  <td><?=$b2c_track_num;?></td>
 	  <td><?=$dn_h_cus_code;?></td>
 	  <td><?=$dn_h_cus_name;?></td>
 	  <td><?=$ps_t_pj_name;?></td>
 	  <td style="color: indigo;"><?=$sum_picking_std;?></td>
-	  <td><?=$dn_h_status;?></td>
+	  <td><?=$b2c_status;?></td>
 	  <td><?=$dn_h_delivery_date;?></td>
+	  <td><?=$b2c_tax_inv;?></td>
 	</tr>
 <?
 }
@@ -129,35 +154,35 @@ $(document).ready(function()
 		rowCallback: function(row, data, index)
 		{
 			//status
-			if(data[7] == "Received"){
-				$(row).find('td:eq(7)').css('color', 'green');//green
+			if(data[8] == "จัดส่งสินค้าเรียบร้อย"){
+				$(row).find('td:eq(8)').css('color', 'green');//green
 			}
-			else if(data[7] == "Picking"){
-				$(row).find('td:eq(7)').css('color', 'gray');
+			else if(data[8] == "รับสินค้าเข้าระบบ"){
+				$(row).find('td:eq(8)').css('color', 'gray');
 			}
-			else if(data[7] == "Confrim Order"){
-				$(row).find('td:eq(7)').css('color', 'gray');
+			else if(data[8] == "ลงทะเบียนพัสดุ"){
+				$(row).find('td:eq(8)').css('color', 'gray');
 			}
-			else if(data[7] == "Delivery Transfer Note"){
-				$(row).find('td:eq(7)').css('color', 'orange');
+			else if(data[8] == "รับสินค้าเข้าระบบ"){
+				$(row).find('td:eq(8)').css('color', 'orange');
 			}
-			else if(data[7] == "Pick To Use"){
-				$(row).find('td:eq(7)').css('color', 'blue');
+			else if(data[8] == "ออกจัดส่งสินค้า"){
+				$(row).find('td:eq(8)').css('color', 'blue');
 			}
-			else if(data[7] == "Terminal 01"){
-				$(row).find('td:eq(7)').css('color', 'limegreen');
+			else if(data[8] == "รับสินค้านำกลับคืนต้นทาง"){
+				$(row).find('td:eq(8)').css('color', 'red');
 			}
-			else if(data[7] == "Terminal 02"){
-				$(row).find('td:eq(7)').css('color', 'limegreen');
+			else if(data[8] == "Terminal 02"){
+				$(row).find('td:eq(8)').css('color', 'limegreen');
 			}
-			else if(data[7] == "Terminal 03"){
-				$(row).find('td:eq(7)').css('color', 'limegreen');
+			else if(data[8] == "Terminal 03"){
+				$(row).find('td:eq(8)').css('color', 'limegreen');
 			}
-			else if(data[7] == "Terminal 04"){
-				$(row).find('td:eq(7)').css('color', 'limegreen');
+			else if(data[8] == "Terminal 04"){
+				$(row).find('td:eq(8)').css('color', 'limegreen');
 			}
-			else if(data[7] == "Terminal 05"){
-				$(row).find('td:eq(7)').css('color', 'limegreen');
+			else if(data[8] == "Terminal 05"){
+				$(row).find('td:eq(8)').css('color', 'limegreen');
 			}
 		},
     });

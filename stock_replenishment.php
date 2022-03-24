@@ -75,7 +75,7 @@ require_once("js_css_header.php");
 										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_project()">
 											<?
 											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
-												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name";
 											?>
 											<option value="ALL" selected="selected">All Project</option>
 											<?
@@ -84,9 +84,8 @@ require_once("js_css_header.php");
 												if($cus_code == "IT"){
 													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
 												}else{
-													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' group by bom_pj_name";
-												}
-												
+													$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_cus_code = '$cus_code' and bom_status = 'Active' group by bom_pj_name";
+												}												
 												?>
 											<option selected="selected" value="ALL">All Project</option>
 											<?
@@ -223,7 +222,8 @@ require_once("js_css_footer.php");
 				$("#spn_load_data_main").load("<?= $CFG->src_terminal; ?>/load_pallet_stock_terminal.php", {
 					sel_fj_name: value_project,
 					date_start_: min,
-					date_end_: max
+					date_end_: max,
+					//cus_code:cus_code
 				});
 
 			}, 500);
@@ -363,6 +363,31 @@ require_once("js_css_footer.php");
 			mapForm.target = "_blank";
 			mapForm.method = "POST";
 			mapForm.action = '<?= $CFG->src_terminal; ?>/excel_terminal_by_tags';
+
+			// Create an input
+			var mapInput = document.createElement("input");
+			mapInput.type = "text";
+			mapInput.name = "pj_name";
+			mapInput.value = value;
+
+			// Add the input to the form
+			mapForm.appendChild(mapInput);
+
+			// Add the form to dom
+			document.body.appendChild(mapForm);
+
+			// Just submit
+			mapForm.submit();
+		}
+
+		function _export_stock_component_by_project() {
+			//href
+			var value = $("#sel_fj_name").val();
+
+			var mapForm = document.createElement("form");
+			mapForm.target = "_blank";
+			mapForm.method = "POST";
+			mapForm.action = '<?= $CFG->src_terminal; ?>/excel_component_stock_terminal';
 
 			// Create an input
 			var mapInput = document.createElement("input");

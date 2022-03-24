@@ -13,6 +13,7 @@ require_once("../../js_css_header.php");
 	  <th>Customer Name</th>
 	  <th>Project Name</th>
 	  <th style="color: #00F;">Quantity (Pcs.)</th>
+	  <th>Price (บาท)</th>
 	  <th>Status</th>
 	  <th>Quality Control</th>
 	  <th>Issue Date</th>
@@ -27,12 +28,16 @@ SELECT
 	,[ps_h_cus_name]
 	,[ps_t_pj_name]
 	,[ps_h_status]
+	,b2c_sale_including_vat
 	,sum([ps_t_tags_packing_std]) as sum_tags_packing_std
 	,[ps_h_issue_date]
 FROM [tbl_picking_head]
 left join
 tbl_picking_tail
 on tbl_picking_head.ps_h_picking_code = tbl_picking_tail.ps_t_picking_code
+left join
+tbl_b2c_sale
+on tbl_picking_tail.ps_t_ref_replenish_code = tbl_b2c_sale.b2c_sale_order_id
 where
 ps_h_status = 'Picking'
 and
@@ -45,6 +50,7 @@ group by
 	,[ps_h_cus_name]
 	,[ps_t_pj_name]
 	,[ps_h_status]
+	,b2c_sale_including_vat
 	,[ps_h_issue_date]
 order by 
 ps_h_picking_code desc
@@ -65,6 +71,7 @@ while($objResult_PickingSheet = sqlsrv_fetch_array($objQuery_PickingSheet, SQLSR
 	$ps_h_status = $objResult_PickingSheet['ps_h_status'];
 	$sum_tags_packing_std = $objResult_PickingSheet['sum_tags_packing_std'];
 	$ps_h_issue_date = $objResult_PickingSheet['ps_h_issue_date'];
+	$b2c_sale_including_vat = $objResult_PickingSheet['b2c_sale_including_vat'];
 ?>
 	<tr style="font-size: 13px;">
 	  <td><?=$row_id_PickingSheet;?></td>
@@ -77,6 +84,7 @@ while($objResult_PickingSheet = sqlsrv_fetch_array($objQuery_PickingSheet, SQLSR
 	  <td><?=$ps_h_cus_name;?></td>
 	  <td><?=$ps_t_pj_name;?></td>
 	  <td style="color: #00F;"><?=$sum_tags_packing_std;?></td>
+	  <td><?=$b2c_sale_including_vat;?></td>
 	  <td><?=$ps_h_status;?></td>
 	  <td style="color: #F00;">Waiting Picking QC</td>
 	  <td><?=$ps_h_issue_date;?></td>

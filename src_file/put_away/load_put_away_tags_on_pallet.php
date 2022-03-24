@@ -19,12 +19,13 @@ $buffer_datetime = date("Y-m-d H:i:s");
   <table id="tbl_pre_put_tags" class="table table-bordered table-hover table-striped nowrap">
 	<thead>
 	<tr style="font-size: 18px;">
-		<th colspan="6" class="bg-green"><b><font style="color: #FFF;"><i class="fa fa-plus fa-lg"></i> Put-Away Tags On Pallet</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_remove_pre_puaway_tags()"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
+		<th colspan="7" class="bg-green"><b><font style="color: #FFF;"><i class="fa fa-plus fa-lg"></i> Put-Away Tags On Pallet</font></b><span style="float: right;"><button type="button" class="btn btn-default btn-sm" onclick="_remove_pre_puaway_tags()"><i class="fa fa-trash fa-lg"></i> Clear</button></span></th>
 	</tr>
 	<tr style="font-size: 13px;">
 	  <th style="width: 30px;">No.</th>
 	  <th>Tags ID</th>
 	  <th>FG Code GDJ</th>
+	  <th>Project</th>
 	  <th>Description</th>
 	  <th>Customer Code</th>
 	  <th>Packing STD Qty.(Pcs.)</th>
@@ -54,6 +55,7 @@ while($objResult_pre_scan_tags = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSO
 	$tags_code = $objResult_pre_scan_tags['tags_code'];
 	$tags_fg_code_gdj = $objResult_pre_scan_tags['tags_fg_code_gdj'];
 	$tags_fg_code_gdj_desc = $objResult_pre_scan_tags['tags_fg_code_gdj_desc'];
+	$tags_project_name = $objResult_pre_scan_tags['tags_project_name'];
 	$tags_prod_plan = $objResult_pre_scan_tags['tags_prod_plan'];
 	$tags_packing_std = $objResult_pre_scan_tags['tags_packing_std'];
 	$tags_total_qty = $objResult_pre_scan_tags['tags_total_qty'];
@@ -71,6 +73,7 @@ while($objResult_pre_scan_tags = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSO
 	  <td><?=$tags_code;?></td>
 	  <td><?=$tags_fg_code_gdj;?></td>
 	  <td><?=$tags_fg_code_gdj_desc;?></td>
+	  <td><?=$tags_project_name;?></td>
 	  <td><?=get_cus_code($db_con,'print_tags',$tags_fg_code_gdj,$tags_fg_code_gdj_desc);?></td>
 	  <td><?=$tags_packing_std;?></td>
 	</tr>
@@ -108,7 +111,7 @@ $(document).ready(function()
 		"aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "All"]],
 		"iDisplayLength": -1,
         columnDefs: [
-            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5 ] },
+            { orderable: true, className: 'reorder', targets: [ 0,1,2,3,4,5,6 ] },
             { orderable: false, targets: '_all' }
         ],
 		pagingType: "full_numbers",

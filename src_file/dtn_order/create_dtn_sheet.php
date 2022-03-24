@@ -131,7 +131,7 @@ if($objQuery_insert_dtn_tail)
 	if(($ps_h_cus_code == 'B2C') && ($tmp_sel == 1))
 	{
 	
-			//get data
+		//get data
 		$strSql_d = " 
 		SELECT 
 		 dn_h_dtn_code
@@ -140,11 +140,13 @@ if($objQuery_insert_dtn_tail)
 		,[b2c_customer_name]
 		,[b2c_delivery_address]
 		,[b2c_zipcode]
+		,b2c_cus_zipcode
 		,[b2c_contact_name]
 		,[b2c_tel]
 		,[b2c_note]
 		,[b2c_order_date]
 		,[b2c_repn_order_ref]
+		,[b2c_sender]
 	   ,[ps_t_cus_name]
 	   ,[ps_t_pj_name]
 	   ,[ps_t_replenish_unit_type]
@@ -166,12 +168,14 @@ if($objQuery_insert_dtn_tail)
 		and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
 		where
 		[dn_t_dtn_code] = '$iden_txt_curr_dtn_no'
+		and bom_status = 'Active'
 		group by 		
 		 dn_h_dtn_code
 		,dn_h_delivery_date
 		,[b2c_customer_code]
 		,[b2c_customer_name]
 		,[b2c_delivery_address]
+		,b2c_cus_zipcode
 		,[b2c_zipcode]
 		,[b2c_contact_name]
 		,[b2c_tel]
@@ -181,6 +185,7 @@ if($objQuery_insert_dtn_tail)
 	    ,[ps_t_cus_name]
 	    ,[ps_t_pj_name]
 	    ,[ps_t_replenish_unit_type]
+		,[b2c_sender]
 	";
 	
 	
@@ -207,11 +212,13 @@ if($objQuery_insert_dtn_tail)
 				$ps_t_pj_name = $objResult_d['ps_t_pj_name'];
 				$ps_t_replenish_unit_type = $objResult_d['ps_t_replenish_unit_type'];
 				$ps_t_replenish_qty_to_pack = $objResult_d['ps_t_replenish_qty_to_pack'];
+				$b2c_cus_zipcode = $objResult_d['b2c_cus_zipcode'];
+				$b2c_sender = $objResult_d['b2c_sender'];
 	
 			$token_ = '';
 	
 			//login for send API 
-			$url_login = "https://scgyamatodev.flare.works/api/authentication";
+			$url_login = $CFG->api_aut_link;
 	
 			$curl_login = curl_init($url_login);
 			curl_setopt($curl_login, CURLOPT_URL, $url_login);
@@ -238,10 +245,10 @@ if($objQuery_insert_dtn_tail)
 			$token_  = $data_arr_login['token'];
 	
 			//check Login 
-			if($data_arr_login['status'] == true){
+			if($data_arr_login['status'] == true && $b2c_sender == null){
 				
 					//Order for send API 
-					$url = "https://scgyamatodev.flare.works/api/orderwithouttrackingnumber";
+					$url = $CFG->api_call;
 	
 					$curl = curl_init($url);
 					curl_setopt($curl, CURLOPT_URL, $url);
@@ -253,7 +260,7 @@ if($objQuery_insert_dtn_tail)
 					);
 					curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 				
-					$data = "token=$token_&ShipperCode=101092&ShipperName=GLONG DUANG JAI&ShipperTel=0989878678&ShipperAddress=GLONG DUANG JAI CO.,LTD. Head Office 336/11 Moo 7 Bowin - Sriracha ชลบุรี&ShipperZipcode=20110&DeliveryAddress=$b2c_delivery_address&Zipcode=$b2c_zipcode&ContactName=$b2c_customer_name&Tel=$b2c_tel&OrderCode=$iden_txt_curr_dtn_no&OrderDate=$b2c_order_date&TotalBoxs=1";
+					$data = "token=$token_&ShipperCode=101092&ShipperName=GLONG DUANG JAI&ShipperTel=0989878678&ShipperAddress=GLONG DUANG JAI CO.,LTD. Head Office 336/11 Moo 7 Bowin - Sriracha ชลบุรี&ShipperZipcode=20110&DeliveryAddress=$b2c_delivery_address&Zipcode=$b2c_cus_zipcode&ContactName=$b2c_customer_name&Tel=$b2c_tel&OrderCode=$iden_txt_curr_dtn_no&OrderDate=$b2c_order_date&TotalBoxs=1";
 				
 					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 				
@@ -265,7 +272,7 @@ if($objQuery_insert_dtn_tail)
 					$data_arr_create = json_decode($resp, true);
 
 					$trackingNumber = $data_arr_create['trackingNumber'];
-					$trackingNumber = substr($trackingNumber,1,6);
+					$trackingNumber = substr($trackingNumber,1,12);
 
 					//update track and tracknumber
 					$sqlUpdateb2c_table = " UPDATE tbl_b2c_detail SET b2c_dtn = '$dn_h_dtn_code', b2c_track_num = '$trackingNumber' WHERE b2c_repn_order_ref = '$b2c_repn_order_ref'";
@@ -274,6 +281,11 @@ if($objQuery_insert_dtn_tail)
 					curl_close($curl);
 					echo $resp. '\n';
 					
+			}else if($data_arr_login['status'] == true){
+				//update track and tracknumber
+				$sqlUpdateb2c_table = " UPDATE tbl_b2c_detail SET b2c_dtn = '$dn_h_dtn_code' WHERE b2c_repn_order_ref = '$b2c_repn_order_ref'";
+				$sqlUpdateb2c_table = sqlsrv_query($db_con, $sqlUpdateb2c_table);
+						
 			}
 			else
 			{
@@ -288,7 +300,6 @@ if($objQuery_insert_dtn_tail)
 	$index_check++;
  
 }
-
 //update tbl_picking_head - ps_h_status = Delivery Transfer Note
 $sqlUpdatePicking_head = " UPDATE tbl_picking_head SET ps_h_status = 'Delivery Transfer Note' WHERE ps_h_picking_code = '$iden_hdn_ps_h_picking_code' and ps_h_status = 'Picking' ";
 $result_sqlUpdatePicking_head = sqlsrv_query($db_con, $sqlUpdatePicking_head);
