@@ -58,7 +58,7 @@ receive_pallet_code desc
 	left join tbl_tags_running
 	on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 	where
-	receive_status = 'Received' and receive_pallet_code = '$tag'
+	receive_status in ('Received', 'Sinbin')  and receive_pallet_code = '$tag'
 	group by
 		receive_pallet_code
 		,tags_fg_code_gdj

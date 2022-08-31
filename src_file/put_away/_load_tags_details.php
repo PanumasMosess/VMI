@@ -29,7 +29,7 @@ on tbl_pallet_running.pallet_code = tbl_receive.receive_pallet_code
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
-receive_status = 'Received'
+((receive_status = 'Received') or (receive_status = 'Sinbin'))
 and
 tags_fg_code_gdj = '$t_fg_code'
 order by 

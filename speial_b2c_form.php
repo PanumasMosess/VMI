@@ -115,7 +115,7 @@ require_once("js_css_header.php");
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
 
-            <p>ใบกำกับภาษี</p>
+            <p class="login-box-msg">ใบกำกับภาษี</p>
             <div class="checkbox">
                 <label>
                     <input type="checkbox" id="check_tax_full" value="false" />ต้องการใบกำกับภาษี
@@ -147,7 +147,7 @@ require_once("js_css_header.php");
                     $objQuery_code = sqlsrv_query($db_con, $strSQL_code) or die("Error Query [" . $strSQL_code . "]");
                     while ($objResult_code = sqlsrv_fetch_array($objQuery_code, SQLSRV_FETCH_ASSOC)) {
                     ?>
-                        <option value="<?= $objResult_code["bom_fg_code_gdj"] . "###" . $objResult_code["bom_price_sale_per_pcs"] . "###" .  $objResult_code["bom_fg_code_set_abt"] . "###" . $objResult_code["bom_fg_sku_code_abt"] . "###" . $objResult_code["bom_ship_type"] . "###" . $objResult_code["bom_part_customer"]; ?>"><?= $objResult_code["bom_fg_desc"]; ?></option>
+                        <option value="<?= $objResult_code["bom_fg_code_gdj"] . "###" . $objResult_code["bom_price_sale_per_pcs"] . "###" .  $objResult_code["bom_fg_code_set_abt"] . "###" . $objResult_code["bom_fg_sku_code_abt"] . "###" . $objResult_code["bom_ship_type"] . "###" . $objResult_code["bom_part_customer"] . "###" . $objResult_code["bom_fg_desc"]; ?>"><?= $objResult_code["bom_fg_desc"]; ?></option>
                     <?
                     }
                     ?>
@@ -172,6 +172,19 @@ require_once("js_css_header.php");
             <div class="form-group has-feedback">
                 <input type="text" class="form-control" placeholder="ค่าขนส่ง" id="shipping_price" disabled>
                 <span class="glyphicon glyphicon-xbt form-control-feedback"></span>
+            </div>
+            <p class="login-box-msg">การแบ่งชำระ</p>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="check_installment" value="false" />มีการแบ่งชำระ
+                </label>
+            </div>
+            <div class="form-group has-feedback">
+                <select class="form-control" id="sel_InstallMent" disabled>
+                    <option selected="selected" value="" disabled>เลือกแบ่งชำระ</option>
+                    <option value="2">2 งวด</option>
+                    <option value="3">3 งวด</option>
+                </select>
             </div>
             <div class="row">
                 <div class="col-xs-4 btn_submit">
@@ -283,7 +296,7 @@ require_once("js_css_header.php");
                             ajax_product_qty: product_qty,
                         },
                         success: function(response) {
-                          
+
                             $('#shipping_price').val(response);
                         },
                         error: function() {
@@ -341,6 +354,20 @@ require_once("js_css_header.php");
                 }
             });
             $('#weight').val('');
+        });
+
+        $("#check_installment").on('change', function() {
+
+            $('#sel_InstallMent').each(function() {
+                if ($(this).attr('disabled')) {
+                    $(this).removeAttr('disabled');
+                } else {
+                    $(this).attr({
+                        'disabled': 'disabled'
+                    });
+                }
+            });
+            $('#sel_InstallMent').val('');
         });
 
 
@@ -477,11 +504,11 @@ require_once("js_css_header.php");
                 setTimeout(function() {
                     $("#sale_price").focus();
                 }, 3000);
-            } else if ($('#shipping_price').val() == '') {
+            } else if (($('#shipping_price').val() == '') &&  ($("#check_scg_send").val() == true)) {
                 swal({
                     html: true,
                     title: "<span style='font-size: 15px; font-weight: bold;'>Warning</span>",
-                    text: "<span style='font-size: 20px; color: #000;'>กรุณากรอก น้ำหนัก</span>",
+                    text: "<span style='font-size: 20px; color: #000;'>กรุณากรอก ค่าขนส่ง</span>",
                     type: "warning",
                     timer: 2000,
                     showConfirmButton: false,
@@ -500,6 +527,7 @@ require_once("js_css_header.php");
                 var bom_fg_sku_code_abt = str_split_result[3];
                 var bom_ship_type = str_split_result[4];
                 var bom_part_customer = str_split_result[5];
+                var bom_GDJ_description = str_split_result[6];
 
                 $.ajax({
                     type: 'POST',
@@ -516,7 +544,7 @@ require_once("js_css_header.php");
                         ajax_sel_product_code: $("#sel_product_code").val(),
                         ajax_sale_price: $("#sale_price").val(),
                         ajax_id_card_tax_full: $("#id_card_tax_full").val(),
-                        ajax_branch_id_tax_full: $("#branch_id_tax_full").val(),
+                        ajax_branch_id_tax_full: $("#branch_id_tax_full").val(),   
                         ajax_bom_fg_code_gdj: bom_fg_code_gdj,
                         ajax_price_qty: price_qty,
                         ajax_bom_fg_code_set_abt: bom_fg_code_set_abt,
@@ -526,6 +554,8 @@ require_once("js_css_header.php");
                         ajax_bom_fg_sku_code_abt: bom_fg_sku_code_abt,
                         ajax_selling_pcs: $("#number_selling").val(),
                         ajax_sender_: $('#check_scg_send').is(":checked"),
+                        ajax_sel_InstallMent: $('#sel_InstallMent').val(),
+                        ajax_desc: bom_GDJ_description
                     },
                     success: function(response) {
 
@@ -546,6 +576,9 @@ require_once("js_css_header.php");
                         $('#check_scg_send').prop('checked', false);
                         $("#number_selling").val('');
                         $("#shipping_price").val('');
+                        $("#sel_InstallMent").val(null).trigger('change');
+                        $("#weight").val('');
+                        $("#email_customer").val('');
 
                         swal({
                             html: true,

@@ -56,6 +56,8 @@ SELECT
   b2c_status != 'จัดส่งสินค้าเรียบร้อย'
   and
   ps_t_pj_name = 'B2C'
+  and
+  dn_t_status != 'Confirmed'
   group by
   [dn_h_dtn_code]
       ,[dn_h_cus_code]

@@ -10,7 +10,7 @@ require_once("js_css_header.php");
 
   <?
 	require_once("menu.php");
-	update_status_b2c($db_con);
+	// update_status_b2c($db_con);
   ?>
   <!--------------------------->
   <!-- body  -->
@@ -177,7 +177,6 @@ $(document).ready(function()
 	_load_waiting_conf_dtn();
 	_load_dtn_sheet_details();
 	
-
 	//set format date picker
 	$.fn.datepicker.defaults.format = "yyyy-mm-dd";
 	

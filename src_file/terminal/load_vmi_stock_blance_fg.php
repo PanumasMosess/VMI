@@ -67,11 +67,10 @@ if($stock_locate == "ALL"){
 		and tbl_bom_mst.bom_ship_type = tbl_picking_tail.ps_t_ship_type
 		
 		where (receive_status != 'USAGE CONFIRM' and receive_status != 'Received' and receive_status != 'Picking' and
-		receive_status != 'Delivery Transfer Note' and bom_status = 'Active')  
+		receive_status != 'Delivery Transfer Note' and receive_status != 'Reject' and bom_status = 'Active')  
 		
 		group by 
 		ps_t_fg_code_gdj,
-		ps_t_tags_packing_std,
 		ps_t_part_customer,
 		receive_status,
 		ps_t_pj_name,
@@ -109,12 +108,11 @@ if($stock_locate == "ALL"){
 		and tbl_bom_mst.bom_ship_type = tbl_picking_tail.ps_t_ship_type
 		
 		where (receive_status != 'USAGE CONFIRM' and receive_status != 'Received' and receive_status != 'Picking' and
-		receive_status != 'Delivery Transfer Note' and bom_status = 'Active')  
+		receive_status != 'Delivery Transfer Note' and receive_status != 'Reject' and bom_status = 'Active')  
 		and (ps_t_pj_name IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) 
 			
 		group by 
 		ps_t_fg_code_gdj,
-		ps_t_tags_packing_std,
 		ps_t_part_customer,
 		receive_status,
 		ps_t_pj_name,
@@ -154,12 +152,11 @@ if($stock_locate == "ALL"){
     and tbl_bom_mst.bom_ship_type = tbl_picking_tail.ps_t_ship_type
     
     where (receive_status != 'USAGE CONFIRM' and receive_status != 'Received' and receive_status != 'Picking' and
-    receive_status != 'Delivery Transfer Note' and bom_status = 'Active')  
+    receive_status != 'Delivery Transfer Note' and receive_status != 'Reject' and bom_status = 'Active')  
     and ps_t_pj_name = '$stock_locate' 
     
     group by 
     ps_t_fg_code_gdj,
-    ps_t_tags_packing_std,
     ps_t_part_customer,
     receive_status,
     ps_t_pj_name,

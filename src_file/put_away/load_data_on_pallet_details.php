@@ -49,7 +49,7 @@ FROM tbl_receive
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
-receive_status = 'Received'
+((receive_status = 'Received') or (receive_status = 'Sinbin'))
 and
 receive_pallet_code = '$t_receive_pallet_code'
 and

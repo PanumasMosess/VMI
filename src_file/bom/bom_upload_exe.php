@@ -142,11 +142,11 @@ if($fileupload)
 						   SET [bom_fg_code_set_abt] = '".trim(strtoupper($result["FG Code Set ABT"]))."'
 							  ,[bom_fg_sku_code_abt] = '".trim(strtoupper($result["Component Code ABT"]))."'
 							  ,[bom_fg_code_gdj] = '".trim(strtoupper($result["FG Code GDJ"]))."'
-							  ,[bom_fg_desc] = '".trim(strtoupper(func_remove_char($result["Description"])))."'
+							  ,[bom_fg_desc] = '".trim(func_remove_char($result["Description"]))."'
 							  ,[bom_cus_code] = '".trim(strtoupper($result["Customer Code"]))."'
 							  ,[bom_cus_name] = '".trim(strtoupper(func_remove_char($result["Customer Name"])))."'
 							  ,[bom_pj_name] = '".trim(strtoupper($result["Project Name"]))."'
-							  ,[bom_ctn_code_normal] = '".trim(strtoupper($result["Carton Code Normal"]))."'
+							  ,[bom_ctn_code_normal] = '".trim($result["Carton Code Normal"])."'
 							  ,[bom_snp] = '".trim($result["SNP"])."'
 							  ,[bom_sku_code] = '".trim(func_remove_char(strtoupper($result["Code"])))."'
 							  ,[bom_ship_type] = '".trim(strtoupper($result["Ship to Type"]))."'
@@ -162,6 +162,7 @@ if($fileupload)
 							  ,[bom_wms_max] = '".trim($result["WMS Max"])."'
 							  ,[bom_vmi_min] = '".trim($result["VMI Min"])."'
 							  ,[bom_vmi_max] = '".trim($result["VMI Max"])."'
+							  ,[bom_vmi_app] = '".trim($result["Show VMI"])."'
 							  ,[bom_part_customer] = '".trim(strtoupper($result["Part Customer"]))."'
 							  ,[bom_cost_per_pcs] = '$tmp_cost_per_pcs'
 							  ,[bom_price_sale_per_pcs] = '$tmp_price_sale_per_pcs'
@@ -201,6 +202,7 @@ if($fileupload)
 							  ,[bom_wms_max]
 							  ,[bom_vmi_min]
 							  ,[bom_vmi_max]
+							  ,[bom_vmi_app]
 							  ,[bom_part_customer]
 							  ,[bom_cost_per_pcs]
 							  ,[bom_price_sale_per_pcs]
@@ -215,11 +217,11 @@ if($fileupload)
 						   '".trim(strtoupper($result["FG Code Set ABT"]))."'
 						   ,'".trim(strtoupper($result["Component Code ABT"]))."'
 						   ,'".trim(strtoupper($result["FG Code GDJ"]))."'
-						   ,'".trim(strtoupper(func_remove_char($result["Description"])))."'
+						   ,'".trim(func_remove_char($result["Description"]))."'
 						   ,'".trim(strtoupper($result["Customer Code"]))."'
 						   ,'".trim(strtoupper(func_remove_char($result["Customer Name"])))."'
 						   ,'".trim(strtoupper($result["Project Name"]))."'
-						   ,'".trim(strtoupper($result["Carton Code Normal"]))."'
+						   ,'".trim($result["Carton Code Normal"])."'
 						   ,'".trim($result["SNP"])."'
 						   ,'".trim(func_remove_char(strtoupper($result["Code"])))."'
 						   ,'".trim(strtoupper($result["Ship to Type"]))."'
@@ -235,6 +237,7 @@ if($fileupload)
 						   ,'".trim($result["WMS Max"])."'
 						   ,'".trim($result["VMI Min"])."'
 						   ,'".trim($result["VMI Max"])."'
+						   ,'".trim($result["Show VMI"])."'
 						   ,'".trim(strtoupper($result["Part Customer"]))."'
 						   ,'$tmp_cost_per_pcs'
 						   ,'$tmp_price_sale_per_pcs'

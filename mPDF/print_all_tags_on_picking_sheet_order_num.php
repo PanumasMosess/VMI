@@ -117,6 +117,7 @@ $q=" SELECT [tags_code]
       ,[tags_total_qty]
       ,[tags_token]
 	  ,[tags_issue_date]
+	  ,[tags_job_number]
 FROM tbl_tags_running
 left join tbl_receive
 on tbl_tags_running.tags_code = tbl_receive.receive_tags_code
@@ -132,7 +133,8 @@ on tbl_tags_running.tags_code = tbl_picking_tail.ps_t_tags_code
       ,[tags_packing_std]
       ,[tags_total_qty]
       ,[tags_token]
-	  ,[tags_issue_date] ";   
+	  ,[tags_issue_date] 
+	  ,[tags_job_number]";   
 $qr=sqlsrv_query($db_con, $q, $params, $options);   
 $numItem=sqlsrv_num_rows($qr);
 $numCol=2;

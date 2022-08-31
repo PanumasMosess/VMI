@@ -81,6 +81,7 @@ unset($_SESSION['strFacebookName_VMI_GDJ']);
 				</form>
 	
 				<a href="<?=$CFG->wwwroot;?>/index" class="text-center"><i class="fa fa-arrow-circle-o-left"></i> Back</a>
+				<a href="<?=$CFG->wwwroot;?>/forget_pass" class="text-center" style="float: right;">Forget Password <i class="fa fa-arrow-circle-o-right"></i> </a>
 
 				<br><br><font style="font-size:12px; color:#4B0082;">Your IP : <?=getVisitorIP();?></font>
 				

@@ -38,6 +38,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 		"bom_wms_max" => $objResult['bom_wms_max'],
 		"bom_vmi_min" => $objResult['bom_vmi_min'],
 		"bom_vmi_max" => $objResult['bom_vmi_max'],
+		"bom_vmi_app" => $objResult['bom_vmi_app'],
 		"bom_part_customer" => $objResult['bom_part_customer'],
 		"bom_cost_per_pcs" => $objResult['bom_cost_per_pcs'],
 		"bom_price_sale_per_pcs" => $objResult['bom_price_sale_per_pcs'],

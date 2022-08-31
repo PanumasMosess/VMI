@@ -117,11 +117,11 @@ require_once("../../js_css_footer_noConflict.php");
     $(document).ready(function() {
         var check_data = jQuery('#tbl_detail_Customer').DataTable({
             rowReorder: true,
-            "aLengthMenu": [
-                [25, 50, 75, 100, -1],
-                [25, 50, 75, 100, "All"]
-            ],
-            "iDisplayLength": -1,
+            // "aLengthMenu": [
+            //     [25, 50, 75, 100, -1],
+            //     [25, 50, 75, 100, "All"]
+            // ],
+            // "iDisplayLength": -1,
             columnDefs: [{
                     orderable: true,
                     className: 'reorder',

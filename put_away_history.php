@@ -43,8 +43,8 @@ require_once("js_css_header.php");
     <div class="wrapper">
 
         <?
-	require_once("menu.php");
-  ?>
+        require_once("menu.php");
+        ?>
         <!--------------------------->
         <!-- body  -->
         <!--------------------------->
@@ -71,6 +71,30 @@ require_once("js_css_header.php");
                             <!-- /.box-header -->
 
                             <div class="box-header">
+                            <div class="row">
+									<div class="col-md-3">
+										<select id="sel_fg_name" name="sel_fg_name" class="form-control select2" style="width: 100%;" >
+											<?
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ") || ($objResult_authorized['user_type'] == "SALE_B2C" && $objResult_authorized['user_section'] == "GDJ") || ($objResult_authorized['user_type'] == "SALE_B2B" && $objResult_authorized['user_section'] == "GDJ")){
+												$strSQL_fg_name = " SELECT bom_fg_code_gdj FROM tbl_bom_mst where bom_status = 'Active' group by bom_fg_code_gdj";
+											?>
+											<option selected="selected" value="ALL">Select FG Code</option>
+											<?
+											}
+											?>
+											<?
+					                              //  $strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
+					                                $objQuery_fg_name = sqlsrv_query($db_con, $strSQL_fg_name) or die ("Error Query [".$strSQL_fg_name."]");
+					                                while($objResult_fj_name = sqlsrv_fetch_array($objQuery_fg_name, SQLSRV_FETCH_ASSOC))
+					                            {
+				                                ?>
+											<option value="<?= $objResult_fj_name["bom_fg_code_gdj"]; ?>"><?= $objResult_fj_name["bom_fg_code_gdj"]; ?></option>
+											<?
+					                            }
+				                                 ?>
+										</select>
+									</div>&nbsp;<div class="col-md-1"><button type="button" class="btn btn-info btn-md" onclick="_load_receive_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button></div>
+								</div><br/>
                                 <div class="row">
                                     <div class="form-group col-md-3">
                                         <label>From Date:</label>
@@ -90,10 +114,6 @@ require_once("js_css_header.php");
                                             </div>
                                             <input type="text" class="form-control pull-right" id="max_pick" name="max_pick">
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Refresh Data:</label>
-                                        <button type="button" class="btn btn-info btn-md" onclick="_load_receive_details();"><i class="fa fa-refresh fa-lg"></i> Refresh</button>
                                     </div>
                                 </div>
                                 <div style="padding-left: 8px;">
@@ -117,20 +137,21 @@ require_once("js_css_header.php");
         <!-- /.body -->
         <!--------------------------->
         <?
-	require_once("footer.php");
-  ?>
+        require_once("footer.php");
+        ?>
 
         <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
-    <? 
-require_once("js_css_footer.php"); 
-?>
+    <?
+    require_once("js_css_footer.php");
+    ?>
     <script language="javascript">
         $(document).ready(function() {
             //load tags
             _load_receive_details();
+            $(".select2").select2();
 
         });
 
@@ -146,6 +167,7 @@ require_once("js_css_footer.php");
             setTimeout(function() {
                 //$("#spn_load_tags_details").html(""); //clear span
                 $("#spn_load_receive_details").load("<?= $CFG->src_report; ?>/load_put_away_history.php", {
+                    fg_code_: 'ALL',
                     date_start_: '',
                     date_end_: ''
                 });
@@ -153,7 +175,7 @@ require_once("js_css_footer.php");
         }
 
         function openRePrintPalletID(id) {
-            window.open("<?=$CFG->src_mPDF;?>/print_pallet_tags?tag="+ id +"","_blank");
+            window.open("<?= $CFG->src_mPDF; ?>/print_pallet_tags?tag=" + id + "", "_blank");
         }
 
         $('#min_pick').datepicker({
@@ -205,6 +227,7 @@ require_once("js_css_footer.php");
                 });
 
                 $("#spn_load_receive_details").load("<?= $CFG->src_report; ?>/load_put_away_history.php", {
+                    fg_code_: $("#sel_fg_name").val(),
                     date_start_: min,
                     date_end_: max
                 });

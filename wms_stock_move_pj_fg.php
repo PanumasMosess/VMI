@@ -242,7 +242,7 @@ function _load_tags_list(id)
 					"data": null,
 					render: function ( data, type, row ) {
 						
-						return "<font style='color: indigo'>" + data["receive_tags_code"] + "</font> "
+						return " <font style='color: indigo'>" + data["receive_tags_code"] + "</font> "
 					}
 				},
 				{
@@ -252,14 +252,14 @@ function _load_tags_list(id)
 					"data": null,
 					render: function ( data, type, row ) {
 						
-						return "<font style='color: indigo'>" + data["tags_fg_code_gdj"] + "</font> "
+						return " <font style='color: indigo'>" + data["tags_fg_code_gdj"] + "</font> "
 					}
 				},
 				{
 					"data": null,
 					render: function ( data, type, row ) {
 						
-						return "<font style='color: indigo'>" + data["tags_project_name"] + "</font> "
+						return " <font style='color: indigo'>" + data["tags_project_name"] + "</font> "
 					}
 				},
 				{
@@ -269,14 +269,14 @@ function _load_tags_list(id)
 					"data": null,
 					render: function ( data, type, row ) {
 						
-						return "<font style='color: indigo'>" + data["tags_packing_std"] + "</font> "
+						return " <font style='color: indigo'>" + data["tags_packing_std"] + "</font> "
 					}
 				},
 				{
 					"data": null,
 					render: function ( data, type, row ) {
 						
-						return "<font style='color: green'>" + data["receive_status"] + "</font> "
+						return " <font style='color: green'>" + data["receive_status"] + "</font> "
 					}
 				},
 				{

@@ -59,8 +59,6 @@ if($stock_locate == "ALL"){
 	dn_h_receive_date,
 	ps_t_pj_name,
 	dn_t_dtn_code
-		
-		
 	FROM tbl_receive
 	left join tbl_tags_running
 	on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
@@ -74,6 +72,23 @@ if($stock_locate == "ALL"){
 	on tbl_picking_head.ps_h_picking_code = tbl_dn_tail.dn_t_picking_code
 	left join tbl_dn_head
 	on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
+
+	group by
+
+	SELECT	
+	tags_code,
+	tags_fg_code_gdj,
+	ps_t_tags_packing_std,
+	ps_t_part_customer,
+	receive_status,
+	receive_date,
+	dn_h_issue_date,
+	tags_fg_code_gdj_desc,
+	conf_qc_tags_code,
+	dn_h_status,
+	dn_h_receive_date,
+	ps_t_pj_name,
+	dn_t_dtn_code
 	
 	where (receive_status != 'USAGE CONFIRM' and receive_status != 'Received' and receive_status != 'Picking' and
 	receive_status != 'Delivery Transfer Note')  and (dn_h_receive_date between '$date_start' and '$date_end')";

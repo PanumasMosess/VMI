@@ -3,22 +3,7 @@ require_once("../../application.php");
 
 $objQuery_delete_vmi_duplicate = sqlsrv_query($db_con, " EXEC sp_db_delete_duplcate_replinsh_vmi ");
 
-$strSql = " select bom_packing, repn_qty, bom_pj_name, bom_fg_code_gdj, repn_order_type, repn_id, repn_order_ref,
-repn_sku_code_abt, repn_fg_code_set_abt, repn_unit_type, repn_terminal_name, repn_delivery_date, repn_by,
-repn_date, repn_time, repn_datetime, repn_conf_status, bom_cus_code, bom_ship_type, bom_part_customer from tbl_replenishment 
-left join tbl_bom_mst 
-on tbl_replenishment.repn_fg_code_set_abt = tbl_bom_mst.bom_fg_code_set_abt
-and tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
-and tbl_replenishment.repn_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
-and tbl_replenishment.repn_pj_name = tbl_bom_mst.bom_pj_name
-and tbl_replenishment.repn_ship_type = tbl_bom_mst.bom_ship_type
-and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
-where
-repn_conf_status is null
-and repn_pj_name != 'B2C'
-and bom_status = 'Active'
-and repn_order_type != 'VMI Order'
-order by repn_id desc ";
+$strSql = "EXEC Replinish_Normal";
 $objQuery = sqlsrv_query($db_con, $strSql);
 
 $row_id = 0;

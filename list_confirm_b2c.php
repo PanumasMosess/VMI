@@ -79,15 +79,14 @@ require_once("js_css_header.php");
                                     <tr style="font-size: 13px;">
                                         <th style="width: 30px;">No.</th>
                                         <th>Action</th>
-                                        <th>Refill Type/Unit Type</th>
-                                        <th>Ref No.</th>
-                                        <th>Delivery Date</th>
-                                        <th>FG Code Set</th>
-                                        <th>Component Code</th>
-                                        <th>Part Customer</th>
-                                        <th style="color: #00F;">FG Code GDJ</th>
-                                        <th style="color: #00F;">Quantity (Pcs.)</th>
-                                        <th>Issue By</th>
+                                        <th>Installment (งวด)</th>
+                                        <th>FG Code</th>
+                                        <th>Product (สินค้า)</th>
+                                        <th>Qty (ชิ้น)</th>
+                                        <th>Price (ราคา)</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Address</th>
+                                        <th>Payment Date (วันชำระ)</th>
                                         <th>Issue Datetime</th>
                                     </tr>
                                     </tr>
@@ -108,6 +107,39 @@ require_once("js_css_header.php");
         <!-- /.content -->
     </div>
 
+    <!--------------------dlg manage tag-------------------->
+    <div class="modal fade" id="modal-manage-date" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-calendar"></i> Pick Date Installmemt</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body table-responsive padding">
+                        <div class="form-group col-sm-12">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="payment_pick" name="payment_pick">
+                                <input type="hidden" class="form-control pull-right" id="payment_id" name="payment_id">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="con_update_payment_date();" class="btn btn-primary btn-sm"><i class="fa fa-check-circle"></i> Comfirm Payment Date</button>
+                    <button type="button" class="btn btn-default btn-sm" onclick="close_clear();">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
     <?
     require_once("js_css_footer.php");
     ?>
@@ -116,9 +148,11 @@ require_once("js_css_header.php");
         $(document).ready(function() {
             //Initialize Select2 Elements
             $(".select2").select2();
+            load_table();
         });
 
-        //load data json
+        function load_table(){
+                    //load data json
         $.ajax({
             type: 'POST',
             url: "<?= $CFG->src_replenishment; ?>/load_order_wait_confirm.php",
@@ -167,53 +201,55 @@ require_once("js_css_header.php");
                     {
                         "data": null,
                         render: function(data, type, row) {
-                            return "<button type'button' class='btn btn-info btn-sm custom_tooltip' id='" + data["repn_id"] + "###" + data["repn_order_ref"] + "###" + data["repn_fg_code_set_abt"] + "###" + data["repn_sku_code_abt"] + "###" + data["bom_fg_code_gdj"] + "###" + data["bom_pj_name"] + "###" + data["bom_ship_type"] + "###" + data["bom_part_customer"] + "###" + data["repn_qty"] + "###" + data["repn_unit_type"] + "###" + data["repn_terminal_name"] + "###" + data["repn_delivery_date"] + "' onclick='openFuncConfirm_con(this.id);'><i class='glyphicon glyphicon-ok'></i><span class='custom_tooltiptext'>Confirm Order</span></button>"
+                            return "<button type'button' class='btn btn-warning btn-sm custom_tooltip' id='" + data["in_id"] + "' onclick='openFuncUpdateDate(this.id);'><i class='glyphicon glyphicon-calendar'></i><span class='custom_tooltiptext'>Pament Date</span></button>"
                         }
                     },
                     {
                         "data": null,
                         render: function(data, type, row) {
-                            return "<font>" + data["repn_order_type"] + "</font>/" + data["repn_unit_type"] + ""
+                            return "<font>งวดชำระ </font>" + data["installment"] + ""
                         }
                     },
                     {
-                        data: 'repn_order_ref',
+                        data: 'repn_fg_code_gdj',
+                    },
+                    {
+                        data: 'description',
                     },
                     {
                         "data": null,
                         render: function(data, type, row) {
 
-                            return "<font style='font-weight: bold'>" + data["repn_delivery_date"] + "</font> "
+                            return "<font style='font-weight: bold'>" + data["qty"] + "</font> "
                         }
-                    },
-                    {
-                        data: 'repn_fg_code_set_abt'
-                    },
-                    {
-                        data: 'repn_sku_code_abt',
-                    },
-                    {
-                        data: 'bom_part_customer',
                     },
                     {
                         "data": null,
                         render: function(data, type, row) {
-                            return "<font style='color: #00F;'>" + data["bom_fg_code_gdj"] + "</font>"
-                        }
 
+                            return "<font style='font-weight: bold'>" + data["price"] + "</font> "
+                        }
+                    },
+                    {
+                        data: 'b2c_contact_name',
+                    },
+                    {
+                        data: 'b2c_delivery_address',
                     },
                     {
                         "data": null,
                         render: function(data, type, row) {
-                            return "<font style='color: #00F;'>" + data["repn_qty"] + "</font>"
+                            if (data["installment_payment_date"] == "1900-01-01") {
+                                return "";
+                            } else {
+                                return "<font style='color: #000;'>" + data["installment_payment_date"] + "</font>"
+                            }
+
                         }
 
                     },
                     {
-                        data: 'repn_by'
-                    },
-                    {
-                        data: 'repn_datetime_cut'
+                        data: 'issue_date'
                     },
                 ]
             });
@@ -228,20 +264,20 @@ require_once("js_css_header.php");
                         modifier: {
                             page: 'all'
                         },
-                        columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-                        format: {
-                            body: function(data, row, column, node) {
-                                if ((column >= 0 && column <= 6) || (column >= 8 && column <= 17)) {
-                                    var data_ = data.replace(/<.*?>/ig, '');
-                                    return data_;
-                                } else if (column == 7) {
-                                    var data_ = data.replace(/<.*?>/ig, '');
-                                    data_.split('(');
-                                    return data_.split('(')[0];
-                                }
-                                return data;
-                            }
-                        }
+                        columns: [3, 4, 5, 6, 7, 8, 9, 10],
+                        // format: {
+                        //     body: function(data, row, column, node) {
+                        //         if ((column >= 0 && column <= 6) || (column >= 8 && column <= 17)) {
+                        //             var data_ = data.replace(/<.*?>/ig, '');
+                        //             return data_;
+                        //         } else if (column == 7) {
+                        //             var data_ = data.replace(/<.*?>/ig, '');
+                        //             data_.split('(');
+                        //             return data_.split('(')[0];
+                        //         }
+                        //         return data;
+                        //     }
+                        // }
                     }
                 }],
                 dom: {
@@ -253,12 +289,16 @@ require_once("js_css_header.php");
             }).container().appendTo($('#excel_export'));
 
         }
+        }
+
+
+
 
 
         function openFuncConfirm_con(id) {
             var str_split = id;
             var str_split_result = str_split.split("###");
-            
+
             var repn_id = str_split_result[0];
             var repn_1 = str_split_result[1];
             var repn_2 = str_split_result[2];
@@ -266,49 +306,146 @@ require_once("js_css_header.php");
 
             var repn_1 = repn_1.split("(deposit)");
 
-            		//dialog ctrl
-			swal({
-					html: true,
-					title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
-					text: "<span style='font-size: 15px; color: #000;'>ต้องการ<b>ยืนยัน</b> Order ?</span>",
-					type: "warning",
-					showCancelButton: true,
-					confirmButtonClass: "btn-info",
-					confirmButtonText: "Yes",
-					cancelButtonText: "No",
-					closeOnConfirm: true,
-					closeOnCancel: true
-				},
-				function(isConfirm) {
-					if (isConfirm) {
-						//accepted order
-						$.ajax({
-							type: 'POST',
-							url: '<?= $CFG->src_replenishment; ?>/confirm_list_b2c_deposit.php',
-							data: {
-								repn_id_ajax: repn_id,
-                                repn_order_ajax: repn_1[0],
-							},
-							success: function(response) {
-								
-							},
-							error: function() {
-								//dialog ctrl
-								swal({
-									html: true,
-									title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
-									text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
-									type: "warning",
-									timer: 3000,
-									showConfirmButton: false,
-									allowOutsideClick: false
-								});
-							}
-						});
+            //dialog ctrl
+            swal({
+                    html: true,
+                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                    text: "<span style='font-size: 15px; color: #000;'>ต้องการ<b>ยืนยัน</b> Order ?</span>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-info",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        //accepted order
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?= $CFG->src_replenishment; ?>/confirm_list_b2c_deposit.php',
+                            data: {
+                                ajax_payment_date: repn_id,
+                                ajax_init_id: repn_1[0],
+                            },
+                            success: function(response) {
+                            
+                            },
+                            error: function() {
+                                //dialog ctrl
+                                swal({
+                                    html: true,
+                                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                                    text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+                                    type: "warning",
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false
+                                });
+                            }
+                        });
 
-					}
-				});
-            
+                    }
+                });
+
+        }
+
+        function openFuncUpdateDate(id) {
+            $('#modal-manage-date').modal('show');
+            $('#payment_id').val(id);
+        }
+
+        $('#payment_pick').datepicker({
+            autoclose: true,
+            yearRange: '1990:+0',
+            format: 'yyyy-mm-dd',
+            onSelect: function(date) {
+                alert(date);
+            },
+            changeMonth: true,
+            changeYear: true,
+        });
+
+        function close_clear() {
+            $('#modal-manage-date').modal('hide');
+            $("#payment_pick").val('');
+            $('#payment_id').val('');
+        }
+
+        function con_update_payment_date() {
+            $('#modal-manage-date').modal('hide');
+            //dialog ctrl
+            swal({
+                    html: true,
+                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                    text: "<span style='font-size: 15px; color: #000;'>ต้องการ<b>ยืนยัน</b> Payment Date ?</span>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-info",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        //accepted order
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?= $CFG->src_replenishment; ?>/confirm_update_payment.php',
+                            data: {
+                                ajax_payment_date: $('#payment_pick').val(),
+                                ajax_init_id: $('#payment_id').val(),
+                            },
+                            success: function(response) {
+                                if (response == 'Success') {
+                                    //dialog ctrl
+                                    swal({
+                                        html: true,
+                                        title: "<span style='font-size: 15px; font-weight: bold;'>สำเร็จ !!!</span>",
+                                        text: "<span style='font-size: 15px; color: #000;'>เพิ่มวันชำระเงิน สำเร็จ</span>",
+                                        type: "success",
+                                        timer: 3000,
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+                                    $("#payment_pick").val('');
+                                    $('#payment_id').val('');
+                                    load_table();
+                                } else {
+                                    //dialog ctrl
+                                    swal({
+                                        html: true,
+                                        title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                                        text: "<span style='font-size: 15px; color: #000;'>ไม่สามารถเพิ่มวันชำระเงินได้</span>",
+                                        type: "warning",
+                                        timer: 3000,
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+
+                                    $("#payment_pick").val('');
+                                    $('#payment_id').val('');
+                                }
+                            },
+                            error: function() {
+                                //dialog ctrl
+                                swal({
+                                    html: true,
+                                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                                    text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+                                    type: "warning",
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false
+                                });
+                            }
+                        });
+
+                    }
+                });
+
         }
     </script>
 </body>

@@ -111,7 +111,7 @@ $(document).ready(function()
     });*/
 	
 	// <!--datatable search paging-->
-	$('#tbl_picking_sheet').DataTable( {
+	var table_confirm_picking  = $('#tbl_picking_sheet').DataTable( {
         rowReorder: true,
         columnDefs: [
             { orderable: true, className: 'reorder', targets: [ 0,2,3,4,5,6,7,8 ] },
@@ -153,6 +153,9 @@ $(document).ready(function()
 			}
 		},
     });
+
+
+
 	
 });
 </script>

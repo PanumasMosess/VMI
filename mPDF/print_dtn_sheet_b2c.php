@@ -308,7 +308,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 
     $sum_price = $sum_price + $b2c_sale_including_vat;
 
-	$sum_price = $sum_price * $sum_packing_std;
+	// $sum_price = $sum_price * $sum_packing_std;
 	
 	//check bottom 10 sheet
 	// || $row_id_DTNSheetDetails == $num_row_DTNSheetDetails

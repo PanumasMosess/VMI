@@ -270,7 +270,7 @@ while($objResult_DTNSheetDetails = sqlsrv_fetch_array($objQuery_DTNSheetDetails,
 	$ps_t_terminal_name = $objResult_DTNSheetDetails['ps_t_terminal_name'];
 	$ps_t_ref_replenish_code = $objResult_DTNSheetDetails['ps_t_ref_replenish_code'];
 
-	$bom_fg_desc = substr($bom_fg_desc, 0, 26);
+	// $bom_fg_desc = substr($bom_fg_desc, 0, 26);
 	
 	//sum qty
 	$sum_packing_std = $sum_packing_std + $ps_t_tags_packing_std;

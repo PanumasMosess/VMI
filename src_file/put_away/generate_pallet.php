@@ -31,6 +31,7 @@ $full_tags = "PL".$sprintf_tags;//full tags
 
 <script type="text/javascript">
 $('#txt_pallet_running').val('<?=$full_tags;?>');
+$('#txt_move_scn_new_pallet').val('<?=$full_tags;?>');
 </script>
 <?
 sqlsrv_close($db_con);

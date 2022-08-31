@@ -40,182 +40,281 @@ require_once("js_css_header.php");
 		}
 	}
 </style>
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+	<div class="wrapper">
 
-  <?	
-	require_once("menu.php");
-  ?>
-  <!--------------------------->
-  <!-- body  -->
-  <!--------------------------->
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1><i class="fa fa-caret-right"></i>&nbsp;Report B2C Order By Date for ACC</h1>
-      <ol class="breadcrumb">
-        <li><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-home"></i>Home</a></li><li class="active">Report B2C Order By Date for ACC</li>
-      </ol>
-    </section>
-	
-	<!-- Main content -->
-    <section class="content">
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-					  <h3 class="box-title">Report B2C Order</h3>
-                    </div>
-					<!-- /.box-header -->
-                    <div class="box-header with-border">
-                    <div class="row">
-						<div class="form-group col-md-3">
-							<label>From Date:</label>
-							<div class="input-group date">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input type="text" class="form-control pull-right" id="min_b2c" name="min_b2c">
-								<input type="hidden" class="form-control pull-right" id="update_status_b2c" name="update_status_b2c">
+		<?
+		require_once("menu.php");
+		?>
+		<!--------------------------->
+		<!-- body  -->
+		<!--------------------------->
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1><i class="fa fa-caret-right"></i>&nbsp;Report B2C Order By Date for ACC</h1>
+				<ol class="breadcrumb">
+					<li><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-home"></i>Home</a></li>
+					<li class="active">Report B2C Order By Date for ACC</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Report B2C Order</h3>
 							</div>
-							<!-- /.input group -->
-						</div>
-						<div class="form-group col-md-3">
-							<label>To Date:</label>
-							<div class="input-group date">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
+							<!-- /.box-header -->
+							<div class="box-header with-border">
+								<div class="row">
+									<div class="form-group col-md-3">
+										<label>From Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="min_b2c" name="min_b2c">
+											<input type="hidden" class="form-control pull-right" id="update_status_b2c" name="update_status_b2c">
+										</div>
+										<!-- /.input group -->
+									</div>
+									<div class="form-group col-md-3">
+										<label>To Date:</label>
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" id="max_b2c" name="max_b2c">
+										</div>
+										<!-- /.input group -->
+									</div>
 								</div>
-								<input type="text" class="form-control pull-right" id="max_b2c" name="max_b2c">
 							</div>
-							<!-- /.input group -->
+							<div style="padding-left: 8px;">
+								<i class="fa fa-filter" style="color: #00F;"></i>
+								<font style="color: #00F;">SQL >_ SELECT ACC DATA BY DATE</font>
+							</div>
+							<!-- /.box-header -->
+							<span id="spn_load_dtn_sheet_details"></span>
 						</div>
+						<!-- /.box -->
 					</div>
-                    </div>
-					<div style="padding-left: 8px;">
-						<i class="fa fa-filter" style="color: #00F;"></i><font style="color: #00F;">SQL >_ SELECT ACC DATA BY DATE</font>
-					</div>
-					<!-- /.box-header -->
-					<span id="spn_load_dtn_sheet_details"></span>
+					<!-- /.col -->
 				</div>
-				<!-- /.box -->
-			</div>
-			<!-- /.col -->
+				<!-- /.row -->
+
+			</section>
+			<!-- /.content -->
 		</div>
-		<!-- /.row -->
-		
-	</section>
-	<!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <!--------------------------->
-  <!-- /.body -->
-  <!--------------------------->
-  <?
-	require_once("footer.php");
-	
-  ?>
+		<!-- /.content-wrapper -->
+		<!--------------------------->
+		<!-- /.body -->
+		<!--------------------------->
+		<?
+		require_once("footer.php");
 
-  <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
-</div>
-<!-- ./wrapper -->
-<? 
-require_once("js_css_footer.php"); 
-?>
-<script language="javascript">
-$(document).ready(function(){
-	
-	_load_dtn_sheet_details();
+		?>
 
-    $('#min_b2c').datepicker({
-			autoclose: true,
-			yearRange: '1990:+0',
-			format: 'yyyy-mm-dd',
-			onSelect: function(date) {
-				alert(date);
-			},
-			changeMonth: true,
-			changeYear: true,
-	});
+		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+		<div class="control-sidebar-bg"></div>
+	</div>
+	<!-- ./wrapper -->
+	<?
+	require_once("js_css_footer.php");
+	?>
+	<script language="javascript">
+		$(document).ready(function() {
 
-	$('#max_b2c').datepicker({
-			autoclose: true,
-			yearRange: '1990:+0',
-			format: 'yyyy-mm-dd',
-			onSelect: function(date) {
-				alert(date);
-			},
-			changeMonth: true,
-			changeYear: true,
-	});
+			_load_dtn_sheet_details();
 
-		var min = '';
-		var max = '';
-		var value_project = '';
+			$('#min_b2c').datepicker({
+				autoclose: true,
+				yearRange: '1990:+0',
+				format: 'yyyy-mm-dd',
+				onSelect: function(date) {
+					alert(date);
+				},
+				changeMonth: true,
+				changeYear: true,
+			});
 
-	$('#max_b2c').change(function() {
-			max = $('#max_b2c').datepicker({
-				dateFormat: 'yyyy-mm-dd'
-			}).val();
-			min = $('#min_b2c').datepicker({
-				dateFormat: 'yyyy-mm-dd'
-			}).val();
+			$('#max_b2c').datepicker({
+				autoclose: true,
+				yearRange: '1990:+0',
+				format: 'yyyy-mm-dd',
+				onSelect: function(date) {
+					alert(date);
+				},
+				changeMonth: true,
+				changeYear: true,
+			});
 
+			var min = '';
+			var max = '';
+			var value_project = '';
+
+			$('#max_b2c').change(function() {
+				max = $('#max_b2c').datepicker({
+					dateFormat: 'yyyy-mm-dd'
+				}).val();
+				min = $('#min_b2c').datepicker({
+					dateFormat: 'yyyy-mm-dd'
+				}).val();
+
+				//Load data
+				setTimeout(function() {
+					// <!--datatable search paging-->
+					$("#loadding").modal({
+						backdrop: "static", //remove ability to close modal with click
+						keyboard: false, //remove option to close with keyboard
+						show: true //Display loader!
+					});
+					//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
+					$("#spn_load_dtn_sheet_details").load("<?= $CFG->src_report; ?>/load_sale_report_abb.php", {
+						date_start_: min,
+						date_end_: max
+					});
+
+				}, 500);
+
+			});
+
+			$('#min_b2c').change(function() {
+				$('#max_b2c').val('');
+				max = '';
+			});
+
+		});
+
+		function _load_dtn_sheet_details() {
 			//Load data
 			setTimeout(function() {
-				// <!--datatable search paging-->
-				$("#loadding").modal({
-					backdrop: "static", //remove ability to close modal with click
-					keyboard: false, //remove option to close with keyboard
-					show: true //Display loader!
-				});
-				//$("#spn_load_fg_code_gdj_packing_desc").html(""); //clear span
-				$("#spn_load_dtn_sheet_details").load("<?= $CFG->src_report;?>/load_sale_report_abb.php", {				
-					date_start_: min,
-					date_end_: max
-				});
+				//$("#spn_load_dtn_sheet_details").html(""); //clear span
+				$("#spn_load_dtn_sheet_details").load("<?= $CFG->src_report; ?>/load_sale_report_abb.php");
+			}, 300);
+		}
 
+
+
+		function exportExcelSaleB2C_ABB() {
+			var date_start = $('#min_b2c').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+			var date_end = $('#max_b2c').datepicker({
+				dateFormat: 'yyyy-mm-dd'
+			}).val();
+
+			setTimeout(function() {
+				//href
+				window.open("<?= $CFG->src_report; ?>/excel_export_sale_abb?date_start=" + date_start + "&date_end=" + date_end + "", "_blank");
 			}, 500);
 
-	});
+		}
 
-	$('#min_b2c').change(function() {
-			$('#max_b2c').val('');
-			max = '';
-	});
-	
-});
+		function Chceck(e, id, val) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+				var date_start = $('#min_b2c').datepicker({
+					dateFormat: 'yyyy-mm-dd'
+				}).val();
+				var date_end = $('#max_b2c').datepicker({
+					dateFormat: 'yyyy-mm-dd'
+				}).val();
 
-function _load_dtn_sheet_details()
-{
-	//Load data
-	setTimeout(function(){
-		//$("#spn_load_dtn_sheet_details").html(""); //clear span
-		$("#spn_load_dtn_sheet_details").load("<?=$CFG->src_report;?>/load_sale_report_abb.php");
-	},300);
-}
+				if (val == '') {
+					swal({
+						html: true,
+						title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+						text: "<span style='font-size: 15px; color: #000;'>กรุณากรอกข้อมูลก่อน Enter</span>",
+						type: "warning",
+						timer: 3000,
+						showConfirmButton: false,
+						allowOutsideClick: false
+					});
+				} else {
+					//dialog ctrl
+					swal({
+							html: true,
+							title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+							text: "<span style='font-size: 15px; color: #000;'>ต้องการ<b>ยืนยัน</b> Receipt Number ?</span>",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonClass: "btn-info",
+							confirmButtonText: "Yes",
+							cancelButtonText: "No",
+							closeOnConfirm: true,
+							closeOnCancel: true
+						},
+						function(isConfirm) {
+							if (isConfirm) {
+								//accepted order
+								$.ajax({
+									type: 'POST',
+									url: '<?= $CFG->src_report; ?>/confirm_update_receipt_number.php',
+									data: {
+										ajax_sale_id: id,
+										ajax_receipt_number: val,
+									},
+									success: function(response) {
+										if (response == 'Success') {
+											//dialog ctrl
+											swal({
+												html: true,
+												title: "<span style='font-size: 15px; font-weight: bold;'>สำเร็จ !!!</span>",
+												text: "<span style='font-size: 15px; color: #000;'>เพิ่ม Receipt Number</span>",
+												type: "success",
+												timer: 3000,
+												showConfirmButton: false,
+												allowOutsideClick: false
+											});
+
+											$("#spn_load_dtn_sheet_details").load("<?= $CFG->src_report; ?>/load_sale_report_abb.php", {
+												date_start_: date_start,
+												date_end_: date_end
+											});
 
 
+										} else {
+											//dialog ctrl
+											swal({
+												html: true,
+												title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+												text: "<span style='font-size: 15px; color: #000;'>ไม่สามารถเพิ่ม Receipt Number</span>",
+												type: "warning",
+												timer: 3000,
+												showConfirmButton: false,
+												allowOutsideClick: false
+											});
+										}
+									},
+									error: function() {
+										//dialog ctrl
+										swal({
+											html: true,
+											title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+											text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+											type: "warning",
+											timer: 3000,
+											showConfirmButton: false,
+											allowOutsideClick: false
+										});
+									}
+								});
 
-function exportExcelSaleB2C_ABB(){
-	var date_start = $('#min_b2c').datepicker({
-				dateFormat: 'yyyy-mm-dd'
-			}).val();
-	var date_end = $('#max_b2c').datepicker({
-				dateFormat: 'yyyy-mm-dd'
-			}).val();
+							}
+						});
+				}
+			}
 
-	setTimeout(function(){
-		//href
-		window.open("<?=$CFG->src_report;?>/excel_export_sale_abb?date_start="+ date_start +"&date_end="+ date_end +"","_blank");
-	},500);
-   
-}
-
-</script>
+		}
+	</script>
 </body>
+
 </html>
 
 <!-- Model loading -->

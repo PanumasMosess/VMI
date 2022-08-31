@@ -44,7 +44,7 @@ and tbl_replenishment.repn_pj_name = tbl_bom_mst.bom_pj_name
 and tbl_replenishment.repn_ship_type = tbl_bom_mst.bom_ship_type
 and tbl_replenishment.repn_part_customer = tbl_bom_mst.bom_part_customer
 where
-repn_conf_status = 'Confirmed' and repn_pj_name != 'B2C'
+repn_conf_status = 'Confirmed' and repn_pj_name != 'B2C' and bom_status = 'Active'
 order by repn_id desc ";
 
 $objQuery = sqlsrv_query($db_con, $strSql, $params, $options);
@@ -333,6 +333,50 @@ $(document).ready(function()
 		},
     });
 	*/
+
+	var buttons = new $.fn.dataTable.Buttons(table, {
+					buttons: [{
+						extend: 'excel',
+						text: '<i class="fa fa-file-excel-o"></i> Export Waiting Picking',
+						titleAttr: 'Excel Waiting Picking Report',
+						title: 'Excel Waiting Picking Report',
+						exportOptions: {
+							modifier: {
+								page: 'all'
+							},
+							columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+							format: {
+								body: function(data, row, column, node) {
+									if ((column >= 0 && column <= 6) || (column >= 10 && column <= 16)) {
+										var data_ = data.replace(/<.*?>/ig, '');
+										return data_;
+									} else if (column == 7) {
+										var data_ = data.replace(/<.*?>/ig, '');
+										data_.split('(');
+										return data_.split('(')[0];
+									}
+									else if (column == 8) {
+										var data_ = data.replace(/<.*?>/ig, '');
+										data_.split('(');
+										return data_.split('(')[0];
+									}
+									else if (column == 9) {
+										var data_ = data.replace(/<.*?>/ig, '');
+										data_.split('(');
+										return data_.split('(')[0];
+									}
+									return data;
+								}
+							}
+						}
+					}],
+					dom: {
+						button: {
+							tag: 'button',
+							className: 'btn btn-default btn-sm'
+						}
+					},
+	}).container().appendTo($('#excel_export_picking'));
 	
 });
 </script>

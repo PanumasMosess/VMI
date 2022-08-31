@@ -193,6 +193,25 @@ $strSql_PickingSheetDetails = "
   and tbl_picking_tail.ps_t_part_customer = tbl_bom_mst.bom_part_customer
   where
   [ps_t_picking_code] = '$tag' and bom_status = 'Active' 
+  group by 
+  [ps_t_picking_code]
+   ,[ps_t_ref_replenish_code]
+   ,[ps_t_pallet_code]
+   ,[ps_t_tags_code]
+   ,[ps_t_fg_code_set_abt]
+   ,[ps_t_sku_code_abt]
+   ,[ps_t_fg_code_gdj]
+   ,[bom_fg_desc]
+   ,[ps_t_location]
+   ,[ps_t_tags_packing_std]
+   ,[ps_t_cus_name]
+   ,[ps_t_pj_name]
+   ,[ps_t_replenish_unit_type]
+   ,[ps_t_replenish_qty_to_pack]
+   ,[ps_t_terminal_name]
+   ,[ps_t_order_type]
+   ,[ps_t_status]
+   ,[ps_t_issue_date]
 ";
 
 $objQuery_PickingSheetDetails = sqlsrv_query($db_con, $strSql_PickingSheetDetails, $params, $options);

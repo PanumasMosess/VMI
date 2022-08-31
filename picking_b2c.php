@@ -546,7 +546,7 @@ require_once("js_css_footer.php");
 			//load pallet no
 			setTimeout(function() {
 				//$("#spn_load_picking_details").html(""); //clear span
-				$("#spn_load_picking_details").load("<?= $CFG->src_picking_order; ?>/load_picking_order_details.php", {
+				$("#spn_load_picking_details").load("<?= $CFG->src_picking_order; ?>/load_picking_order_details_b2c.php", {
 					t_fg_code_set_abt: t_fg_code_set_abt,
 					t_sku_code_abt: t_sku_code_abt,
 					t_fg_code_gdj: t_fg_code_gdj,
@@ -583,7 +583,7 @@ require_once("js_css_footer.php");
 			//load pallet no
 			setTimeout(function() {
 				//$("#spn_load_splitTags").html(""); //clear span
-				$("#spn_load_splitTags").load("<?= $CFG->src_picking_order; ?>/load_picking_SplitTags.php", {
+				$("#spn_load_splitTags").load("<?= $CFG->src_picking_order; ?>/load_picking_SplitTags_b2c.php", {
 					t_fg_code_set_abt: t_fg_code_set_abt,
 					t_sku_code_abt: t_sku_code_abt,
 					t_fg_code_gdj: t_fg_code_gdj,

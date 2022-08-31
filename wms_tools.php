@@ -1038,8 +1038,9 @@ function _onScan_TagsID_newPallet()
 						  type: 'POST',
 						  url: '<?=$CFG->src_put_away;?>/update_move_tags.php',
 						  data: { 
-									iden_hdn_pre_tags_id: iden_hdn_pre_tags_id
+									 iden_hdn_pre_tags_id: iden_hdn_pre_tags_id
 									,iden_txt_move_scn_new_pallet: $("#txt_move_scn_new_pallet").val()
+									,iden_txt_move_location: $("#txt_move_scn_tag_location_move").val()
 								},
 								success: function(response){
 								//
@@ -2111,6 +2112,14 @@ function _confirm_adjust_stock_pallet()
 		  }
 		});
 	}
+}
+
+function genPallet() {
+	//load pallet no
+	setTimeout(function() {
+		//$("#spn_load_pallet_no").html(""); //clear span
+		$("#spn_load_pallet_no").load("<?= $CFG->src_put_away; ?>/generate_pallet.php");
+	}, 300);
 }
 
 function _export_stock_by_pallet()

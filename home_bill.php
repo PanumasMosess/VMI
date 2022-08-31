@@ -49,7 +49,7 @@ $time_now = date("Y-m-d H:i:s");
                                 <div class="pull-right">
                                     <select class="form-control" style="font-size:11px;"  name="txt_sel_pro_board" id="txt_sel_pro_board" style="width: 100%; background-color:#f4f4f4">
                                         <?
-											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")|| ($objResult_authorized['user_type'] == "SALE_B2B" && $objResult_authorized['user_section'] == "GDJ")){
 												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst group by bom_pj_name";
 											?>
 											<option value="ALL" selected="selected">All Project</option>

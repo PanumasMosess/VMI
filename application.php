@@ -39,12 +39,23 @@ $CFG->dbhostPing_run = "27.254.122.55";
 $CFG->dbname_run = "ABT_RUN";
 $CFG->dbuser_run = "pasnumass";
 $CFG->dbpass_run = "Juck4064";
+
+$CFG->dbhost_mrp = "203.150.199.177, 1433";
+$CFG->dbhostPing_mrp = "203.150.199.177";
+$CFG->dbname_mrp = "db_mrp";
+$CFG->dbuser_mrp = "kbdb";
+$CFG->dbpass_mrp = "rJmBXTW2";
+
 /**********************************************************************************/
 /*config path file ****************************************************************/
 $CFG->path_host = "http://localhost/";
-//$CFG->path_host = "https://lac-apps.albatrossthai.com/";
 $CFG->wwwroot_other = "/vmi"; //case check any location
 $CFG->wwwroot = "/vmi";
+
+/*config path file ****************************************************************/
+// $CFG->path_host = "https://lac-apps.albatrossthai.com/";
+// $CFG->wwwroot_other = "/vmi_test"; //case check any location
+// $CFG->wwwroot = "/vmi_test";
 
 /**********************************************************************************/
 /*config system path  *************************************************************/
@@ -88,6 +99,7 @@ $CFG->src_wms_usage_conf = "$CFG->wwwroot/src_file/wms_usage_confirm";
 $CFG->src_fg_ft2 = "$CFG->wwwroot/src_file/fg_ft2";
 $CFG->src_daily_plan = "$CFG->wwwroot/src_file/daily_plan";
 $CFG->src_prod_board = "$CFG->wwwroot/src_file/prod_board";
+$CFG->src_b2b_sale = "$CFG->wwwroot/src_file/wms_usage_confirm/images_outlet";
 
 /**********************************************************************************/
 /*standard libraries **************************************************************/

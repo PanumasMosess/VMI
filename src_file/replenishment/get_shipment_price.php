@@ -22,6 +22,7 @@ $ajax_product_weight = isset($_POST['ajax_product_weight']) ? $_POST['ajax_produ
 $ajax_product_qty = isset($_POST['ajax_product_qty']) ? $_POST['ajax_product_qty'] : '';
 
 $ajax_last_weight = $ajax_product_weight * $ajax_product_qty;
+// $ajax_last_weight = $ajax_product_weight;
 
 $sql = "SELECT [id]
 ,[name]
@@ -48,6 +49,9 @@ while($result_price = sqlsrv_fetch_array($query_price, SQLSRV_FETCH_ASSOC)) {
         $price = $result_price['shipment_b2c_east_price'];
         
     }
+    else if (($ajax_last_weight > 25000) && ($price == 0)){
+        $price = 325;
+    }
    
 
 }
@@ -67,6 +71,9 @@ echo number_format($price,2);
     
         if(($ajax_last_weight <= $weight) && ($price == 0) ){
             $price = $result_price['shipment_b2c_orther_price'];
+        }
+        else if (($ajax_last_weight > $weight) && ($price == 0)){
+            $price = 345;
         }
        
     }

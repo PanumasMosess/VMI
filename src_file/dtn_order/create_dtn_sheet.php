@@ -172,6 +172,7 @@ if($objQuery_insert_dtn_tail)
 		group by 		
 		 dn_h_dtn_code
 		,dn_h_delivery_date
+		,[dn_h_status]
 		,[b2c_customer_code]
 		,[b2c_customer_name]
 		,[b2c_delivery_address]

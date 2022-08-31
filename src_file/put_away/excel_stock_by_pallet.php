@@ -132,8 +132,9 @@ on tbl_pallet_running.pallet_code = tbl_receive.receive_pallet_code
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
-receive_status in ('Received')
+receive_status in ('Received', 'Sinbin')
 and receive_repn_id is NULL
+and tags_fg_code_gdj is not null
 group by
 	receive_pallet_code
 	,tags_fg_code_gdj

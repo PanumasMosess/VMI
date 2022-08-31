@@ -243,7 +243,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 			<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "404" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "500"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 		    <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "home_bill"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
-			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "print_tags" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "tags_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "put_away" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_tools" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="picking" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="picking_QC" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="print_cover_sheet" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="dtn_order" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="print_do" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_order_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock_on_hand" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock_move_pj_fg" 
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "print_tags" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "tags_history" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "put_away" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_tools" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_vmi_order" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="picking" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="picking_QC" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="print_cover_sheet" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="dtn_order" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="print_do" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "picking_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "dtn_order_b2c" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock_on_hand" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_stock_move_pj_fg" 
 
 			
 			){ echo "active"; } ?>">
@@ -277,13 +277,14 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 					
 					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_tools" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/wms_tools"><i class="fa fa-cogs"></i> <span>WMS Tools (Old)</span></a></li>
 					
-					<li class="treeview  <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_b2c"){ echo "active"; } ?>">
+					<li class="treeview  <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_vmi_order" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_b2c"){ echo "active"; } ?>">
 		  				<a href="#">
 							<i class="fa fa-cart-plus"></i><span>Replenishment</span>
 							<i class="fa fa-angle-left pull-right"></i>
 		  				</a>
 						<ul class="treeview-menu">
 							<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment"><i class="fa fa-cart-plus"></i><span>Normal/Special Order</span></a></li>
+							<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_vmi_order"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_vmi_order"><i class="fa fa-cart-plus"></i><span>VMI Auto order (MIN)</span></a></li>
 							<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "replenishment_b2c"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/replenishment_b2c"><i class="fa fa-cart-plus"></i><span>B2C Order</span></a></li>
 						</ul>	
 					</li>
@@ -315,7 +316,7 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				</ul>
 			</li>
 
-			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_cod_confirm"  ){ echo "active" ; } ?>">
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_cod_confirm"  ){ echo "active" ; } ?>">
 				<a href="#">
 					<i class="fa fa-cog"></i> <span>WMS-Special</span>
 					<i class="fa fa-angle-left pull-right"></i>
@@ -323,26 +324,28 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				<ul class="treeview-menu">
 					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_replenishment" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/wms_stock_replenishment"><i class="fa fa-cart-arrow-down"></i> <span>Stock Replenishment</span></a></li>
 					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "wms_stock_cod_confirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/wms_stock_cod_confirm"><i class="fa fa-cart-arrow-down"></i> <span>Stock POD Confirm</span></a></li>
-					<!-- <li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "wms_usage_confirm"){ echo "active"; } ?>"><a href="<?= $CFG->wwwroot; ?>/wms_usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li> -->
 				</ul>
 			</li>
-
+			
 			<? 
 			////check permissions for usage confirm on web
 			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
 			?>
-			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn"  ){ echo "active" ; } ?>">
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn" ||  basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet") { echo "active" ; } ?>">
 				<a href="#">
-					<i class="fa fa-shopping-cart"></i> <span>Usage Confirm</span>
+					<i class="fa fa-shopping-cart"></i> <span>Outbound</span>
 					<i class="fa fa-angle-left pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
-					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm"><i class="glyphicon glyphicon-qrcode"></i> <span>Usage Confirm (Pick)</span></a></li>
-					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirmReturn"><i class="fa fa-undo"></i> <span>Usage Confirm (Retrun)</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm"><i class="glyphicon glyphicon-qrcode"></i> <span>Picking</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirmReturn"><i class="fa fa-undo"></i> <span>Retrun</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm_outlet"><i class="glyphicon glyphicon-qrcode"></i> <span>ขาย</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn_outlet" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirmReturn_outlet"><i class="fa fa-undo"></i> <span>คืนกล่อง</span></a></li>
 				</ul>
+				
 			</li>
 			<? } ?>
-
+			
 			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="stock_blance" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance_fg"){ echo "active" ; } ?>">
 				<a href="#">
 					<i class="fa fa-folder-open-o"></i> <span>Terminal</span>
@@ -399,18 +402,6 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				</ul>
 			</li>
 
-			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "fg_ft2_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "daily_plan" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "prod_daily_reccord" ){ echo "active" ; } ?>">
-				<a href="#">
-					<i class="fa fa-television"></i> <span>PROD. DAILY PLAN</span>
-					<i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="treeview-menu">
-					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="fg_ft2_mst" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/fg_ft2_mst"><i class="fa fa-cloud-upload"></i> <span>Upload FG (ft^2)</span></a></li>
-					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="daily_plan" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/daily_plan"><i class="fa fa-calendar"></i> <span>Daily Planning</span></a></li>
-					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="prod_daily_reccord" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/prod_daily_reccord"><i class="fa fa-television"></i> <span>PROD. DAILY BOARD</span></a></li>
-				</ul>
-			</li>
-
 			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "bom_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "customer_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "driver_mst" ){ echo "active" ; } ?>">
 				<a href="#">
 					<i class="fa fa-database"></i> <span>Master Data</span>
@@ -423,12 +414,30 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				</ul>
 			</li>
 
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "fg_ft2_mst" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "daily_plan" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "prod_daily_reccord" ){ echo "active" ; } ?>">
+				<a href="#">
+					<i class="fa fa-television"></i> <span>PROD. DAILY PLAN</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="fg_ft2_mst" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/fg_ft2_mst"><i class="fa fa-cloud-upload"></i> <span>Upload FG (ft^2)</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="daily_plan" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/daily_plan"><i class="fa fa-calendar"></i> <span>Daily Planning</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="prod_daily_reccord" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/prod_daily_reccord"><i class="fa fa-television"></i> <span>PROD. DAILY BOARD</span></a></li>
+				</ul>
+			</li>
+			
 			<li class="header"><i class="fa fa-list-ul"></i> Users permissions</li>
-			<li><a href="<?= $CFG->wwwroot; ?>/xxxxx"><i class="fa fa-users"></i> <span>Users Management</span></a></li>
+			<!--<li><a href="<?= $CFG->wwwroot; ?>/xxxxx"><i class="fa fa-users"></i> <span>Users Management</span></a></li>-->
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="acc_unlock" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/acc_unlock"><i class="fa fa-unlock-alt"></i> <span>Unlock Users <span class="label label-danger"><span id="spn_account_lock">0</span></span></span></a></li>
 
 			<li class="header"><i class="fa fa-list-ul"></i> General information</li>
 			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
+			<? 
+			////check permissions for usage confirm on web
+			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
+			?>
+			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL USAGE CONFIRM.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual Outbound</span></a></li>
+			<? } ?>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="user_online" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/user_online"><i class="fa fa-desktop"></i> <span>Users Online <span class="label label-warning"><span id="spn_usr_online">0</span></span></span></a></li>
 
 			<?
@@ -451,6 +460,23 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 			<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="home" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="404" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="500" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="404" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="500" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
+			
+			<? 
+			////check permissions for usage confirm on web
+			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
+			?>
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn"  ){ echo "active" ; } ?>">
+				<a href="#">
+					<i class="fa fa-shopping-cart"></i> <span>Outbound</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm"><i class="glyphicon glyphicon-qrcode"></i> <span>Picking</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirmReturn"><i class="fa fa-undo"></i> <span>Retrun</span></a></li>
+				</ul>
+			</li>
+			<? } ?>
+			
 			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="stock_blance" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance_fg" ){ echo "active" ; } ?>">
 				<a href="#">
 					<i class="fa fa-folder-open-o"></i> <span>Terminal</span>
@@ -487,6 +513,12 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 
 			<li class="header"><i class="fa fa-list-ul"></i> General information</li>
 			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
+			<? 
+			////check permissions for usage confirm on web
+			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
+			?>
+			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL USAGE CONFIRM.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual Outbound</span></a></li>
+			<? } ?>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="user_online" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/user_online"><i class="fa fa-desktop"></i> <span>Users Online <span class="label label-warning"><span id="spn_usr_online">0</span></span></span></a></li>
 
 			<?
@@ -521,6 +553,101 @@ $strPicProfile = "https://graph.facebook.com/".$strFacebookID_VMI_GDJ."/picture?
 				</ul>
 			</li>
 
+			<li class="header"><i class="fa fa-list-ul"></i> General information</li>
+			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="user_online" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/user_online"><i class="fa fa-desktop"></i> <span>Users Online <span class="label label-warning"><span id="spn_usr_online">0</span></span></span></a></li>
+
+			<?
+			require_once("stats.php");
+		?>
+
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+	<?
+	}
+	else if($objResult_authorized['user_type'] == "SALE_B2B")
+	{
+	?>
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu" data-widget="tree">
+
+			<li class="header"><i class="fa fa-list-ul"></i> MAIN NAVIGATION</li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="home" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="404" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="500" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="home_bill" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="404" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="500" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/home_bill"><i class="fa fa-credit-card"></i> <span>Dashboard Billing</span></a></li>
+	
+			<? 
+			////check permissions for usage confirm on web
+			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
+			?>
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn"  ){ echo "active" ; } ?>">
+				<a href="#">
+					<i class="fa fa-shopping-cart"></i> <span>Outbound</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm"><i class="glyphicon glyphicon-qrcode"></i> <span>Picking</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirmReturn" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirmReturn"><i class="fa fa-undo"></i> <span>Retrun</span></a></li>
+				</ul>
+			</li>
+			<? } ?>
+			
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "stock_replenishment" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="stock_blance" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "usage_confirm" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "transaction" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance" || basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance_fg"){ echo "active" ; } ?>">
+				<a href="#">
+					<i class="fa fa-folder-open-o"></i> <span>Terminal</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "stock_replenishment" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/stock_replenishment"><i class="fa fa-cart-arrow-down"></i> <span>Stock Replenishment</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "usage_confirm" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/usage_confirm"><i class="fa fa-cubes"></i> <span>Usage Confirm</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "stock_blance" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/stock_blance"><i class="fa fa-cube"></i> <span>Stock Blance</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php') == "stock_blance_fg"){ echo "active"; } ?>"><a href="<?=$CFG->wwwroot;?>/stock_blance_fg"><i class="fa fa-cube"></i> <span>Stock Blance By FG Code</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "transaction" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/transaction"><i class="fa fa-arrows-h"></i> <span>Transaction</span></a></li>
+				</ul>
+			</li>
+
+			<li class="header"><i class="fa fa-list-ul"></i> General information</li>
+			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
+			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="user_online" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/user_online"><i class="fa fa-desktop"></i> <span>Users Online <span class="label label-warning"><span id="spn_usr_online">0</span></span></span></a></li>
+
+			<?
+			require_once("stats.php");
+		?>
+
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+	<?
+	}
+	else if($objResult_authorized['user_type'] == "SALE_B2C")
+	{
+	?>
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu" data-widget="tree">
+
+			<li class="header"><i class="fa fa-list-ul"></i> Factory Outlet</li>
+		
+	
+			<? 
+			////check permissions for usage confirm on web
+			if($objResult_authorized['user_usage_conf_onweb'] == "WEB") { 
+			?>
+			<li class="treeview <? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet" || basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet"  ){ echo "active" ; } ?>">
+				<a href="#">
+					<i class="fa fa-shopping-cart"></i> <span>Outlet Store</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm_outlet"><i class="glyphicon glyphicon-qrcode"></i> <span>ขาย</span></a></li>
+					<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' ) == "WmsUsageConfirm_outlet" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/WmsUsageConfirm_outlet"><i class="fa fa-undo"></i> <span>คืนกล่อง</span></a></li>
+				</ul>
+			</li>
+			<? } ?>
+			
 			<li class="header"><i class="fa fa-list-ul"></i> General information</li>
 			<li><a href="<?= $CFG->src_pathattc_manual; ?>/MANUAL VMI GDJ.pdf" target="_blank" title="Manual"><i class="fa fa-book"></i> <span>Manual</span></a></li>
 			<li class="<? if(basename($_SERVER["SCRIPT_FILENAME"], '.php' )=="user_online" ){ echo "active" ; } ?>"><a href="<?= $CFG->wwwroot; ?>/user_online"><i class="fa fa-desktop"></i> <span>Users Online <span class="label label-warning"><span id="spn_usr_online">0</span></span></span></a></li>

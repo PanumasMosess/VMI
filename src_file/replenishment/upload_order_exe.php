@@ -309,7 +309,7 @@ if ($txt_sel_cus == "ALBATROSS LOGISTICS CO., LTD.") {
 			$objQuery_check_col = sqlsrv_query($db_con, $strSQL_check_col);
 			$sum_fields = sqlsrv_num_fields($objQuery_check_col);
 
-			$sum_fields = $sum_fields - 13;
+			$sum_fields = $sum_fields - 15;
 			if ($sum_fields != $sum_highestColumn) {
 				sleep(2);
 				////echo "<script>alert('Error !! Column in excel file does not match the database.');</script>";
@@ -534,7 +534,7 @@ if ($txt_sel_cus == "ALBATROSS LOGISTICS CO., LTD.") {
 			$objQuery_check_col = sqlsrv_query($db_con, $strSQL_check_col);
 			$sum_fields = sqlsrv_num_fields($objQuery_check_col);
 
-			$sum_fields = $sum_fields - 13;
+			$sum_fields = $sum_fields - 15;
 			if ($sum_fields != $sum_highestColumn) {
 				sleep(2);
 				////echo "<script>alert('Error !! Column in excel file does not match the database.');</script>";
@@ -758,7 +758,7 @@ if ($txt_sel_cus == "ALBATROSS LOGISTICS CO., LTD.") {
 			$objQuery_check_col = sqlsrv_query($db_con, $strSQL_check_col);
 			$sum_fields = sqlsrv_num_fields($objQuery_check_col);
 
-			$sum_fields = $sum_fields - 13;
+			$sum_fields = $sum_fields - 15;
 			if ($sum_fields != $sum_highestColumn) {
 				sleep(2);
 				////echo "<script>alert('Error !! Column in excel file does not match the database.');</script>";
@@ -6206,6 +6206,7 @@ if ($txt_sel_cus == "ALBATROSS LOGISTICS CO., LTD.") {
 							   ,[repn_fg_code_set_abt]
 							   ,[repn_sku_code_abt]
 							   ,[repn_fg_code_gdj]
+							   ,[repn_customer_code]
 							   ,[repn_pj_name]
 							   ,[repn_ship_type]
 							   ,[repn_part_customer]
@@ -6224,6 +6225,7 @@ if ($txt_sel_cus == "ALBATROSS LOGISTICS CO., LTD.") {
 							   '$str_order_ref'
 							   ,'$str_fg_code_cus'
 							   ,'$str_component_code_cus'
+							   ,'$str_fg_code_gdj'
 							   ,'$str_fg_code_gdj'
 							   ,'$str_pj_name'
 							   ,'$str_ship_type'

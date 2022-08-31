@@ -6,7 +6,7 @@ $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
 $buffer_datetime = date("Y-m-d H:i:s");
  
-$buffer_date_3 = date('Y-m-d', strtotime($buffer_date.' +3 day'));
+$buffer_date_3 = date('Y-m-d', strtotime($buffer_date.' +7 day'));
 
 /**********************************************************************************/
 /*var *****************************************************************************/
@@ -31,6 +31,8 @@ $ajax_qty = isset($_POST['ajax_qty']) ? $_POST['ajax_qty'] : '';
 $ajax_bom_fg_sku_code_abt= isset($_POST['ajax_bom_fg_sku_code_abt']) ? $_POST['ajax_bom_fg_sku_code_abt'] : '';  
 $ajax_selling_pcs = isset($_POST['ajax_selling_pcs']) ? $_POST['ajax_selling_pcs'] : ''; 
 $ajax_sender_ = isset($_POST['ajax_sender_']) ? $_POST['ajax_sender_'] : ''; 
+$ajax_sel_InstallMent = isset($_POST['ajax_sel_InstallMent']) ? $_POST['ajax_sel_InstallMent'] : '';   
+$ajax_desc = isset($_POST['ajax_desc']) ? $_POST['ajax_desc'] : ''; 
 
 if($ajax_sender_ == 'true'){
    $ajax_sender_ = 'SALE';
@@ -179,6 +181,64 @@ VALUES
 ";
 
 $objQuery_insert_sale = sqlsrv_query($db_con, $strSQL_insert_sale);
+
+
+if($ajax_sel_InstallMent == ''){
+   $sql_insatllment_insert = "INSERT INTO [dbo].[tbl_installment]
+   ([installment]
+   ,[description]
+   ,[qty]
+   ,[price]
+   ,[order_ref]
+   ,[installment_payment_date]
+   ,[issue_date]
+   ,[issue_time]
+   ,[issue_date_time])
+VALUES
+   ('1'
+   ,'$ajax_desc'
+   ,'$ajax_qty'
+   ,'$ajax_selling_pcs'
+   ,'$order_ref_num'
+   ,'' 
+   ,'$buffer_date'
+   ,'$buffer_time'
+   ,'$buffer_datetime')";
+
+$objQuery_insert_Installment = sqlsrv_query($db_con, $sql_insatllment_insert);
+
+}else{
+
+   for($incress = 1; $incress <= $ajax_sel_InstallMent; $incress++){
+
+   $ajax_qty_per = (int)$ajax_qty / (int)$ajax_sel_InstallMent;
+   $ajax_selling_pcs_per = (int)$ajax_selling_pcs / (int)$ajax_sel_InstallMent;
+
+   $sql_insatllment_insert = "INSERT INTO [dbo].[tbl_installment]
+   ([installment]
+   ,[description]
+   ,[qty]
+   ,[price]
+   ,[order_ref]
+   ,[installment_payment_date]
+   ,[issue_date]
+   ,[issue_time]
+   ,[issue_date_time])
+VALUES
+   ('$incress'
+   ,'$ajax_desc'
+   ,'$ajax_qty_per'
+   ,'$ajax_selling_pcs_per'
+   ,'$order_ref_num'
+   ,'' 
+   ,'$buffer_date'
+   ,'$buffer_time'
+   ,'$buffer_datetime')";
+
+   $objQuery_insert_Installment = sqlsrv_query($db_con, $sql_insatllment_insert);
+}
+
+}
 
 
 sqlsrv_close($db_con);

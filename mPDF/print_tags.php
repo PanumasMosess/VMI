@@ -117,6 +117,7 @@ $q=" SELECT [tags_code]
       ,[tags_total_qty]
       ,[tags_token]
 	  ,[tags_issue_date]	  
+	  ,[tags_job_number]
 FROM tbl_tags_running
  where $sql_condition
  group by
@@ -128,7 +129,8 @@ FROM tbl_tags_running
       ,[tags_packing_std]
       ,[tags_total_qty]
       ,[tags_token]
-	  ,[tags_issue_date]";   
+	  ,[tags_issue_date]
+	  ,[tags_job_number]";   
 $qr=sqlsrv_query($db_con, $q, $params, $options);   
 $numItem=sqlsrv_num_rows($qr);
 $numCol=2;
@@ -168,7 +170,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b></font></td>
+				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b><br>&nbsp;&nbsp;<font style="font-size: 8pt";>Job Number: </font><b> '.$rs['tags_job_number'].'</b></font></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -199,7 +201,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b></font></td>
+				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b><br>&nbsp;&nbsp;<font style="font-size: 8pt";>Job Number: </font><b> '.$rs['tags_job_number'].'</b></font></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -230,7 +232,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b></font></td>
+				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b><br>&nbsp;&nbsp;<font style="font-size: 8pt";>Job Number: </font><b> '.$rs['tags_job_number'].'</b></font></td>
 			  </tr>
 			</table></td><td width="2%"></td>';
 	}
@@ -261,7 +263,7 @@ while($rs = sqlsrv_fetch_array($qr, SQLSRV_FETCH_ASSOC))
 				<td colspan="3" style="text-align: center; border-bottom:solid 1px #000; border-left:solid 1px #000;" class="barcodecell"><barcode code="'.$rs['tags_code'].'" type="C39" class="barcode" size="0.8" height="1.2"/></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b></font></td>
+				<td colspan="4" style="text-align: left; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">&nbsp;<font style="font-size: 8pt";>Lot:</font> <font style="font-size: 8pt";>&nbsp;<b>'.$rs['tags_issue_date'].'</b><br>&nbsp;<b>'.$rs['tags_token'].'</b><br>&nbsp;&nbsp;<font style="font-size: 8pt";>Job Number: </font><b> '.$rs['tags_job_number'].'</b></font></td>
 			  </tr>
 			</table></td></tr>';
 	}

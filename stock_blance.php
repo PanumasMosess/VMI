@@ -75,7 +75,7 @@ require_once("js_css_header.php");
 									<div class="col-md-3">
 										<select id="sel_fj_name" name="sel_fj_name" class="form-control select2" style="width: 100%;" onchange="func_load_project()">
 											<?
-											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ")){
+											if(($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "IT") || ($objResult_authorized['user_type'] == "Administrator" && $objResult_authorized['user_section'] == "GDJ") || ($objResult_authorized['user_type'] == "SALE_B2C" && $objResult_authorized['user_section'] == "GDJ") || ($objResult_authorized['user_type'] == "SALE_B2B" && $objResult_authorized['user_section'] == "GDJ")){
 												$strSQL_fj_name = " SELECT bom_pj_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_pj_name";
 											?>
 											<option value="ALL" selected="selected">All Project</option>

@@ -214,7 +214,7 @@ function _load_stock_list()
 				{
 					"data": null,
 					render: function(data, type, row) {
-						return "<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["var_encode_receive_pallet_code"] + "#####" + data["tags_fg_code_gdj"] + "' onclick='openRePrintPalletID(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Pallet ID</span></button>&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["var_encode_receive_pallet_code"] + "' onclick='openRePrintAllTagsOnPalletID(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print ALL Tags On Pallet</span></button>&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["receive_pallet_code"] + "#####" + data["tags_fg_code_gdj"] + "#####" + data["receive_location"] + "#####" + data["receive_date"] + "' onclick='openFuncDetails(this.id);'><i class='glyphicon glyphicon-qrcode'></i><span class='custom_tooltiptext'>Tags Details</span></button>"
+						return "<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["var_encode_receive_pallet_code"] + "#####" + data["tags_fg_code_gdj"] + "' onclick='openRePrintPalletID(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print this Pallet ID</span></button>&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["var_encode_receive_pallet_code"] + "#####" + data["var_encode_tags_fg_code_gdj"] + "#####" + data["var_encode_receive_location"] + "#####" + data["var_encode_receive_date"] + "' onclick='openRePrintAllTagsOnPalletID(this.id);'><i class='fa fa-print fa-lg'></i><span class='custom_tooltiptext'>Re-Print ALL Tags On Pallet</span></button>&nbsp;<button type='button' class='btn btn-info btn-sm custom_tooltip' id='" + data["receive_pallet_code"] + "#####" + data["tags_fg_code_gdj"] + "#####" + data["receive_location"] + "#####" + data["receive_date"] + "' onclick='openFuncDetails(this.id);'><i class='glyphicon glyphicon-qrcode'></i><span class='custom_tooltiptext'>Tags Details</span></button>"
 					},
 					"targets": -1
 				},
@@ -248,7 +248,14 @@ function _load_stock_list()
 				{
 					"data": null,
 					render: function(data, type, row) {
-						return "<font style='color: green;'> " + data["receive_status"] + " </font>"
+						if(data["receive_status"] == 'Received'){
+							return "<font style='color: green;'> " + data["receive_status"] + " </font>"
+						}else if (data["receive_status"] == 'Shibin'){
+							return "<font style='color: #F9B133;'> " + data["receive_status"] + " </font>"
+						}else{
+							return "<font style='color: red;'> " + data["receive_status"] + " </font>"
+						}
+						
 					}
 				},
 				{
@@ -303,7 +310,16 @@ function openRePrintPalletID(id)
 
 function openRePrintAllTagsOnPalletID(id)
 {
-	window.open("<?=$CFG->src_mPDF;?>/print_all_tags_on_pallet?tag="+ id +"","_blank");
+	//split id
+	var str_split = id;
+	var str_split_result = str_split.split("#####");
+
+	var pallet_code = str_split_result[0];
+	var fg_code = str_split_result[1];
+	var receive_location = str_split_result[2];
+	var receive_date = str_split_result[3];
+	
+	window.open("<?=$CFG->src_mPDF;?>/print_all_tags_on_pallet?pallet_code="+ pallet_code +"&fg_code="+ fg_code +"&receive_location="+ receive_location +"&receive_date="+ receive_date +"","_blank");
 }
 
 function openRefill(id)
@@ -588,10 +604,6 @@ function _conf_chng_status()
 			
 		}
 	});
-	
-	
-	
-	
 }
 </script>
 </body>

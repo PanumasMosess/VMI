@@ -1,6 +1,8 @@
 <?
 require_once("application.php");
 require_once("js_css_header.php");
+
+$t_cur_user_code_VMI_GDJ = isset($_SESSION['t_cur_user_code_VMI_GDJ']) ? $_SESSION['t_cur_user_code_VMI_GDJ'] : '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -88,6 +90,13 @@ require_once("js_css_header.php");
                                 </div>
                                 <!-- /.form-group -->
                             </div>
+                            <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Job Number :</label>
+                                    <input type="text" id="txt_job_num" name="txt_job_num" class="form-control input-sm" placeholder="Input or Scan Job Number.">
+                                </div>
+                                <!-- /.form-group -->
+                            <!-- </div>  -->
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -167,6 +176,7 @@ require_once("js_css_header.php");
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button type="button" class="btn btn-primary btn-sm" onclick="gen_tags()"><i class="fa fa-qrcode"></i> Generate Master Tags</button>
+                        <button type="button" class="btn btn-danger btn-sm" style="float: right;" onclick="reject_tags()"><i class="fa fa-qrcode"></i> Reject Master Tags</button>
                     </div>
                 </div>
                 <!-- /.box -->
@@ -441,6 +451,25 @@ require_once("js_css_header.php");
 
                 return false;
             }
+            // else if ($("#txt_job_num").val() == "") {
+            //     //dialog ctrl
+            //     swal({
+            //         html: true,
+            //         title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+            //         text: "<span style='font-size: 15px; color: #000;'>[C001] --- Please Input Job Number.</span>",
+            //         type: "warning",
+            //         timer: 2000,
+            //         showConfirmButton: false,
+            //         allowOutsideClick: false
+            //     });
+
+            //     //hide
+            //     setTimeout(function() {
+            //         $("#txt_job_num").focus();
+            //     }, 3000);
+
+            //     return false;
+            // }
 
             //gen token
             var str_token = tokenGen(30);
@@ -624,6 +653,93 @@ require_once("js_css_header.php");
             }
         }
 
+        function reject_tags() {
+
+            $("#modal-reject-tag").modal("show");
+        }
+
+        function clear_from_reject_tags() {
+            $("#tags_scan_reject").val('');
+            $("#modal-reject-tag").modal("hide");
+        }
+
+        function comfirm_reject_tags() {
+            if ($("#tags_scan_reject").val() == "") {
+                //dialog ctrl
+                swal({
+                    html: true,
+                    title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                    text: "<span style='font-size: 15px; color: #000;'>[C001] --- Please Input Tags Code</span>",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+
+                //hide
+                setTimeout(function() {
+                    $("#tags_scan_reject").focus();
+                }, 3000);
+
+                return false;
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= $CFG->src_print_tags; ?>/reject_tag.php',
+                    data: {
+                        iden_tag_code: $("#tags_scan_reject").val(),
+                    },
+                    success: function(response) {
+
+                        if (response == "Not Found") {
+
+                            swal({
+                                html: true,
+                                title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                                text: "<span style='font-size: 15px; color: #000;'>[C001] --- Tag Not Found</span>",
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            });
+
+                            //hide
+                            setTimeout(function() {
+                                $("#tags_scan_reject").focus();
+                            }, 3000);
+
+                        } else {
+                            //clear
+                            $("#tags_scan_reject").val('');
+
+                            //hide
+                            setTimeout(function() {
+                                $("#tags_scan_reject").focus();
+                            }, 3000);
+
+                            //load tags
+                            _load_tags_details();
+                            $("#loadding").modal("hide");
+
+                        }
+
+                    },
+                    error: function() {
+                        //dialog ctrl
+                        swal({
+                            html: true,
+                            title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+                            text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+                            type: "warning",
+                            timer: 3000,
+                            showConfirmButton: false,
+                            allowOutsideClick: false
+                        });
+                    }
+                });
+            }
+        }
+
 
 
         var fgObject = $('#sel_fg_code');
@@ -740,6 +856,25 @@ require_once("js_css_header.php");
         <div class="modal-content">
             <div class="modal-body text-center">
                 <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-danger fade" id="modal-reject-tag" style="display: none;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Reject Tags</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="tags_scan_reject" name="tags_scan_reject" class="form-control input-sm" placeholder="Tags Code.">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" onclick="clear_from_reject_tags();">Close</button>
+                <button type="button" class="btn btn-outline" onclick="comfirm_reject_tags();">Save changes</button>
             </div>
         </div>
     </div>

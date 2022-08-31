@@ -119,13 +119,13 @@ $objPHPExcel->getActiveSheet()->setCellValue('J2', "Stock Aging (Day)");
 //get data
 $strSql_d = " 
 SELECT 
-	tags_code
+	 tags_code
 	,tags_fg_code_gdj
 	,tags_fg_code_gdj_desc
 	,tags_project_name
 	,receive_pallet_code
 	,receive_location
-	,tags_packing_std
+	,sum(tags_packing_std) as tags_packing_std
 	,receive_status
 	,receive_date
 FROM tbl_pallet_running
@@ -134,8 +134,19 @@ on tbl_pallet_running.pallet_code = tbl_receive.receive_pallet_code
 left join tbl_tags_running
 on tbl_receive.receive_tags_code = tbl_tags_running.tags_code
 where
-receive_status in ('Received')
+receive_status in ('Received', 'Sinbin')
 and receive_repn_id is NULL
+and tags_fg_code_gdj is not null
+group by 
+tags_code
+,tags_fg_code_gdj
+,tags_fg_code_gdj_desc
+,tags_project_name
+,receive_pallet_code
+,receive_location
+,tags_packing_std
+,receive_status
+,receive_date
 order by 
 receive_date desc
 ";

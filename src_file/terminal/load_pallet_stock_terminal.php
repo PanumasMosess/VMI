@@ -17,6 +17,8 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 $buffer_date = date("Y-m-d");
 $buffer_time = date("H:i:s"); //24H
 $buffer_datetime = date("Y-m-d H:i:s");
+
+
 ?>
 <div class="box-body table-responsive padding">
 	<table id="tbl_inventory_terminal" class="table table-bordered table-hover table-striped nowrap">
@@ -43,7 +45,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 		<tbody>
 			<?
 if($stock_locate  == "ALL"){
-	if($t_cur_user_session_VMI_GDJ == "IT" || $t_cur_user_session_VMI_GDJ == "GDJ"){
+	if($t_cur_user_session_VMI_GDJ == "IT" || $t_cur_user_session_VMI_GDJ == "GDJ" ){
 		$strSql = " 
 		SELECT
 			tags_code,
@@ -75,7 +77,7 @@ if($stock_locate  == "ALL"){
 			on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 			
 			where (receive_status != 'Received' and receive_status != 'Picking' and
-			receive_status != 'Delivery Transfer Note') and (dn_h_receive_date between '$date_start' and '$date_end')  
+			receive_status != 'Delivery Transfer Note' and receive_status != 'Reject') and (dn_h_receive_date between '$date_start' and '$date_end')  
 			order by dn_h_receive_date desc   
 				";
 	} else {
@@ -110,7 +112,7 @@ if($stock_locate  == "ALL"){
 			left join tbl_dn_head
 			on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 			
-			where (ps_t_pj_name IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and (dn_h_receive_date between '$date_start' and '$date_end')  
+			where (ps_t_pj_name IN (select bom_pj_name from tbl_bom_mst where bom_cus_code = '$t_cur_user_session_VMI_GDJ' GROUP BY bom_pj_name)) and (dn_h_receive_date between '$date_start' and '$date_end')  and (receive_status != 'Reject')
 			order by dn_h_receive_date desc   
 				";
 	}
@@ -146,7 +148,7 @@ if($stock_locate  == "ALL"){
 	left join tbl_dn_head
 	on tbl_dn_tail.dn_t_dtn_code = tbl_dn_head.dn_h_dtn_code
 	
-	where ps_t_pj_name = '$stock_locate' and (dn_h_receive_date between '$date_start' and '$date_end') 
+	where ps_t_pj_name = '$stock_locate' and (dn_h_receive_date between '$date_start' and '$date_end') and (receive_status != 'Reject')
 	order by dn_h_receive_date desc   
 	";
 }

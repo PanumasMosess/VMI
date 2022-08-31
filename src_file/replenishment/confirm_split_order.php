@@ -65,6 +65,8 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$bom_usage = $objResult['bom_usage'];
 	$bom_packing = $objResult['bom_packing'];
 	$bom_part_customer = $objResult['bom_part_customer'];
+	$repn_ord_code = $objResult['repn_ord_code'];
+	$repn_odt_item_code = $objResult['repn_odt_item_code'];
 
 
 	//Check plan is not enough
@@ -75,6 +77,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	else
 	{
 		$new_qty = $repn_qty - $iden_t_split_number;
+		$new_item_code_repn = $repn_odt_item_code + 1;
 
 		$string_ref_split =  $repn_order_ref."(From Split)";
 
@@ -82,13 +85,15 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 		$sqlUpdateOld = " UPDATE tbl_replenishment
 		SET [repn_qty] = '$new_qty'
 	   	,[repn_by] = '".$t_cur_user_code_VMI_GDJ."'
-		,[repn_date] = '$buffer_date'
-		,[repn_time] = '$buffer_time'
-		,[repn_datetime] = '$buffer_datetime'
   		WHERE repn_id = '$iden_t_repn_id'
   		";
+		//   ,[repn_date] = '$buffer_date'
+		//   ,[repn_time] = '$buffer_time'
+		//   ,[repn_datetime] = '$buffer_datetime'
 
  		$result_sqlUpdateOld = sqlsrv_query($db_con, $sqlUpdateOld);
+
+		//insert new replenishment
 
 		if($result_sqlUpdateOld){
 			$strSQL_insert = "
@@ -110,6 +115,8 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 							   ,[repn_date]
 							   ,[repn_time]
 							   ,[repn_datetime]
+							   ,[repn_ord_code]
+							   ,[repn_odt_item_code]
 							   )
 						 VALUES
 							   (
@@ -129,9 +136,60 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 							   ,'$repn_date'
 							   ,'$repn_time'
 							   ,'$repn_datetime'
+							   ,'$repn_ord_code'
+							   ,'$new_item_code_repn'
 							   )
 						";
 						$objQuery_insert = sqlsrv_query($db_con, $strSQL_insert);
+		}
+
+		///STAMP TO MRP 
+		$mrp_order = "SELECT [odt_uniq],[odt_ord_code],[odt_otr_code],[odt_cus_code],[odt_item_code],[odt_fg_code],[odt_fg_codeset],[odt_comp_code],[odt_fg_type],[odt_part_customer]
+		,[odt_project],[odt_order_qty],[odt_boh_now_in],[odt_qty_confirm],[odt_unit_type],[odt_order_type],[odt_status],[odt_now_in],[odt_ship_type],[odt_delivery_date],[odt_create_datetime],[odt_create_by],[odt_order_remark],[ontime],[act_by] 
+		FROM [tbl_customer_order_detail_mst] WHERE odt_ord_code = '$repn_ord_code' and odt_item_code = '$repn_odt_item_code'";	
+		$result_check_mpp = sqlsrv_query($db_con_mrp, $mrp_order);
+
+		if($result_check_mpp){
+			while($objResult = sqlsrv_fetch_array($result_check_mpp, SQLSRV_FETCH_ASSOC))
+			{			
+				$odt_uniq = $objResult['odt_uniq'];
+				$odt_ord_code = $objResult['odt_ord_code'];
+				$odt_otr_code = $objResult['odt_otr_code'];
+				$odt_cus_code = $objResult['odt_cus_code'];
+				$odt_item_code = $objResult['odt_item_code'];
+				$odt_fg_code = $objResult['odt_fg_code'];
+				$odt_fg_codeset = $objResult['odt_fg_codeset'];
+				$odt_comp_code = $objResult['odt_comp_code'];
+				$odt_fg_type = $objResult['odt_fg_type'];
+				$odt_part_customer = $objResult['odt_part_customer'];
+				$odt_project = $objResult['odt_project'];
+				$odt_order_qty = $objResult['odt_order_qty'];
+				$odt_boh_now_in = $objResult['odt_boh_now_in'];
+				$odt_qty_confirm = $objResult['odt_qty_confirm'];
+				$odt_unit_type = $objResult['odt_unit_type'];
+				$odt_order_type = $objResult['odt_order_type'];
+				$odt_status = $objResult['odt_status'];
+				$odt_now_in = $objResult['odt_now_in'];
+				$odt_ship_type = $objResult['odt_ship_type'];
+				$odt_delivery_date = $objResult['odt_delivery_date'];
+				$odt_create_by = $objResult['odt_create_by'];
+				$odt_order_remark = $objResult['odt_order_remark'];
+				$ontime = $objResult['ontime'];   
+				$act_by = $objResult['act_by']; 	
+
+			$new_qty_mrp = $odt_order_qty - $iden_t_split_number;
+
+			$update_order = "UPDATE tbl_customer_order_detail_mst SET odt_order_qty = '$new_qty_mrp' WHERE odt_ord_code = '$repn_ord_code' and odt_item_code = '$repn_odt_item_code'";
+			$update_mpp = sqlsrv_query($db_con_mrp, $update_order);
+
+			$new_item_code = $odt_item_code + 1 ;
+
+			if($update_mpp){
+				$insert_new_order_mrp = "INSERT INTO tbl_customer_order_detail_mst(odt_ord_code, odt_otr_code, odt_cus_code, odt_item_code, odt_fg_code, odt_fg_codeset, odt_comp_code, odt_part_customer, odt_project, odt_order_qty, odt_unit_type, odt_order_type, odt_status, odt_now_in, odt_ship_type, odt_delivery_date, odt_create_datetime, odt_create_by)
+				VALUES('$odt_ord_code','$odt_otr_code','$odt_cus_code','$new_item_code','$odt_fg_code','$odt_fg_codeset','$odt_comp_code','$odt_part_customer','$odt_project','$iden_t_split_number','$odt_unit_type','$odt_order_type','$odt_status','$odt_now_in','$odt_ship_type','$buffer_date','$buffer_datetime','$t_cur_user_code_VMI_GDJ')";
+				$listQuery = sqlsrv_query($db_con_mrp,$insert_new_order_mrp);
+			}
+		  }
 		}
 
 	}
@@ -139,5 +197,6 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 }
 	
 
+sqlsrv_close($db_con_mrp);
 sqlsrv_close($db_con);
 ?>

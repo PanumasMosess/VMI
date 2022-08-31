@@ -33,6 +33,7 @@ SELECT
       ,[tags_total_qty]
       ,[tags_token]
 	  ,[tags_trading_from]
+	  ,[tags_job_number]
       ,[tags_issue_by]
       ,[tags_issue_date]
       ,[tags_issue_time]
@@ -54,6 +55,7 @@ while($objResult_TagsLot = sqlsrv_fetch_array($objQuery_TagsLot, SQLSRV_FETCH_AS
 	$tags_total_qty = $objResult_TagsLot['tags_total_qty'];
 	$tags_token = $objResult_TagsLot['tags_token'];
 	$tags_trading_from = $objResult_TagsLot['tags_trading_from'];
+	$tags_job_number = $objResult_TagsLot['tags_job_number'];
 	$tags_issue_by = $objResult_TagsLot['tags_issue_by'];
 	$tags_issue_date = $objResult_TagsLot['tags_issue_date'];
 	$tags_issue_time = $objResult_TagsLot['tags_issue_time'];
@@ -155,7 +157,7 @@ $html .= '
 		&nbsp;<b>Tags Lot Sheet:</b> '.$tags_token.'<br>&nbsp;<b>Issue Date:</b> '.$tags_issue_date.'
 	  </td>
 	  <td>
-		&nbsp;<b>Issue By:</b> '.ucfirst($tags_issue_by).'
+		&nbsp;<b>Issue By:</b> '.ucfirst($tags_issue_by).'<br>&nbsp;<b>Job Number:</b> '.$tags_job_number.'
 	  </td>
 	</tr>
 </table></td>	  

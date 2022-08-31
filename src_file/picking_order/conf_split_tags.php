@@ -89,6 +89,7 @@ if($result_sqlUpdate_splitTags)
 	,[tags_packing_std]
 	,[tags_total_qty]
 	,[tags_token]
+	,[tags_job_number]
 	,receive_pallet_code
 	,receive_location
 	FROM [tbl_tags_running]
@@ -109,7 +110,8 @@ if($result_sqlUpdate_splitTags)
 	$tags_total_qty_ = $objResult_detailTags['tags_total_qty'];
 	$tags_token_ = $objResult_detailTags['tags_token'];
 	$receive_pallet_code = $objResult_detailTags['receive_pallet_code'];
-	$receive_location = $objResult_detailTags['receive_location'];
+	$receive_location = $objResult_detailTags['receive_location']; 
+	$tags_job_number_ = $objResult_detailTags['tags_job_number'];
 
 	$strSql_get_tags = " SELECT top(1) tags_code FROM tbl_tags_running order by tags_id DESC ";
 	$objQuery_get_tags = sqlsrv_query($db_con, $strSql_get_tags, $params, $options);
@@ -133,6 +135,7 @@ if($result_sqlUpdate_splitTags)
 						   ,[tags_packing_std]
 						   ,[tags_total_qty]
 						   ,[tags_token]
+						   ,[tags_job_number]
 						   ,[tags_issue_by]
 						   ,[tags_issue_date]
 						   ,[tags_issue_time]
@@ -148,6 +151,7 @@ if($result_sqlUpdate_splitTags)
 						   ,'$iden_t_split_qty'
 						   ,'$tags_total_qty_'
 						   ,'$tags_token_'
+						   ,'$tags_job_number_'
 						   ,'$t_cur_user_code_VMI_GDJ'
 						   ,'$buffer_date'
 						   ,'$buffer_time'

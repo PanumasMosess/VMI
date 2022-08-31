@@ -42,6 +42,19 @@ if($db_con_hr === false)
     die( print_r( sqlsrv_errors(), true));
 }
 
+//set var to array (var must be string type)
+$connectionInfo_mrp = array("Database"=>"$CFG->dbname_mrp", "UID"=>"$CFG->dbuser_mrp", "PWD"=>"$CFG->dbpass_mrp", "MultipleActiveResultSets"=>true, 'ReturnDatesAsStrings'=>true, "CharacterSet" =>'UTF-8' );
+$db_con_mrp = sqlsrv_connect($CFG->dbhost_mrp, $connectionInfo_mrp);
+
+if($db_con_mrp === false)
+{
+	echo "Connection could not be established. <br/>";
+    die( print_r( sqlsrv_errors(), true));
+}
+
+
+
+
 /**********************************************************************************/
 /*convert lang for support phpexcel fully *****************************************/
 //tis620_to_utf8
@@ -1036,6 +1049,7 @@ while($objResult_DTNSheet = sqlsrv_fetch_array($objQuery_DTNSheet, SQLSRV_FETCH_
 	$ps_t_pj_name = $objResult_DTNSheet['ps_t_pj_name'];
 	$b2c_track_num = $objResult_DTNSheet['b2c_track_num'];
 	$b2c_repn_order_ref = $objResult_DTNSheet['b2c_repn_order_ref'];
+	$dn_h_status = $objResult_DTNSheet['dn_h_status'];
 
     $token_ = '';
 	

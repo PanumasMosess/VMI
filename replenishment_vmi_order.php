@@ -200,7 +200,7 @@ require_once("js_css_header.php");
 												}
 												?>
 												<td align="center">
-													<button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncSplitPlan(this.id);"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Split Plan</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= $repn_id; ?>#####<?= $repn_order_type; ?>#####<?= $repn_order_ref; ?>#####<?= $str_fifo_picking_pack; ?>#####<?= $repn_qty; ?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
+												<button type="button" class="btn btn-info btn-sm custom_tooltip" id="<?=$repn_id;?>###<?=$repn_order_ref;?>###<?=$repn_fg_code_set_abt;?>###<?=$repn_sku_code_abt;?>###<?=$bom_fg_code_gdj;?>###<?=$bom_pj_name;?>###<?=$bom_ship_type;?>###<?=$bom_part_customer;?>###<?=$repn_qty;?>###<?=$repn_unit_type;?>###<?=$repn_terminal_name;?>###<?=$repn_delivery_date;?>" onclick="openFuncUpdate(this.id);"><i class="glyphicon glyphicon-edit"></i><span class="custom_tooltiptext">Update Plan Detail</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncSplitPlan(this.id);"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Split Plan</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= $repn_id; ?>#####<?= $repn_order_type; ?>#####<?= $repn_order_ref; ?>#####<?= $str_fifo_picking_pack; ?>#####<?= $repn_qty; ?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
 												</td>
 												<td style="color: <?= $str_order_color; ?>">
 													<?= $repn_order_type; ?>/<?= $repn_unit_type; ?>
@@ -273,6 +273,141 @@ require_once("js_css_header.php");
 		<div class="control-sidebar-bg"></div>
 	</div>
 	<!-- ./wrapper -->
+
+		<!--------------------dlg update order-------------------->
+		<div class="modal fade" id="modal-update-order" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+					<h3 class="modal-title"><i class="fa fa-pencil-square-o"></i> Update Replnishment Order</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_order">Order Ref: </label>
+								<input type="hidden" class="form-control" id="text_id"></input>
+								<input type="text" class="form-control" id="text_order"></input>
+							</div>
+							<!-- /.form-group -->
+						</div>
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_fg_code_set_abt">Fg Code Set ABT: </label>
+								<input type="text" class="form-control" id="text_fg_code_set_abt"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_component_abt">Component Code ABT: </label>
+								<input type="text" class="form-control" id="text_component_abt"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_fg_code_gdj">FG Code GDJ: </label>
+								<input type="text" class="form-control" id="text_fg_code_gdj"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_project_name">Project Name: </label>
+								<input type="text" class="form-control" id="text_project_name"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_ship_type">Ship Type: </label>
+								<input type="text" class="form-control" id="text_ship_type"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_part_customer">Part Customer: </label>
+								<input type="text" class="form-control" id="text_part_customer"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="text_qty">QTY: </label>
+								<input type="number" class="form-control" id="text_qty"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_unit_type">Unit Type: </label>
+								<input type="text" class="form-control" id="text_unit_type"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="text_teminal_name">Terminal Name: </label>
+								<input type="text" class="form-control" id="text_teminal_name"></input>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-md-4">
+							<label for="text_deliver_date">Delivery Date: </label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input type="text" class="form-control pull-right" id="text_deliver_date" name="text_deliver_date" />
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="update_repleinish()" class="btn btn-success btn-sm">Update</button>
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 	<?
 	require_once("js_css_footer.php");
 	?>
@@ -408,6 +543,14 @@ require_once("js_css_header.php");
 				}
 			});
 
+		});
+
+		$('#text_deliver_date').datepicker({
+			autoclose: true,
+			yearRange: '1990:+0',
+			format: 'yyyy-mm-dd',
+			changeMonth: true,
+			changeYear: true,
 		});
 
 		function openFuncConfirm(id) {
@@ -973,6 +1116,114 @@ require_once("js_css_header.php");
 					}
 				});
 		}
+
+		function openFuncUpdate(id) {
+			$("#modal-update-order").modal("show");
+			var str_split = id;
+			var str_split_result = str_split.split("###");
+
+			var repn_id = str_split_result[0];
+			var repn_order_ref = str_split_result[1];
+			var repn_fg_code_set_abt = str_split_result[2];
+			var repn_sku_code_abt = str_split_result[3];
+			var bom_fg_code_gdj = str_split_result[4];
+			var bom_pj_name = str_split_result[5];
+			var bom_ship_type = str_split_result[6];
+			var bom_part_customer = str_split_result[7];
+			var repn_qty = str_split_result[8];
+			var repn_unit_type = str_split_result[9];
+			var repn_terminal_name = str_split_result[10];
+			var repn_delivery_date = str_split_result[11];
+
+			$('#text_id').val(repn_id);
+			$('#text_order').val(repn_order_ref);
+			$('#text_fg_code_set_abt').val(repn_fg_code_set_abt);
+			$('#text_component_abt').val(repn_sku_code_abt);
+			$('#text_fg_code_gdj').val(bom_fg_code_gdj);
+			$('#text_project_name').val(bom_pj_name);
+			$('#text_ship_type').val(bom_ship_type);
+			$('#text_part_customer').val(bom_part_customer);
+			$('#text_qty').val(repn_qty);
+			$('#text_unit_type').val(repn_unit_type);
+			$('#text_teminal_name').val(repn_terminal_name);
+			$('#text_deliver_date').val(repn_delivery_date);
+
+		}
+
+		function update_repleinish() {
+			
+			//dialog ctrl
+			swal({
+					html: true,
+					title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+					text: "<span style='font-size: 15px; color: #000;'>Are you <b>confirm</b> replenishment update ?</span>",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonClass: "btn-info",
+					confirmButtonText: "Yes",
+					cancelButtonText: "No",
+					closeOnConfirm: true,
+					closeOnCancel: true
+				},
+				function(isConfirm) {
+					if (isConfirm) {
+						//accepted order
+						$.ajax({
+							type: 'POST',
+							url: '<?= $CFG->src_replenishment; ?>/confrim_update_replenishment.php',
+							data: {
+								repn_id: $('#text_id').val(),
+								repn_order_ref: $('#text_order').val(),
+								repn_code_set_abt: $('#text_fg_code_set_abt').val(),
+								repn_code_set_abt: $('#text_fg_code_set_abt').val(),
+								repn_component_abt: $('#text_component_abt').val(),
+								repn_bom_fg_code_gdj: $('#text_fg_code_gdj').val(),
+								repn_bom_pj_name: $('#text_project_name').val(),
+								repn_bom_ship_type: $('#text_ship_type').val(),
+								repn_bom_part_customer: $('#text_part_customer').val(),
+								repn_qty :$('#text_qty').val(),
+								repn_unit_type: $('#text_unit_type').val(),
+								repn_terminal_name: $('#text_teminal_name').val(),
+								repn_delivery_date: $('#text_deliver_date').val()
+							},
+							success: function(response) {
+								
+								if(response == "UPDATE_SUCCESS"){
+									$("#modal-update-order").modal("hide");
+									//refresh
+									location.reload();
+									
+								}else{
+									$("#modal-update-order").modal("hide");
+									swal({
+									html: true,
+									title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+									text: "<span style='font-size: 15px; color: #000;'>Please Check Data Update</span>",
+									type: "warning",
+									timer: 3000,
+									showConfirmButton: false,
+									allowOutsideClick: false
+								});
+								}
+							
+							},
+							error: function() {
+								//dialog ctrl
+								swal({
+									html: true,
+									title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+									text: "<span style='font-size: 15px; color: #000;'>[D002] --- Ajax Error !!! Cannot operate</span>",
+									type: "warning",
+									timer: 3000,
+									showConfirmButton: false,
+									allowOutsideClick: false
+								});
+							}
+						});
+
+					}
+				});
+		}
 	</script>
 </body>
 
@@ -1087,3 +1338,5 @@ require_once("js_css_header.php");
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+

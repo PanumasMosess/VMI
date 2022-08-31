@@ -24,7 +24,10 @@ $t_conv_pack_qty = isset($_POST['t_conv_pack_qty']) ? $_POST['t_conv_pack_qty'] 
 $t_repn_id = isset($_POST['t_repn_id']) ? $_POST['t_repn_id'] : '';
 $t_repn_qty = isset($_POST['t_repn_qty']) ? $_POST['t_repn_qty'] : '';
 
+settype($str_total_qty_c, "integer");
 
+while($str_total_qty_c < $t_repn_qty){
+$str_total_qty_c = 0;
 //Check top select
 $strSql_split_tags_c = " 
 select top $t_conv_pack_qty
@@ -93,8 +96,6 @@ receive_date asc
 $objQuery_split_tags_c = sqlsrv_query($db_con, $strSql_split_tags_c, $params, $options);
 $num_row_split_tags_c = sqlsrv_num_rows($objQuery_split_tags_c);
 
-$str_total_qty_c= 0;
-
 while($objResult_split_tags_c = sqlsrv_fetch_array($objQuery_split_tags_c, SQLSRV_FETCH_ASSOC))
 {
 	
@@ -105,7 +106,9 @@ while($objResult_split_tags_c = sqlsrv_fetch_array($objQuery_split_tags_c, SQLSR
 }
 
 if($str_total_qty_c < $t_repn_qty){
-	$t_conv_pack_qty++;
+	$t_conv_pack_qty = $t_conv_pack_qty +  1;
+}
+
 }
 
 ?>	

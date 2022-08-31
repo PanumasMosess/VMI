@@ -86,10 +86,14 @@ else
 	 ";
 	$result_sqlUpdate = sqlsrv_query($db_con, $sqlUpdate);
 
+	$result_sqlUpdate = true;
+
 	if($result_sqlUpdate)
 	{
+	$str_total_qty_c;
+	while($str_total_qty_c < $iden_hdn_repn_qty){
+
 		$str_total_qty_c = 0;
-		while($str_total_qty_c < $iden_hdn_repn_qty){
 
 		//check tags
 		$strSql_picking_order_details_check = " 
@@ -168,7 +172,7 @@ else
 		}
 
 		if($str_total_qty_c < $iden_hdn_repn_qty){
-			$iden_t_fifo_picking_pack++;
+			$iden_t_fifo_picking_pack = $iden_t_fifo_picking_pack + 1;
 		}
 
 	}

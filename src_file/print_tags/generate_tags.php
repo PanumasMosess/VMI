@@ -13,6 +13,7 @@ $buffer_datetime = date("Y-m-d H:i:s");
 /**********************************************************************************/
 /*var *****************************************************************************/
 $iden_sel_trading_from = isset($_POST['iden_sel_trading_from']) ? $_POST['iden_sel_trading_from'] : '';
+// $iden_job_number = isset($_POST['iden_job_number']) ? $_POST['iden_job_number'] : '';
 $iden_sel_fg_code_gdj = isset($_POST['iden_sel_fg_code_gdj']) ? $_POST['iden_sel_fg_code_gdj'] : '';
 $iden_txt_fg_code_gdj_desc = isset($_POST['iden_txt_fg_code_gdj_desc']) ? $_POST['iden_txt_fg_code_gdj_desc'] : '';
 $iden_txt_prod_plan = isset($_POST['iden_txt_prod_plan']) ? $_POST['iden_txt_prod_plan'] : '';

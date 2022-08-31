@@ -266,205 +266,12 @@ require_once("js_css_header.php");
 				type: 'POST',
 				url: "<?= $CFG->src_replenishment; ?>/load_replenishment_detail.php",
 				success: function(respone) {
-					console.log(respone);
+					// console.log(respone);
 					var result = JSON.parse(respone);
 					callinTableJobsList(result);
 				}
 			});
 
-			//plot data
-			function callinTableJobsList(data) {
-
-				// Setup - add a text input to each footer cell
-				$('#tbl_replenishment_order thead tr').clone(true).appendTo('#tbl_replenishment_order thead');
-				$('#tbl_replenishment_order thead tr:eq(1) th').each(function(i) {
-					var title = $(this).text();
-
-					//sel columnDefs
-					if (i != 0 && i != 1 && i != 2 && i != 17) {
-						$(this).html('<input type="text" placeholder="Search ' + title + '" />');
-
-						$('input', this).on('keyup change', function() {
-							if (table.column(i).search() !== this.value) {
-								table
-									.column(i)
-									.search(this.value)
-									.draw();
-							}
-						});
-					} else {
-						$(this).html('');
-					}
-				});
-
-				var table = $("#tbl_replenishment_order").DataTable({
-					"bDestroy": true,
-					rowReorder: true,
-					"aLengthMenu": [
-						[10, 25, 50, 75, 100, -1],
-						[10, 25, 50, 75, 100, "All"]
-					],
-					"iDisplayLength": 10,
-					columnDefs: [{
-							orderable: true,
-							className: 'reorder',
-							targets: [0, 2, 3, 4, 5, 6, 7, 8, 9]
-						},
-						{
-							orderable: false,
-							targets: '_all'
-						}
-					],
-					orderCellsTop: true,
-					fixedHeader: true,
-					pagingType: "full_numbers",
-					responsive: true,
-					autoFill: true,
-					colReorder: true,
-					keys: true,
-					rowReorder: true,
-					select: true,
-					processing: true,
-					serverside: true,
-					data: data,
-					columns: [{
-							data: 'row_id'
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								if (data["str_stock"] < data["repn_qty"]) {
-									return "";
-								} else {
-									return "<input type='checkbox' name='_chk_repn_order[]' class='largerRadio' onclick='checkSelect(this.checked, " + data["row_id"] + ")' value='" + data["row_id"] + "' /> \
-								    <input type='hidden' name='hdn_repn_id" + data["row_id"] + "' id='hdn_repn_id" + data["row_id"] + "' value='" + data["repn_id"] + "' /> \
-                                    <input type='hidden' name='hdn_repn_order_type" + data["row_id"] + "' id='hdn_repn_order_type" + data["row_id"] + "' value='" + data["repn_order_type"] + "' /> \
-                                    <input type='hidden' name='hdn_repn_order_ref" + data["row_id"] + "' id='hdn_repn_order_ref" + data["row_id"] + "' value='" + data["repn_order_ref"] + "' /> \
-                                    <input type='hidden' name='hdn_fifo_picking_pack" + data["row_id"] + "' id='hdn_fifo_picking_pack" + data["row_id"] + "' value='" + data["str_fifo_picking_pack"] + "' /> \
-                                    <input type='hidden' name='hdn_repn_qty" + data["row_id"] + "' id='hdn_repn_qty" + data["row_id"] + "' value='" + data["repn_qty"] + "' /> "
-								}
-							},
-							"targets": -1
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<button type'button' class='btn btn-info btn-sm custom_tooltip' id='" + data["repn_id"] + "###" + data["repn_order_ref"] + "###" + data["repn_fg_code_set_abt"] + "###" + data["repn_sku_code_abt"] + "###" + data["bom_fg_code_gdj"] + "###" + data["bom_pj_name"] + "###" + data["bom_ship_type"] + "###" + data["bom_part_customer"] + "###" + data["repn_qty"] + "###" + data["repn_unit_type"] + "###" + data["repn_terminal_name"] + "###" + data["repn_delivery_date"] + "' onclick='openFuncUpdate(this.id);'><i class='glyphicon glyphicon-edit'></i><span class='custom_tooltiptext'>Update Plan Detail</span></button>&nbsp;&nbsp;<button type'button' class='btn btn-warning btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncSplitPlan(this.id);'><i class='glyphicon glyphicon-resize-small'></i><span class='custom_tooltiptext'>Split Plan</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["repn_id"] + "#####" + data["repn_order_type"] + "#####" + data["repn_order_ref"] + "#####" + data["str_fifo_picking_pack"] + "#####" + data["repn_qty"] + "' onclick='openFuncConfirm(this.id);' ><i class='fa fa-check-square-o fa-lg'></i><span class='custom_tooltiptext'>Confirm</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-danger btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncReject(this.id);''><i class='fa fa-times fa-lg'></i><span class='custom_tooltiptext'>Reject</span></button>"
-							}
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: " + data["str_order_color"] + "'>" + data["repn_order_type"] + "</font>/" + data["repn_unit_type"] + ""
-							}
-						},
-						{
-							data: 'repn_order_ref',
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-
-								return "<font style='font-weight: bold'>" + data["repn_delivery_date"] + "</font> "
-							}
-						},
-						{
-							data: 'repn_fg_code_set_abt'
-						},
-						{
-							data: 'repn_sku_code_abt',
-						},
-						{
-							data: 'bom_part_customer',
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: #00F;'>" + data["bom_fg_code_gdj"] + "</font>"
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: #00F;'>" + data["repn_qty"] + "(" + data["remark_pack_piece"] + ")</font>"
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: orange;'>" + data["bom_packing"] + "(" + data["str_fifo_picking_pack"] + " Pack)</font>"
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								if(data["repn_order_type"] == "Special Order"){
-
-									return "<font style='color: red;'>" + data["str_stock"] + "(" + data["str_stock_conv_pack"] + " Pack)</font>"
-
-								}else{
-									return "<font style='color: black;'>" + data["str_stock"] + "(" + data["str_stock_conv_pack"] + " Pack)</font>"
-								}
-							
-							}
-
-						},
-						{
-							data: 'repn_terminal_name'
-						},
-						{
-							data: 'bom_cus_code'
-						},
-						{
-							data: 'bom_pj_name'
-						},
-						{
-							data: 'repn_by'
-						},
-						{
-							data: 'repn_datetime_cut'
-						},
-					]
-				});
-
-				var buttons = new $.fn.dataTable.Buttons(table, {
-					buttons: [{
-						extend: 'excel',
-						text: '<i class="fa fa-file-excel-o"></i> Export Replenishment Order',
-						titleAttr: 'Excel Replenishment Order Report',
-						title: 'Excel Replenishment Order Report',
-						exportOptions: {
-							modifier: {
-								page: 'all'
-							},
-							columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-							format: {
-								body: function(data, row, column, node) {
-									if ((column >= 0 && column <= 6) || (column >= 8 && column <= 17)) {
-										var data_ = data.replace(/<.*?>/ig, '');
-										return data_;
-									} else if (column == 7) {
-										var data_ = data.replace(/<.*?>/ig, '');
-										data_.split('(');
-										return data_.split('(')[0];
-									}
-									return data;
-								}
-							}
-						}
-					}],
-					dom: {
-						button: {
-							tag: 'button',
-							className: 'btn btn-default btn-sm'
-						}
-					},
-				}).container().appendTo($('#excel_export'));
-
-			}
 
 			//clear step
 			$("#progress_upload_order").hide();
@@ -573,169 +380,208 @@ require_once("js_css_header.php");
 					callinTableJobsList(result);
 				}
 			});
+		}
 
+		//plot data
+		function callinTableJobsList(data) {
 
-			//plot data
-			function callinTableJobsList(data) {
+			// Setup - add a text input to each footer cell
+			$('#tbl_replenishment_order thead tr').clone(true).appendTo('#tbl_replenishment_order thead');
+			$('#tbl_replenishment_order thead tr:eq(1) th').each(function(i) {
+				var title = $(this).text();
 
-				var table = $("#tbl_replenishment_order").DataTable({
-					"bDestroy": true,
-					rowReorder: true,
-					"aLengthMenu": [
-						[10, 25, 50, 75, 100, -1],
-						[10, 25, 50, 75, 100, "All"]
-					],
-					"iDisplayLength": 10,
-					columnDefs: [{
-							orderable: true,
-							className: 'reorder',
-							targets: [0, 2, 3, 4, 5, 6, 7, 8, 9]
-						},
-						{
-							orderable: false,
-							targets: '_all'
+				//sel columnDefs
+				if (i != 0 && i != 1 && i != 2 && i != 17) {
+					$(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+					$('input', this).on('keyup change', function() {
+						if (table.column(i).search() !== this.value) {
+							table
+								.column(i)
+								.search(this.value)
+								.draw();
 						}
-					],
-					orderCellsTop: true,
-					fixedHeader: true,
-					pagingType: "full_numbers",
-					responsive: true,
-					autoFill: true,
-					colReorder: true,
-					keys: true,
-					rowReorder: true,
-					select: true,
-					processing: true,
-					serverside: true,
-					data: data,
-					columns: [{
-							data: 'row_id'
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								if (data["str_stock"] < data["repn_qty"]) {
-									return "";
-								} else {
-									return "<input type='checkbox' name='_chk_repn_order[]' class='largerRadio' onclick='checkSelect(this.checked, " + data["row_id"] + ")' value='" + data["row_id"] + "' /> \
-									<input type='hidden' name='hdn_repn_id" + data["row_id"] + "' id='hdn_repn_id" + data["row_id"] + "' value='" + data["repn_id"] + "' /> \
-									<input type='hidden' name='hdn_repn_order_type" + data["row_id"] + "' id='hdn_repn_order_type" + data["row_id"] + "' value='" + data["repn_order_type"] + "' /> \
-									<input type='hidden' name='hdn_repn_order_ref" + data["row_id"] + "' id='hdn_repn_order_ref" + data["row_id"] + "' value='" + data["repn_order_ref"] + "' /> \
-									<input type='hidden' name='hdn_fifo_picking_pack" + data["row_id"] + "' id='hdn_fifo_picking_pack" + data["row_id"] + "' value='" + data["str_fifo_picking_pack"] + "' /> \
-									<input type='hidden' name='hdn_repn_qty" + data["row_id"] + "' id='hdn_repn_qty" + data["row_id"] + "' value='" + data["repn_qty"] + "' /> "
-								}
-							},
-							"targets": -1
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<button type'button' class='btn btn-info btn-sm custom_tooltip' id='" + data["repn_id"] + "###" + data["repn_order_ref"] + "###" + data["repn_fg_code_set_abt"] + "###" + data["repn_sku_code_abt"] + "###" + data["bom_fg_code_gdj"] + "###" + data["bom_pj_name"] + "###" + data["bom_ship_type"] + "###" + data["bom_part_customer"] + "###" + data["repn_qty"] + "###" + data["repn_unit_type"] + "###" + data["repn_terminal_name"] + "###" + data["repn_delivery_date"] + "' onclick='openFuncUpdate(this.id);'><i class='glyphicon glyphicon-edit'></i><span class='custom_tooltiptext'>Update Plan Detail</span></button>&nbsp;&nbsp;<button type'button' class='btn btn-warning btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncSplitPlan(this.id);'><i class='glyphicon glyphicon-resize-small'></i><span class='custom_tooltiptext'>Split Plan</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["repn_id"] + "#####" + data["repn_order_type"] + "#####" + data["repn_order_ref"] + "#####" + data["str_fifo_picking_pack"] + "#####" + data["repn_qty"] + "' onclick='openFuncConfirm(this.id);' ><i class='fa fa-check-square-o fa-lg'></i><span class='custom_tooltiptext'>Confirm</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-danger btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncReject(this.id);''><i class='fa fa-times fa-lg'></i><span class='custom_tooltiptext'>Reject</span></button>"
-							}
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='background-color: " + data["str_order_color"] + "'>" + data["repn_order_type"] + "</font>/" + data["repn_unit_type"] + ""
-							}
-						},
-						{
-							data: 'repn_order_ref',
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
+					});
+				} else {
+					$(this).html('');
+				}
+			});
 
-								return "<font style='font-weight: bold'>" + data["repn_delivery_date"] + "</font> "
+			var table = $("#tbl_replenishment_order").DataTable({
+				"bDestroy": true,
+				rowReorder: true,
+				"aLengthMenu": [
+					[10, 25, 50, 75, 100, -1],
+					[10, 25, 50, 75, 100, "All"]
+				],
+				"iDisplayLength": 10,
+				columnDefs: [{
+						orderable: true,
+						className: 'reorder',
+						targets: [0, 2, 3, 4, 5, 6, 7, 8, 9]
+					},
+					{
+						orderable: false,
+						targets: '_all'
+					}
+				],
+				orderCellsTop: true,
+				fixedHeader: true,
+				pagingType: "full_numbers",
+				responsive: true,
+				autoFill: true,
+				colReorder: true,
+				keys: true,
+				rowReorder: true,
+				select: true,
+				processing: true,
+				serverside: true,
+				data: data,
+				columns: [{
+						data: 'row_id'
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							if (data["str_stock"] < data["repn_qty"]) {
+								return "";
+							} else {
+								return "<input type='checkbox' name='_chk_repn_order[]' class='largerRadio' onclick='checkSelect(this.checked, " + data["row_id"] + ")' value='" + data["row_id"] + "' /> \
+					<input type='hidden' name='hdn_repn_id" + data["row_id"] + "' id='hdn_repn_id" + data["row_id"] + "' value='" + data["repn_id"] + "' /> \
+					<input type='hidden' name='hdn_repn_order_type" + data["row_id"] + "' id='hdn_repn_order_type" + data["row_id"] + "' value='" + data["repn_order_type"] + "' /> \
+					<input type='hidden' name='hdn_repn_order_ref" + data["row_id"] + "' id='hdn_repn_order_ref" + data["row_id"] + "' value='" + data["repn_order_ref"] + "' /> \
+					<input type='hidden' name='hdn_fifo_picking_pack" + data["row_id"] + "' id='hdn_fifo_picking_pack" + data["row_id"] + "' value='" + data["str_fifo_picking_pack"] + "' /> \
+					<input type='hidden' name='hdn_repn_qty" + data["row_id"] + "' id='hdn_repn_qty" + data["row_id"] + "' value='" + data["repn_qty"] + "' /> "
 							}
 						},
-						{
-							data: 'repn_fg_code_set_abt'
-						},
-						{
-							data: 'repn_sku_code_abt'
-						},
-						{
-							data: 'bom_part_customer'
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: #00F;'>" + data["bom_fg_code_gdj"] + "</font>"
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: #00F;'>" + data["repn_qty"] + "(" + data["remark_pack_piece"] + ")</font> "
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: orange;'>" + data["bom_packing"] + "(" + data["str_fifo_picking_pack"] + ")</font> "
-							}
-
-						},
-						{
-							"data": null,
-							render: function(data, type, row) {
-								return "<font style='color: indigo;'>" + data["str_stock"] + "(" + data["str_stock_conv_pack"] + ")</font> "
-							}
-
-						},
-						{
-							data: 'repn_terminal_name'
-						},
-						{
-							data: 'bom_cus_code'
-						},
-						{
-							data: 'bom_pj_name'
-						},
-						{
-							data: 'repn_by'
-						},
-						{
-							data: 'repn_datetime_cut'
-						},
-					]
-				});
-
-				var buttons = new $.fn.dataTable.Buttons(table, {
-					buttons: [{
-						extend: 'excel',
-						text: '<i class="fa fa-file-excel-o"></i> Export Replenishment Order',
-						titleAttr: 'Excel Replenishment Order Report',
-						title: 'Excel Replenishment Order Report',
-						exportOptions: {
-							modifier: {
-								page: 'all'
-							},
-							columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-							format: {
-								body: function(data, row, column, node) {
-									if (column >= 0 && column <= 17) {
-										return data.replace(/<.*?>/ig, '');
-									} else if (column >= 3 && column <= 17) {
-										return data.split(' ')[0];
-									}
-									return data;
-								}
-							}
-						}
-					}],
-					dom: {
-						button: {
-							tag: 'button',
-							className: 'btn btn-default btn-sm'
+						"targets": -1
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							return "<button type'button' class='btn btn-info btn-sm custom_tooltip' id='" + data["repn_id"] + "###" + data["repn_order_ref"] + "###" + data["repn_fg_code_set_abt"] + "###" + data["repn_sku_code_abt"] + "###" + data["bom_fg_code_gdj"] + "###" + data["bom_pj_name"] + "###" + data["bom_ship_type"] + "###" + data["bom_part_customer"] + "###" + data["repn_qty"] + "###" + data["repn_unit_type"] + "###" + data["repn_terminal_name"] + "###" + data["repn_delivery_date"] + "' onclick='openFuncUpdate(this.id);'><i class='glyphicon glyphicon-edit'></i><span class='custom_tooltiptext'>Update Plan Detail</span></button>&nbsp;&nbsp;<button type'button' class='btn btn-warning btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncSplitPlan(this.id);'><i class='glyphicon glyphicon-resize-small'></i><span class='custom_tooltiptext'>Split Plan</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-primary btn-sm custom_tooltip' id='" + data["repn_id"] + "#####" + data["repn_order_type"] + "#####" + data["repn_order_ref"] + "#####" + data["str_fifo_picking_pack"] + "#####" + data["repn_qty"] + "' onclick='openFuncConfirm(this.id);' ><i class='fa fa-check-square-o fa-lg'></i><span class='custom_tooltiptext'>Confirm</span></button>&nbsp;&nbsp;<button type='button' class='btn btn-danger btn-sm custom_tooltip' id='" + data["repn_id"] + "' onclick='openFuncReject(this.id);''><i class='fa fa-times fa-lg'></i><span class='custom_tooltiptext'>Reject</span></button>"
 						}
 					},
-				}).container().appendTo($('#excel_export'));
+					{
+						"data": null,
+						render: function(data, type, row) {
+							return "<font style='color: " + data["str_order_color"] + "'>" + data["repn_order_type"] + "</font>/" + data["repn_unit_type"] + ""
+						}
+					},
+					{
+						data: 'repn_order_ref',
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
 
-			}
+							return "<font style='font-weight: bold'>" + data["repn_delivery_date"] + "</font> "
+						}
+					},
+					{
+						data: 'repn_fg_code_set_abt'
+					},
+					{
+						data: 'repn_sku_code_abt',
+					},
+					{
+						data: 'bom_part_customer',
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							return "<font style='color: #00F;'>" + data["bom_fg_code_gdj"] + "</font>"
+						}
+
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							return "<font style='color: #00F;'>" + data["repn_qty"] + "(" + data["remark_pack_piece"] + ")</font>"
+						}
+
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							return "<font style='color: orange;'>" + data["bom_packing"] + "(" + data["str_fifo_picking_pack"] + " Pack)</font>"
+						}
+
+					},
+					{
+						"data": null,
+						render: function(data, type, row) {
+							if (data["repn_order_type"] == "Special Order") {
+
+								return "<font style='color: red;'>" + data["str_stock"] + "(" + data["str_stock_conv_pack"] + " Pack)</font>"
+
+							} else {
+								return "<font style='color: black;'>" + data["str_stock"] + "(" + data["str_stock_conv_pack"] + " Pack)</font>"
+							}
+
+						}
+
+					},
+					{
+						data: 'repn_terminal_name'
+					},
+					{
+						data: 'bom_cus_code'
+					},
+					{
+						data: 'bom_pj_name'
+					},
+					{
+						data: 'repn_by'
+					},
+					{
+						data: 'repn_datetime_cut'
+					},
+				]
+			});
+
+			var buttons = new $.fn.dataTable.Buttons(table, {
+				buttons: [{
+					extend: 'excel',
+					text: '<i class="fa fa-file-excel-o"></i> Export Replenishment Order',
+					titleAttr: 'Excel Replenishment Order Report',
+					title: 'Excel Replenishment Order Report',
+					exportOptions: {
+						modifier: {
+							page: 'all'
+						},
+						columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+						format: {
+							body: function(data, row, column, node) {
+								if ((column >= 0 && column <= 6) || (column >= 10 && column <= 17)) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									return data_;
+								} else if (column == 7) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								} else if (column == 8) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								} else if (column == 9) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								}
+								return data;
+							}
+						}
+					}
+				}],
+				dom: {
+					button: {
+						tag: 'button',
+						className: 'btn btn-default btn-sm'
+					}
+				},
+			}).container().appendTo($('#excel_export'));
+
 		}
 
 
@@ -1293,7 +1139,7 @@ require_once("js_css_header.php");
 		}
 
 		function update_repleinish() {
-			
+
 			//dialog ctrl
 			swal({
 					html: true,
@@ -1323,31 +1169,31 @@ require_once("js_css_header.php");
 								repn_bom_pj_name: $('#text_project_name').val(),
 								repn_bom_ship_type: $('#text_ship_type').val(),
 								repn_bom_part_customer: $('#text_part_customer').val(),
-								repn_qty :$('#text_qty').val(),
+								repn_qty: $('#text_qty').val(),
 								repn_unit_type: $('#text_unit_type').val(),
 								repn_terminal_name: $('#text_teminal_name').val(),
 								repn_delivery_date: $('#text_deliver_date').val()
 							},
 							success: function(response) {
-								
-								if(response == "UPDATE_SUCCESS"){
+
+								if (response == "UPDATE_SUCCESS") {
 									$("#modal-update-order").modal("hide");
 									//refresh
 									location.reload();
-									
-								}else{
+
+								} else {
 									$("#modal-update-order").modal("hide");
 									swal({
-									html: true,
-									title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
-									text: "<span style='font-size: 15px; color: #000;'>Please Check Data Update</span>",
-									type: "warning",
-									timer: 3000,
-									showConfirmButton: false,
-									allowOutsideClick: false
-								});
+										html: true,
+										title: "<span style='font-size: 15px; font-weight: bold;'>Warning !!!</span>",
+										text: "<span style='font-size: 15px; color: #000;'>Please Check Data Update</span>",
+										type: "warning",
+										timer: 3000,
+										showConfirmButton: false,
+										allowOutsideClick: false
+									});
 								}
-							
+
 							},
 							error: function() {
 								//dialog ctrl
@@ -1437,14 +1283,14 @@ require_once("js_css_header.php");
 									<option value="Split">ขายแบบตามลูกค้า</option>
 									<option value="Pack">ขายแบบ Pack</option>
 									<!-- <?
-									$strSQL = " SELECT bom_cus_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_cus_name order by bom_cus_name  asc ";
-									$objQuery = sqlsrv_query($db_con, $strSQL) or die("Error Query [" . $strSQL . "]");
-									while ($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC)) {
-									?>
+											$strSQL = " SELECT bom_cus_name FROM tbl_bom_mst where bom_status = 'Active' group by bom_cus_name order by bom_cus_name  asc ";
+											$objQuery = sqlsrv_query($db_con, $strSQL) or die("Error Query [" . $strSQL . "]");
+											while ($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC)) {
+											?>
 										<option value="<?= $objResult["bom_cus_name"]; ?>"><?= $objResult["bom_cus_name"]; ?></option>
 									<?
-									}
-									sqlsrv_close($db_con);
+											}
+											sqlsrv_close($db_con);
 									?> -->
 								</select>
 							</div>

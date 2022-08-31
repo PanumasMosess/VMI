@@ -13,7 +13,7 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 	<table id="tbl_history_tags" class="table table-bordered table-hover table-striped nowrap">
 		<thead>
 			<tr style="font-size: 13px;">
-				<th colspan="13" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Tag History</b>&nbsp;<b class="btn" id="excel_export"></b></th>
+				<th colspan="14" class="bg-light-blue"><b><i class="fa fa-bar-chart fa-lg"></i>&nbsp;Tag History</b>&nbsp;<b class="btn" id="excel_export"></b></th>
 				<!-- &nbsp;&nbsp;<button type="button" class="btn btn-default btn-sm" onclick="_export_stock_by_tags();"><i class="fa fa-bar-chart fa-lg"></i> Export Stock by Tags</button>-->
 			</tr>
 			<tr style="font-size: 13px;">
@@ -27,6 +27,7 @@ $date_end = isset($_POST['date_end_']) ? $_POST['date_end_'] : '';
 				<th style="color: indigo;">Tag Packing Quantity (Pcs.)</th>
 				<th>Tag Lot</th>
                 <th>Tag Trading From</th>
+				<th>Tag Job Number</th>
                 <th>Tag issue By</th>
 				<th>Tag issue Date</th>
 				<th>Tag issue Time</th>
@@ -46,6 +47,7 @@ $strSql = "SELECT [tags_code]
 ,[tags_issue_by]
 ,[tags_issue_date]
 ,[tags_issue_time]
+,[tags_job_number]
 FROM [tbl_tags_running] WHERE  tags_issue_date between '$date_start' and '$date_end' ";  
 $objQuery = sqlsrv_query($db_con, $strSql);
 
@@ -67,6 +69,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$tags_issue_by = $objResult['tags_issue_by'];
 	$tags_issue_date = $objResult['tags_issue_date'];
     $tags_issue_time = $objResult['tags_issue_time'];
+	$tags_job_number = $objResult['tags_job_number'];
 	
 ?>
 			<tr style="font-size: 13px;">
@@ -82,6 +85,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 				<td style="color: indigo;"><?= $tags_packing_std; ?></td>
 				<td><?= $tags_token; ?></td>
 				<td><?= $tags_trading_from; ?></td>
+				<td><?= $tags_job_number; ?></td>
 				<td><?= $tags_issue_by; ?></td>
                 <td><?= $tags_issue_date; ?></td>
 				<td><?= date('H:i:s',strtotime($tags_issue_time)); ?></td>
@@ -109,7 +113,7 @@ require_once("../../js_css_footer_noConflict.php");
 			columnDefs: [{
 					orderable: true,
 					className: 'reorder',
-					targets: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+					targets: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 				},
 				{
 					orderable: false,
@@ -129,7 +133,7 @@ require_once("../../js_css_footer_noConflict.php");
 					modifier: {
 						page: 'all'
 					},
-					columns: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+					columns: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 				}
 			}],
 			dom: {

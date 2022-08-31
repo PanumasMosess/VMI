@@ -128,12 +128,12 @@ $html .= '
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
   <td colspan="2" align="left"><img src="../logo_company/GDJ_png2.png" style="width: 100px; padding: 0px;" /></td>
-  <td colspan="6" align="center"><font style="font-size: 15pt;"><b>PICKING SHEET</b></font><br><barcode code="'.$head_picking_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$head_picking_code.'</td>	  
+  <td colspan="4" align="center"><font style="font-size: 15pt;"><b>PICKING SHEET</b></font><br><barcode code="'.$head_picking_code.'" type="C39" class="barcode" size="0.8" height="1.5"/><br>'.$head_picking_code.'</td>	  
   <td colspan="2" align="right">
 	<barcode code="'.$head_picking_code.'" class="qrCode" type="QR" size="0.6" error="M" disableborder = "1"/></td>
 </tr>
 <tr>
-  <td colspan="10" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+  <td colspan="8" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 	<tr>
 	  <td width="50%" style="border-right:solid 1px #000;">
 		&nbsp;<b>Picking Sheet:</b> '.$head_picking_code.'<br>&nbsp;<b>Issue Date:</b> '.$head_issue_datetime.'
@@ -145,7 +145,7 @@ $html .= '
 </table></td>	  
 </tr>
 <tr>
-  <td colspan="10" style="font-size: 5pt;">&nbsp;</td>	  
+  <td colspan="8" style="font-size: 5pt;">&nbsp;</td>	  
 </tr>
 <tr>
   <td rowspan="2" width="5%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>No.</b></td>
@@ -154,8 +154,7 @@ $html .= '
   <td rowspan="2" width="13%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>Pick Location</b></td>
   <td width="12%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>Pallet ID</b></td>
   <td width="20%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>FG Code GDJ</b></td>		  
-  <td rowspan="2" width="10%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; background-color: #D3D3D3;"><b>QTY.(Pcs.)</b></td>
-  <td rowspan="2" width="10%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; background-color: #D3D3D3;"><b>Price (Bath)</b></td>
+  <td rowspan="2" width="10%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>QTY.(Pcs.)</b></td>
   <td rowspan="2" width="10%" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-right:solid 1px #000; background-color: #D3D3D3;"><b>Remark</b></td>
 </tr>
 <tr>
@@ -198,6 +197,26 @@ $strSql_PickingSheetDetails = "
   on tbl_picking_tail.ps_t_ref_replenish_code = tbl_b2c_sale.b2c_sale_order_id
   where
   [ps_t_picking_code] = '$tag' and bom_status = 'Active' 
+  group by 
+  [ps_t_picking_code]
+   ,[ps_t_ref_replenish_code]
+   ,[ps_t_pallet_code]
+   ,[ps_t_tags_code]
+   ,[ps_t_fg_code_set_abt]
+   ,[ps_t_sku_code_abt]
+   ,[ps_t_fg_code_gdj]
+   ,[bom_fg_desc]
+   ,[ps_t_location]
+   ,[ps_t_tags_packing_std]
+   ,[ps_t_cus_name]
+   ,[ps_t_pj_name]
+   ,[ps_t_replenish_unit_type]
+   ,[ps_t_replenish_qty_to_pack]
+   ,[ps_t_terminal_name]
+   ,[ps_t_order_type]
+   ,[ps_t_status]
+   ,[ps_t_issue_date]
+   ,b2c_sale_including_vat
 ";
 
 $objQuery_PickingSheetDetails = sqlsrv_query($db_con, $strSql_PickingSheetDetails, $params, $options);
@@ -288,7 +307,6 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_pallet_code.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000;">'.$ps_t_fg_code_gdj.'</td>
 	  <td style="font-size: 8pt; text-align: center; border-top:solid 1px #000;">'.$ps_t_tags_packing_std.'</td>
-	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000; border-top:solid 1px #000;">'.$b2c_sale_including_vat.'</td>
 	  <td rowspan="2" style="font-size: 8pt; text-align: center; '.$str_css_bottom.' border-left:solid 1px #000; border-right:solid 1px #000; border-top:solid 1px #000;"></td>
 	</tr>
 	<tr>
@@ -305,17 +323,16 @@ while($objResult_PickingSheetDetails = sqlsrv_fetch_array($objQuery_PickingSheet
 	  <td rowspan="2" colspan="5" style="font-size: 9pt; text-align: right; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; background-color: #D3D3D3;">&nbsp;</td>
 	  <td rowspan="2" style="font-size: 9pt; text-align: center; border-right:solid 1px #000; border-top:solid 1px #000; border-bottom:solid 1px #000; background-color: #D3D3D3;"><b>Total</b>&nbsp;</td>
 	  <td style="font-size: 9pt; text-align: center; border-top:solid 1px #000;"><b>'.$sum_packing_std.'</b></td>
-	  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;">'.$sum_price.' (Bath)</td>
 	  <td rowspan="2" style="font-size: 9pt; text-align: center; border-top:solid 1px #000; border-bottom:solid 1px #000; border-right:solid 1px #000;"></td>
 	</tr>
 	<tr>
 	  <td style="font-size: 9pt; text-align: center; border-top:dotted 1px #000; border-bottom:solid 1px #000;"><b>('.$row_id_PickingSheetDetails.' Pack)</b></td>
 	</tr>
 	<tr>
-	  <td colspan="10" style="font-size: 5pt;">&nbsp;</td>	  
+	  <td colspan="8" style="font-size: 5pt;">&nbsp;</td>	  
 	</tr>
 	<tr>
-	  <td colspan="10" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
+	  <td colspan="8" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 10pt; border-top:solid 1px #000; border-bottom:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000;">
 		<tr>
 		  <td width="50%" style="border-right:solid 1px #000;">
 			<br>&nbsp;Pick By:________________________________________

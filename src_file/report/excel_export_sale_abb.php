@@ -142,6 +142,7 @@ SELECT [b2c_sale_date]
   on tbl_b2c_detail.b2c_repn_order_ref = tbl_replenishment.repn_order_ref
   left join tbl_bom_mst
   on tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
+  and tbl_replenishment.repn_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
   where  (b2c_sale_date between '$start_' and '$end_')  and  bom_status = 'Active'  order by  [b2c_order_date]  asc
 ";
 

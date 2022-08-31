@@ -80,20 +80,20 @@ $styleArray = array(
 			));			
 
 // Set fonts
-$objPHPExcel->getActiveSheet()->getStyle('A1:AA2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
-$objPHPExcel->getActiveSheet()->getStyle('A1:AA2')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle("A1:AA2")->getFont()->setSize(10);
+$objPHPExcel->getActiveSheet()->getStyle('A1:AB2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+$objPHPExcel->getActiveSheet()->getStyle('A1:AB2')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle("A1:AB2")->getFont()->setSize(10);
 
 //header
 $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:H1');
 $objPHPExcel->getActiveSheet()->setCellValue('A1', "Report BOM Mst On $buffer_datetime");
 
 //border		
-$objPHPExcel->getActiveSheet()->getStyle('A1:AA2')->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle('A1:AA2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+$objPHPExcel->getActiveSheet()->getStyle('A1:AB2')->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle('A1:AB2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
 //Set BG
-$objPHPExcel->getActiveSheet()->getStyle('A2:AA2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF00FFFF');
+$objPHPExcel->getActiveSheet()->getStyle('A2:AB2')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF00FFFF');
 
 //Set main
 //$objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
@@ -101,9 +101,9 @@ $objPHPExcel->getActiveSheet()->getStyle('A2:AA2')->getFill()->setFillType(PHPEx
 //$objPHPExcel->getActiveSheet()->getStyle('M3:R3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 	
 // Set fonts
-$objPHPExcel->getActiveSheet()->getStyle('A2:AA2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
-$objPHPExcel->getActiveSheet()->getStyle('A2:AA2')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle('A2:AA2')->getFont()->setSize(10);
+$objPHPExcel->getActiveSheet()->getStyle('A2:AB2')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLACK);
+$objPHPExcel->getActiveSheet()->getStyle('A2:AB2')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A2:AB2')->getFont()->setSize(10);
 
 $objPHPExcel->getActiveSheet()->setCellValue('A2', "FG Code Set ABT");
 $objPHPExcel->getActiveSheet()->setCellValue('B2', "Component Code ABT");
@@ -128,10 +128,12 @@ $objPHPExcel->getActiveSheet()->setCellValue('T2', "WMS Min");
 $objPHPExcel->getActiveSheet()->setCellValue('U2', "WMS Max");
 $objPHPExcel->getActiveSheet()->setCellValue('V2', "VMI Min");
 $objPHPExcel->getActiveSheet()->setCellValue('W2', "VMI Max");
-$objPHPExcel->getActiveSheet()->setCellValue('X2', "Part Customer");
-$objPHPExcel->getActiveSheet()->setCellValue('Y2', "Cost/Pcs");
-$objPHPExcel->getActiveSheet()->setCellValue('Z2', "Price Sale/Pcs");
-$objPHPExcel->getActiveSheet()->setCellValue('AA2', "Bom Status");
+$objPHPExcel->getActiveSheet()->setCellValue('X2', "VMI App");
+$objPHPExcel->getActiveSheet()->setCellValue('Y2', "Part Customer");
+$objPHPExcel->getActiveSheet()->setCellValue('Z2', "Cost/Pcs");
+$objPHPExcel->getActiveSheet()->setCellValue('AA2', "Price Sale/Pcs");
+$objPHPExcel->getActiveSheet()->setCellValue('AB2', "Bom Status");
+ 
 
 //get data
 $strSql_d = " 
@@ -169,6 +171,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$bom_wms_max = $objResult_d['bom_wms_max'];
 	$bom_vmi_min = $objResult_d['bom_vmi_min'];
 	$bom_vmi_max = $objResult_d['bom_vmi_max'];
+	$bom_vmi_app = $objResult_d['bom_vmi_app'];
 	$bom_part_customer = $objResult_d['bom_part_customer'];
 	$bom_cost_per_pcs = $objResult_d['bom_cost_per_pcs'];
 	$bom_price_sale_per_pcs = $objResult_d['bom_price_sale_per_pcs'];
@@ -178,7 +181,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	//$objPHPExcel->getActiveSheet()->getStyle('F' .($i). ':'.'F'.($i))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 	
 	//border
-	$objPHPExcel->getActiveSheet()->getStyle('A' .$i. ':'.'AA'.($i))->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+	$objPHPExcel->getActiveSheet()->getStyle('A' .$i. ':'.'AB'.($i))->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 	
 	//data
 	/*
@@ -215,10 +218,11 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
 	$objPHPExcel->getActiveSheet()->setCellValue('U' . $i, $bom_wms_max);
 	$objPHPExcel->getActiveSheet()->setCellValue('V' . $i, $bom_vmi_min);
 	$objPHPExcel->getActiveSheet()->setCellValue('W' . $i, $bom_vmi_max);
-	$objPHPExcel->getActiveSheet()->setCellValue('X' . $i, $bom_part_customer);
-	$objPHPExcel->getActiveSheet()->setCellValue('Y' . $i, $bom_cost_per_pcs);
-	$objPHPExcel->getActiveSheet()->setCellValue('Z' . $i, $bom_price_sale_per_pcs);
-	$objPHPExcel->getActiveSheet()->setCellValue('AA' . $i, $bom_status);
+	$objPHPExcel->getActiveSheet()->setCellValue('X' . $i, $bom_vmi_app);
+	$objPHPExcel->getActiveSheet()->setCellValue('Y' . $i, $bom_part_customer);
+	$objPHPExcel->getActiveSheet()->setCellValue('Z' . $i, $bom_cost_per_pcs);
+	$objPHPExcel->getActiveSheet()->setCellValue('AA' . $i, $bom_price_sale_per_pcs);
+	$objPHPExcel->getActiveSheet()->setCellValue('AB' . $i, $bom_status);
 }
 
 // Rename sheet 
