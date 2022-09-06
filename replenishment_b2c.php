@@ -217,9 +217,8 @@ require_once("js_css_header.php");
 												}
 												?>
 												<td align="center">
-												<!-- <button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncSplitPlan(this.id);"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Split Plan</span></button> -->
-												<!-- &nbsp;&nbsp; -->
-												<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= $repn_id; ?>#####<?= $repn_order_type; ?>#####<?= $repn_order_ref; ?>#####<?= $str_fifo_picking_pack; ?>#####<?= $repn_qty; ?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncInstallMent(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">แบ่งงวด</span></button>
+												<button type="button" class="btn btn-warning btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncSplitPlan(this.id);"><i class="glyphicon glyphicon-resize-small"></i><span class="custom_tooltiptext">Split Plan</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm custom_tooltip" id="<?= $repn_id; ?>#####<?= $repn_order_type; ?>#####<?= $repn_order_ref; ?>#####<?= $str_fifo_picking_pack; ?>#####<?= $repn_qty; ?>" onclick="openFuncConfirm(this.id);"><i class="fa fa-check-square-o fa-lg"></i><span class="custom_tooltiptext">Confirm</span></button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncReject(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">Reject</span></button>
+												<!-- &nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm custom_tooltip" id="<?= $repn_id; ?>" onclick="openFuncInstallMent(this.id);"><i class="fa fa-times fa-lg"></i><span class="custom_tooltiptext">แบ่งงวด</span></button> -->
 												</td>
 												<td>
 													<font style="color: <?= $str_order_color; ?>"><?= $repn_order_type; ?></font>/<?= $repn_unit_type; ?>
@@ -365,7 +364,28 @@ require_once("js_css_header.php");
 						modifier: {
 							page: 'all'
 						},
-						columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,19]
+						columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,19],
+						format: {
+							body: function(data, row, column, node) {
+								if ((column >= 0 && column <= 6) || (column >= 10 && column <= 17)) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									return data_;
+								} else if (column == 7) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								} else if (column == 8) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								} else if (column == 9) {
+									var data_ = data.replace(/<.*?>/ig, '');
+									data_.split('(');
+									return data_.split('(')[0];
+								}
+								return data;
+							}
+						}
 					}
 				}],
 				dom: {
