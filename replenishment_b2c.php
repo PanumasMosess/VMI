@@ -806,7 +806,7 @@ require_once("js_css_header.php");
 					} else if (inputValue != "") {
 						$.ajax({
 							type: 'POST',
-							url: '<?= $CFG->src_replenishment; ?>/confirm_split_order.php',
+							url: '<?= $CFG->src_replenishment; ?>/confirm_split_order_b2c.php',
 							data: {
 								iden_t_repn_id: id,
 								iden_t_split_number: inputValue

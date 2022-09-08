@@ -1,0 +1,38 @@
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:132
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:133
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:134
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:135
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_fetch_array() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\lib\comlib.php on line 549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. require_once() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:2
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   3. get_smtp_mail_config() D:\wwwroot\vmi\application.php:136
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   4. sqlsrv_fetch_array() D:\wwwroot\vmi\lib\comlib.php:549
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_num_rows() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_user_online.php on line 8
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. sqlsrv_num_rows() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:8
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Warning:  sqlsrv_num_rows() expects parameter 1 to be resource, boolean given in D:\wwwroot\vmi\src_file\load_alert\load_user_online.php on line 18
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP Stack trace:
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   1. {main}() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:0
+[07-Sep-2022 16:29:51 Asia/Bangkok] PHP   2. sqlsrv_num_rows() D:\wwwroot\vmi\src_file\load_alert\load_user_online.php:18

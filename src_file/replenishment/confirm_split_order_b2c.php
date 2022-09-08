@@ -76,7 +76,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	{
 		$new_qty = $repn_qty - $iden_t_split_number;
 
-		$string_ref_split = $repn_order_ref."(deposit)";
+		$string_ref_split = $repn_order_ref."_split";
 
 		//update old replenishment
 		$sqlUpdateOld = " UPDATE tbl_replenishment
@@ -132,6 +132,134 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 							   )
 						";
 						$objQuery_insert = sqlsrv_query($db_con, $strSQL_insert);
+
+			$str_sql_check_detail = "SELECT * FROM [tbl_b2c_detail] 
+			LEFT JOIN tbl_b2c_sale ON
+			tbl_b2c_sale.b2c_sale_order_id = tbl_b2c_detail.b2c_repn_order_ref
+			WHERE  b2c_repn_order_ref = '$repn_order_ref'";
+
+			$result_check_detail = sqlsrv_query($db_con, $str_sql_check_detail);
+			while($objResult = sqlsrv_fetch_array($result_check_detail, SQLSRV_FETCH_ASSOC)){
+				$b2c_repn_order_ref = $objResult['b2c_repn_order_ref'];
+				$b2c_customer_code = $objResult['b2c_customer_code'];
+				$b2c_cus_company = $objResult['b2c_cus_company'];
+				$b2c_inv_company = $objResult['b2c_inv_company'];
+				$b2c_cus_branch_id = $objResult['b2c_cus_branch_id'];
+				$b2c_customer_name = $objResult['b2c_customer_name'];
+				$b2c_delivery_address = $objResult['b2c_delivery_address'];
+				$b2c_cus_zipcode = $objResult['b2c_cus_zipcode'];
+				$b2c_inv_address = $objResult['b2c_inv_address'];
+				$b2c_cus_zipcode = $objResult['b2c_cus_zipcode'];
+				$b2c_zipcode = $objResult['b2c_zipcode'];
+				$b2c_contact_name = $objResult['b2c_contact_name'];
+				$b2c_tel = $objResult['b2c_tel'];
+				$b2c_note = $objResult['b2c_note'];
+				$b2c_dtn = $objResult['b2c_dtn'];
+				$b2c_track_num = $objResult['b2c_track_num'];
+				$b2c_tax_inv = $objResult['b2c_tax_inv'];
+				$b2c_status = $objResult['b2c_status'];
+				$b2c_case = $objResult['b2c_case'];
+				$b2c_order_date = $objResult['b2c_order_date'];
+				$b2c_sender = $objResult['b2c_sender'];
+				//sale data
+				$b2c_sale_date =  $objResult['b2c_sale_date'];
+           		$b2c_sale_time =  $objResult['b2c_sale_time'];
+           		$b2c_sale_count_time = $objResult['b2c_sale_count_time'];
+           		$b2c_sale_user_id = $objResult['b2c_sale_user_id'];
+           		$b2c_sale_pos_no =  $objResult['b2c_sale_pos_no'];
+           		$b2c_sale_inv_no = $objResult['b2c_sale_inv_no'];
+           		$b2c_sale_excluding_vat = $objResult['b2c_sale_excluding_vat'];
+           		$b2c_sale_tax = $objResult['b2c_sale_tax'];
+           		$b2c_sale_including_vat = $objResult['b2c_sale_including_vat'];
+           		$b2c_sale_remark =  $objResult['b2c_sale_remark'];
+           		$b2c_sale_branch = $objResult['b2c_sale_branch'];
+           		$b2c_sale_transport_fee = $objResult['b2c_sale_transport_fee'];
+           		$b2c_sale_discount_amount = $objResult['b2c_sale_discount_amount'];
+
+				$str_insert_detail = "
+				INSERT INTO [dbo].[tbl_b2c_detail]
+				([b2c_repn_order_ref]
+				,[b2c_customer_code]
+				,[b2c_cus_company]
+				,[b2c_inv_company]
+				,[b2c_cus_branch_id]
+				,[b2c_customer_name]
+				,[b2c_delivery_address]
+				,[b2c_cus_zipcode]
+				,[b2c_inv_address]
+				,[b2c_zipcode]
+				,[b2c_contact_name]
+				,[b2c_tel]
+				,[b2c_note]
+				,[b2c_order_date]
+				,[b2c_dtn]
+				,[b2c_track_num]
+				,[b2c_tax_inv]
+				,[b2c_status]
+				,[b2c_case]
+				,[b2c_sender])
+		  VALUES
+				(
+				 '$string_ref_split'
+				,'$b2c_customer_code'
+				,'$b2c_cus_company'
+				,'$b2c_inv_company'
+				,'$b2c_cus_branch_id'
+				,'$b2c_customer_name'
+				,'$b2c_delivery_address'
+				,'$b2c_cus_zipcode'
+				,'$b2c_inv_address'
+				,'$b2c_zipcode'
+				,'$b2c_contact_name'
+				,'$b2c_tel'
+				,'$b2c_note'
+				,'$b2c_order_date'
+				,'$b2c_dtn'
+				,'$b2c_track_num'
+				,'$b2c_tax_inv'
+				,'$b2c_status'
+				,'$b2c_case'
+				,'$b2c_sender'
+				)";
+
+				$objQuery_insert_detail = sqlsrv_query($db_con, $str_insert_detail);
+				if($objQuery_insert_detail){
+					$str_insert_sale = "
+					INSERT INTO [dbo].[tbl_b2c_sale]
+           			([b2c_sale_date]
+           			,[b2c_sale_time]
+           			,[b2c_sale_count_time]
+           			,[b2c_sale_order_id]
+           			,[b2c_sale_user_id]
+           			,[b2c_sale_pos_no]
+           			,[b2c_sale_inv_no]
+           			,[b2c_sale_excluding_vat]
+           			,[b2c_sale_tax]
+           			,[b2c_sale_including_vat]
+           			,[b2c_sale_remark]
+           			,[b2c_sale_branch]
+           			,[b2c_sale_transport_fee]
+           			,[b2c_sale_discount_amount])
+    		 VALUES
+           			('$b2c_sale_date'
+           			,'$b2c_sale_time'
+           			,'$b2c_sale_count_time'
+           			,'$string_ref_split'
+           			,'$b2c_sale_user_id'
+           			,'$b2c_sale_pos_no'
+           			,'$b2c_sale_inv_no'
+           			,'$b2c_sale_excluding_vat'
+           			,'$b2c_sale_tax'
+           			,'$b2c_sale_including_vat'
+           			,'$b2c_sale_remark'
+           			,'$b2c_sale_branch'
+           			,'$b2c_sale_transport_fee'
+           			,'$b2c_sale_discount_amount')
+					";
+					$objQuery_insert_sale = sqlsrv_query($db_con, $str_insert_sale);
+				}
+			}
+					
 		}
 
 	}
