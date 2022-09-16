@@ -53,7 +53,6 @@ SELECT [b2c_sale_date]
 	  ,[repn_sku_code_abt]
 	  ,[bom_fg_desc]
 	  ,[repn_qty]
-	  ,[bom_price_sale_per_pcs]
       ,[b2c_sale_transport_fee]
       ,[b2c_sale_discount_amount]
 	  ,[b2c_tax_inv]
@@ -93,7 +92,6 @@ SELECT [b2c_sale_date]
 	 ,[repn_sku_code_abt]
 	 ,[bom_fg_desc]
 	 ,[repn_qty]
-	 ,[bom_price_sale_per_pcs]
 	 ,[b2c_sale_transport_fee]
 	 ,[b2c_sale_discount_amount]
 	 ,[b2c_tax_inv]
@@ -131,7 +129,7 @@ SELECT [b2c_sale_date]
 				$repn_sku_code_abt = $objResult_DTNSheet['repn_sku_code_abt'];
 				$bom_fg_desc = $objResult_DTNSheet['bom_fg_desc'];
 				$repn_qty = $objResult_DTNSheet['repn_qty'];
-				$bom_price_sale_per_pcs = $objResult_DTNSheet['bom_price_sale_per_pcs'];
+				// $bom_price_sale_per_pcs = $objResult_DTNSheet['bom_price_sale_per_pcs'];
 				$b2c_sale_transport_fee = $objResult_DTNSheet['b2c_sale_transport_fee'];
 				$b2c_sale_discount_amount = $objResult_DTNSheet['b2c_sale_discount_amount'];
 				$b2c_tax_inv = $objResult_DTNSheet['b2c_tax_inv'];

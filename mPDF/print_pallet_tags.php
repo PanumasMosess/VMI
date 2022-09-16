@@ -26,6 +26,7 @@ SELECT
 	,tags_fg_code_gdj_desc
 	,receive_location
 	,receive_status
+	,tags_project_name
 	,receive_date
 	,sum(tags_packing_std) as sum_pkg_std
 FROM tbl_receive
@@ -39,6 +40,7 @@ group by
 	,tags_fg_code_gdj_desc
 	,receive_location
 	,receive_status
+	,tags_project_name
 	,receive_date
 order by 
 receive_pallet_code desc
@@ -47,9 +49,10 @@ receive_pallet_code desc
 }else{
 	$strSql = " 
 	SELECT 
-		receive_pallet_code
+		 receive_pallet_code
 		,tags_fg_code_gdj
 		,tags_fg_code_gdj_desc
+		,tags_project_name
 		,receive_location
 		,receive_status
 		,receive_date
@@ -63,6 +66,7 @@ receive_pallet_code desc
 		receive_pallet_code
 		,tags_fg_code_gdj
 		,tags_fg_code_gdj_desc
+		,tags_project_name
 		,receive_location
 		,receive_status
 		,receive_date
@@ -84,7 +88,8 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 	$receive_pallet_code = $objResult['receive_pallet_code'];
 	$tags_fg_code_gdj = $objResult['tags_fg_code_gdj'];
 	$tags_fg_code_gdj_desc = $objResult['tags_fg_code_gdj_desc'];
-	$receive_location = $objResult['receive_location'];
+	$receive_location = $objResult['receive_location'];  
+	$tags_project_name = $objResult['tags_project_name'];
 	$receive_status = $objResult['receive_status'];
 	$receive_date = $objResult['receive_date'];
 	$tags_packing_std = $objResult['sum_pkg_std'];
@@ -92,6 +97,7 @@ while($objResult = sqlsrv_fetch_array($objQuery, SQLSRV_FETCH_ASSOC))
 
 $fg_code = $tags_fg_code_gdj;
 $fg_des = $tags_fg_code_gdj_desc;
+$fg_project = $tags_project_name;
 //$fg_des = "FOT1150X550X250-SNP1-PARTITION - A"; 
 $date_ = date("d/m/Y", strtotime($receive_date));
 $qty_ = $tags_packing_std;
@@ -183,7 +189,7 @@ $html .= '<br><table width="100%" cellpadding="0" cellspacing="35">
 				<td colspan="4" style="text-align: center; border-top:solid 1px #e0ebeb; border-bottom:solid 1px #e0ebeb; border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><br><font style="font-size: 50pt";><b>Put Away Tag</b></font><br><br><br></td>
 			  </tr>
 			  <tr>
-				<td colspan="4" style="border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 15pt";><br><b>&nbsp;&nbsp;FG. Code: '.$fg_code.'</b></font><br><br><br></td>
+				<td colspan="2" style="border-left:solid 1px #e0ebeb; "><font style="font-size: 15pt";><br><b>&nbsp;&nbsp;FG. Code: '.$fg_code.'</b></font><td colspan="2" style=" border-right:solid 1px #e0ebeb;"><font style="font-size: 15pt";><br><b>&nbsp;&nbsp;Project Name: '.$fg_project.'</b></font><br><br><br></td> 
 			  </tr>
 			<tr>
 			  <td colspan="4"  style="text-align: center; border-left:solid 1px #e0ebeb; border-right:solid 1px #e0ebeb;"><font style="font-size: 50pt;font-family: thsarabun;";><b>'.$fg_des.'</b></font><br><br><br><br></td>

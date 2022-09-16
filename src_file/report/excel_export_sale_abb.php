@@ -126,7 +126,6 @@ SELECT [b2c_sale_date]
 	  ,[repn_sku_code_abt]
 	  ,[bom_fg_desc]
 	   ,[repn_qty]
-	  ,[bom_price_sale_per_pcs]
       ,[b2c_sale_transport_fee]
       ,[b2c_sale_discount_amount]
       ,[b2c_tax_inv]
@@ -143,7 +142,30 @@ SELECT [b2c_sale_date]
   left join tbl_bom_mst
   on tbl_replenishment.repn_sku_code_abt = tbl_bom_mst.bom_fg_sku_code_abt
   and tbl_replenishment.repn_fg_code_gdj = tbl_bom_mst.bom_fg_code_gdj
-  where  (b2c_sale_date between '$start_' and '$end_')  and  bom_status = 'Active'  order by  [b2c_order_date]  asc
+  where  (b2c_sale_date between '$start_' and '$end_')  and  bom_status = 'Active' 
+  group by 
+  [b2c_sale_date]
+      ,[b2c_sale_time]
+      ,[b2c_sale_order_id]
+      ,[b2c_sale_pos_no]
+      ,[b2c_sale_inv_no]
+      ,[b2c_sale_excluding_vat]
+      ,[b2c_sale_tax]
+      ,[b2c_sale_including_vat]
+      ,[b2c_sale_remark]
+      ,[b2c_sale_branch]
+	  ,[repn_sku_code_abt]
+	  ,[bom_fg_desc]
+	   ,[repn_qty]
+      ,[b2c_sale_transport_fee]
+      ,[b2c_sale_discount_amount]
+      ,[b2c_tax_inv]
+      ,[b2c_inv_address]
+      ,[b2c_zipcode]
+      ,b2c_contact_name
+      ,[b2c_tel]
+      ,[b2c_case]
+ order by  [b2c_sale_date]  asc
 ";
 
 $i = 1;
@@ -168,7 +190,7 @@ while($objResult_d = sqlsrv_fetch_array($objQuery_d, SQLSRV_FETCH_ASSOC))
     $repn_sku_code_abt = $objResult_d['repn_sku_code_abt'];
     $bom_fg_desc = $objResult_d['bom_fg_desc'];
     $repn_qty = $objResult_d['repn_qty'];
-    $bom_price_sale_per_pcs = $objResult_d['bom_price_sale_per_pcs'];
+    // $bom_price_sale_per_pcs = $objResult_d['bom_price_sale_per_pcs'];
     $b2c_sale_transport_fee = $objResult_d['b2c_sale_transport_fee'];
     $b2c_sale_discount_amount = $objResult_d['b2c_sale_discount_amount'];
     $b2c_tax_inv = $objResult_d['b2c_tax_inv'];
